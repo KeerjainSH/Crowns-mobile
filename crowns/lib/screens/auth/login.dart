@@ -61,7 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(180.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
                   child: Text(
                     'masuk',
                     style: TextStyle(fontWeight: FontWeight.w600),
