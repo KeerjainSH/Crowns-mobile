@@ -64,7 +64,7 @@ flutter:
       fonts:
         - asset: assets/fonts/SFProDisplay-Regular.ttf
         - asset: assets/fonts/SFProDisplay-Medium.ttf
-          weight: 400
+          weight: 500
         - asset: assets/fonts/SFProDisplay-SemiBold.ttf
           weight: 600
   #         style: italic
