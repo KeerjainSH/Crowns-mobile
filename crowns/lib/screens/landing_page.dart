@@ -19,6 +19,7 @@ class LandingPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            SizedBox(height: 55),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -37,6 +38,7 @@ class LandingPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(height: 2),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -46,11 +48,14 @@ class LandingPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Image.asset(ImageConstants.jahitSeakarangBanner),
+                      SizedBox(height: 8),
+                      Container(
+                          child:
+                              Image.asset(ImageConstants.jahitSeakarangBanner)),
                     ],
                   ),
                 ),
-
+                SizedBox(height: 42),
                 // Kreasi
                 Container(
                   child: Column(
@@ -68,6 +73,7 @@ class LandingPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(height: 2),
                       Container(
                         padding: EdgeInsets.only(left: 29, right: 29),
                         child: Align(
@@ -80,6 +86,7 @@ class LandingPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(height: 8),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -103,11 +110,28 @@ class LandingPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  child: Image.asset(
-                                    ImageConstants.kreasiDisplay1,
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      child: Image.asset(
+                                        ImageConstants.kreasiDisplay1,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(12),
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Text(
+                                          'Batik',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -129,16 +153,33 @@ class LandingPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  child: Image.asset(
-                                    ImageConstants.kreasiDisplay1,
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      child: Image.asset(
+                                        ImageConstants.kreasiDisplay1,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(12),
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Text(
+                                          'Batik',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
 
-                            // kreasi 1
+                            // kreasi 3
                             Container(
                               margin: EdgeInsets.only(right: 29),
                               height: 120,
@@ -155,20 +196,38 @@ class LandingPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  child: Image.asset(
-                                    ImageConstants.kreasiDisplay1,
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      child: Image.asset(
+                                        ImageConstants.kreasiDisplay1,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(12),
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Text(
+                                          'Batik',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       )
                     ],
                   ),
                 ),
+                SizedBox(height: 24),
 
                 // Terdekat
                 Container(
@@ -183,6 +242,7 @@ class LandingPage extends StatelessWidget {
                               fontSize: 22, fontWeight: FontWeight.w600),
                         ),
                       ),
+                      SizedBox(height: 2),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -190,6 +250,7 @@ class LandingPage extends StatelessWidget {
                           style: TextStyle(fontSize: 12),
                         ),
                       ),
+                      SizedBox(height: 8),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -208,11 +269,54 @@ class LandingPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18.0),
-                              child: Image.asset(
-                                ImageConstants.terdekatDisplay1,
-                              ),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  child: Image.asset(
+                                    ImageConstants.terdekatDisplay1,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '120m',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            '2H',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Bu Tejo',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
