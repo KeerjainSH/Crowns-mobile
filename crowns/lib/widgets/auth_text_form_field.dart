@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:crowns/utils/color_constants.dart';
 
 class AuthTextFormField extends StatelessWidget {
-  final String label = "Nama/Email Pengguna";
-  final String hint = "Masukkan Nama/Email Pengguna Anda";
+  final String label;
+
+  AuthTextFormField({this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class AuthTextFormField extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: TextFormField(
               decoration: InputDecoration(
-                hintText: this.hint,
+                hintText: 'Masukkan ${this.label} Anda',
                 hintStyle: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,

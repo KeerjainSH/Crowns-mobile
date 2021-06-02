@@ -26,7 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 padding: EdgeInsets.only(left: 28, right: 28),
                 child: Column(
-                  children: [AuthTextFormField(), AuthTextFormField()],
+                  children: [
+                    AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    AuthTextFormField(label: 'Password'),
+                  ],
                 ),
               ),
               Container(
@@ -40,7 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/register');
+                      },
                       child: Text(
                         'Daftar Sekarang',
                         style: TextStyle(
@@ -61,9 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(180.0),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
+                  onPressed: () {},
                   child: Text(
                     'masuk',
                     style: TextStyle(fontWeight: FontWeight.w600),

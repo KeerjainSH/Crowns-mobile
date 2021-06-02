@@ -27,9 +27,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: EdgeInsets.only(left: 28, right: 28),
                 child: Column(
                   children: [
-                    AuthTextFormField(),
-                    AuthTextFormField(),
-                    AuthTextFormField(),
+                    AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    AuthTextFormField(label: 'Email'),
+                    AuthTextFormField(label: 'Password'),
                   ],
                 ),
               ),
@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   onPressed: () {},
                   child: Text(
-                    'masuk',
+                    'daftar',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
