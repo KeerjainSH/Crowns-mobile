@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:crowns/screens/auth/login.dart';
 import 'package:crowns/screens/auth/register.dart';
+import 'package:crowns/screens/landing_page.dart';
 
 class CustomRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -13,6 +14,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case '/register':
         return MaterialPageRoute(builder: (_) => RegisterScreen());
+      case '/home':
+        return MaterialPageRoute(builder: (_) => LandingPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
