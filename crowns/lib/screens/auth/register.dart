@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
+        color: ColorConstants.backgroundColor,
         height: double.infinity,
         padding: EdgeInsets.only(left: 30, right: 30),
         child: Center(
@@ -24,11 +25,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Image.asset(ImageConstants.appLogo),
               Container(
-                padding: EdgeInsets.only(left: 28, right: 28),
+                padding: EdgeInsets.only(
+                  left: 28,
+                  right: 28,
+                  top: 24,
+                  bottom: 24,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 0,
+                      offset: Offset(0, 4),
+                      blurRadius: 2,
+                    )
+                  ],
+                ),
                 child: Column(
                   children: [
                     AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    SizedBox(height: 15),
                     AuthTextFormField(label: 'Email'),
+                    SizedBox(height: 15),
                     AuthTextFormField(label: 'Password'),
                   ],
                 ),

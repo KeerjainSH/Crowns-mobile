@@ -45,7 +45,7 @@ class CataloPage extends StatelessWidget {
                 child: Text(
                   'Busana spesialis para penjahit kamu!',
                   style: TextStyle(
-                    color: ColorConstants.grey,
+                    color: ColorConstants.darkGrey,
                     fontWeight: FontWeight.w400,
                     fontSize: 13,
                   ),

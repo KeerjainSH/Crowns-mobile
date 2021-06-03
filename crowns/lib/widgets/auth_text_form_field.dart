@@ -19,15 +19,30 @@ class AuthTextFormField extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Masukkan ${this.label} Anda',
-                hintStyle: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: ColorConstants.hintColor,
+          SizedBox(height: 9),
+          Container(
+            decoration: BoxDecoration(
+              color: ColorConstants.grey,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            height: 25,
+            padding: EdgeInsets.only(left: 11),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextFormField(
+                obscureText: label == 'Password' ? true : false,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: 'Masukkan ${this.label} Anda',
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: ColorConstants.hintColor,
+                  ),
                 ),
               ),
             ),

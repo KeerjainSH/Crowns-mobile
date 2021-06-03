@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
+        color: ColorConstants.backgroundColor,
         height: double.infinity,
         padding: EdgeInsets.only(left: 30, right: 30),
         child: Center(
@@ -24,10 +25,28 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Image.asset(ImageConstants.appLogo),
               Container(
-                padding: EdgeInsets.only(left: 28, right: 28),
+                padding: EdgeInsets.only(
+                  left: 28,
+                  right: 28,
+                  top: 24,
+                  bottom: 24,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      offset: Offset(0, 4),
+                      blurRadius: 1,
+                    )
+                  ],
+                ),
                 child: Column(
                   children: [
                     AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    SizedBox(height: 15),
                     AuthTextFormField(label: 'Password'),
                   ],
                 ),
@@ -39,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Belum memiliki akun?',
                       style: TextStyle(
                         fontSize: 12,
-                        color: ColorConstants.grey,
+                        color: ColorConstants.darkGrey,
                       ),
                     ),
                     InkWell(
