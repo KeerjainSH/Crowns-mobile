@@ -34,7 +34,7 @@ class LandingPage extends StatelessWidget {
                           'Create our Own Style',
                           style: TextStyle(
                             fontSize: 22,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -45,6 +45,7 @@ class LandingPage extends StatelessWidget {
                           'Mau berkreasi apa hari ini?',
                           style: TextStyle(
                             fontSize: 12,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -73,7 +74,7 @@ class LandingPage extends StatelessWidget {
                             'Kreasi',
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -87,6 +88,7 @@ class LandingPage extends StatelessWidget {
                             'Apa yang kamu butuhkan saat ini?',
                             style: TextStyle(
                               fontSize: 12,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
@@ -131,7 +133,7 @@ class LandingPage extends StatelessWidget {
                                           'Batik',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ),
@@ -174,7 +176,7 @@ class LandingPage extends StatelessWidget {
                                           'Batik',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ),
@@ -217,7 +219,7 @@ class LandingPage extends StatelessWidget {
                                           'Batik',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ),
@@ -244,7 +246,9 @@ class LandingPage extends StatelessWidget {
                         child: Text(
                           'Terdekat',
                           style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                       SizedBox(height: 2),
@@ -252,7 +256,10 @@ class LandingPage extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Penjahit spesial yang ada di dekatmu',
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                       SizedBox(height: 8),
@@ -296,14 +303,14 @@ class LandingPage extends StatelessWidget {
                                             '120m',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
                                           Text(
                                             '2H',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
                                         ],
@@ -314,7 +321,7 @@ class LandingPage extends StatelessWidget {
                                           'Bu Tejo',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       )

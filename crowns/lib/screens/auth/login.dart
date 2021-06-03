@@ -68,7 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Daftar Sekarang',
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -90,7 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     'masuk',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),

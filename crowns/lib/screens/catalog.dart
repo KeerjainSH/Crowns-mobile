@@ -31,7 +31,7 @@ class CataloPage extends StatelessWidget {
                 child: Text(
                   'Katalog',
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     fontSize: 22,
                   ),
                 ),
@@ -60,7 +60,7 @@ class CataloPage extends StatelessWidget {
                 child: Text(
                   'Seragam Sekolah',
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontSize: 18,
                   ),
                 ),
@@ -91,7 +91,7 @@ class CataloPage extends StatelessWidget {
                 child: Text(
                   'Busana Pesta',
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontSize: 18,
                   ),
                 ),
@@ -122,7 +122,7 @@ class CataloPage extends StatelessWidget {
                 child: Text(
                   'Busana Formal',
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     fontSize: 18,
                   ),
                 ),

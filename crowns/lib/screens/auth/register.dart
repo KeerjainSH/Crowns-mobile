@@ -66,7 +66,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () {},
                   child: Text(
                     'daftar',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
