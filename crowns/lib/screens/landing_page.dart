@@ -49,9 +49,14 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8),
-                      Container(
-                          child:
-                              Image.asset(ImageConstants.jahitSeakarangBanner)),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/catalog');
+                        },
+                        child: Image.asset(
+                          ImageConstants.jahitSeakarangBanner,
+                        ),
+                      ),
                     ],
                   ),
                 ),
