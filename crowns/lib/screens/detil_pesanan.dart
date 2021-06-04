@@ -6,7 +6,14 @@ import 'package:crowns/utils/color_constants.dart';
 import 'package:crowns/utils/image_constants.dart';
 import 'package:flutter/services.dart';
 
-class DetilPesananPage extends StatelessWidget {
+class DetilPesananPage extends StatefulWidget {
+  @override
+  _DetilPesananPageState createState() => _DetilPesananPageState();
+}
+
+class _DetilPesananPageState extends State<DetilPesananPage> {
+  int count = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,19 +104,27 @@ class DetilPesananPage extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: ColorConstants.primaryColor,
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  height: 18,
-                                  width: 18,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '-',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      if (count > 1) count--;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                    height: 18,
+                                    width: 18,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        '-',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -121,7 +136,7 @@ class DetilPesananPage extends StatelessWidget {
                                   color: ColorConstants.middleGrey,
                                   child: Center(
                                     child: Text(
-                                      '1',
+                                      '${count}',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -130,19 +145,27 @@ class DetilPesananPage extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 3),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: ColorConstants.primaryColor,
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  height: 18,
-                                  width: 18,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '+',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      count++;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: ColorConstants.primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                    height: 18,
+                                    width: 18,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        '+',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
