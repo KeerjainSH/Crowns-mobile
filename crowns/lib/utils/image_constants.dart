@@ -12,6 +12,7 @@ class ImageConstants {
   static String bankMandiriLogo = 'assets/images/logo-bank-mandiri.png';
   static String facebookLogo = 'assets/images/logo-facebook.png';
   static String googleLogo = 'assets/images/logo-google.png';
+  static String seragamProduc1 = 'assets/images/product-seragam-1.png';
   static String formalProduct1 = 'assets/images/product-formal-1.png';
   static String pestaProduct1 = 'assets/images/product-pesta-1.png';
   static String progressBar1 = 'assets/images/progress-bar-1.png';

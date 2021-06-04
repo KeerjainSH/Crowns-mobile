@@ -10,7 +10,12 @@ class CatalogImage extends StatelessWidget {
       width: 83,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
-        child: Image.asset(ImageConstants.pestaProduct1),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/detil-pesanan');
+          },
+          child: Image.asset(ImageConstants.pestaProduct1),
+        ),
       ),
     );
   }

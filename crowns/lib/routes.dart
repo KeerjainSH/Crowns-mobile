@@ -5,6 +5,7 @@ import 'package:crowns/screens/auth/login.dart';
 import 'package:crowns/screens/auth/register.dart';
 import 'package:crowns/screens/landing_page.dart';
 import 'package:crowns/screens/catalog.dart';
+import 'package:crowns/screens/detil_pesanan.dart';
 
 class CustomRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,6 +20,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => LandingPage());
       case '/catalog':
         return MaterialPageRoute(builder: (_) => CataloPage());
+      case '/detil-pesanan':
+        return MaterialPageRoute(builder: (_) => DetilPesananPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
