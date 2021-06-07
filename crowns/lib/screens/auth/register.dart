@@ -30,7 +30,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              /// App logo
               Image.asset(ImageConstants.appLogo),
+
+              /// Form input
               Container(
                 padding: EdgeInsets.only(
                   left: 28,
@@ -72,6 +75,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
+
+              /// Sign up button with validation checking
               ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 125, height: 40),
                 child: ElevatedButton(
@@ -106,6 +111,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
+
+              /// Sign up with google or facebook
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

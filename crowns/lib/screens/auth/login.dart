@@ -28,7 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              /// Logo app
               Image.asset(ImageConstants.appLogo),
+
+              /// Form input
               Container(
                 padding: EdgeInsets.only(
                   left: 28,
@@ -64,6 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
+
+              /// Sign up if doesn't have account yet
               Container(
                 child: Column(
                   children: [
@@ -89,6 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
+
+              // Sign in button with validation cheking
               ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 125, height: 40),
                 child: ElevatedButton(
@@ -120,6 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+
+              /// Login with google or facebook
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
