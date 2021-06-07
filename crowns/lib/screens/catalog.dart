@@ -2,7 +2,6 @@ import 'package:crowns/utils/image_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/app_header.dart';
-import 'package:crowns/widgets/catalog_image.dart';
 import 'package:crowns/utils/color_constants.dart';
 
 // import 'package:crowns/utils/image_constants.dart';
@@ -107,6 +106,25 @@ class CatalogPerCategory extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CatalogImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 15),
+      width: 83,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/detil-pesanan');
+          },
+          child: Image.asset(ImageConstants.pestaProduct1),
+        ),
+      ),
     );
   }
 }
