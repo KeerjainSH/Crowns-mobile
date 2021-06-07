@@ -11,6 +11,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _textName = TextEditingController();
+  final _textEmail = TextEditingController();
+  final _textPassword = TextEditingController();
+  bool _validateName = true;
+  bool _validateEmail = true;
+  bool _validatePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +52,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 child: Column(
                   children: [
-                    AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    AuthTextFormField(
+                      label: 'Nama Pengguna',
+                      controller: _textName,
+                      validator: _validateName,
+                    ),
                     SizedBox(height: 15),
-                    AuthTextFormField(label: 'Email'),
+                    AuthTextFormField(
+                      label: 'Email',
+                      controller: _textEmail,
+                      validator: _validateEmail,
+                    ),
                     SizedBox(height: 15),
-                    AuthTextFormField(label: 'Password'),
+                    AuthTextFormField(
+                      label: 'Password',
+                      controller: _textPassword,
+                      validator: _validatePassword,
+                    ),
                   ],
                 ),
               ),
@@ -63,7 +82,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(180.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      _textName.text.isEmpty
+                          ? _validateName = false
+                          : _validateName = true;
+                      _textEmail.text.isEmpty
+                          ? _validateEmail = false
+                          : _validateEmail = true;
+                      _textPassword.text.isEmpty
+                          ? _validatePassword = false
+                          : _validatePassword = true;
+                      if (_validateEmail && _validatePassword)
+                        Navigator.pushNamed(context, '/login');
+                    });
+                  },
                   child: Text(
                     'daftar',
                     style: TextStyle(

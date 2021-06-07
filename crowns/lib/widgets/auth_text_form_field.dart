@@ -4,8 +4,10 @@ import 'package:crowns/utils/color_constants.dart';
 
 class AuthTextFormField extends StatelessWidget {
   final String label;
+  final TextEditingController controller;
+  bool validator;
 
-  AuthTextFormField({this.label});
+  AuthTextFormField({this.label, this.controller, this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +31,41 @@ class AuthTextFormField extends StatelessWidget {
             padding: EdgeInsets.only(left: 11),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: TextFormField(
-                obscureText: label == 'Password' ? true : false,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  hintText: 'Masukkan ${this.label} Anda',
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: ColorConstants.hintColor,
-                  ),
-                ),
-              ),
+              child: validator
+                  ? TextFormField(
+                      controller: controller,
+                      obscureText: label == 'Password' ? true : false,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        hintText: 'Masukkan ${label} Anda',
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: ColorConstants.hintColor,
+                        ),
+                      ),
+                    )
+                  : TextFormField(
+                      controller: controller,
+                      obscureText: label == 'Password' ? true : false,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        hintText: "${label} tidak boleh kosong",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
             ),
           )
         ],

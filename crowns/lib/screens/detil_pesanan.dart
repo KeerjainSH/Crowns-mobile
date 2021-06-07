@@ -137,7 +137,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                                   color: ColorConstants.middleGrey,
                                   child: Center(
                                     child: Text(
-                                      '${_count}',
+                                      "${_count}",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,

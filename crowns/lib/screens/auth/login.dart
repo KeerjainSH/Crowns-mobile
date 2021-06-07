@@ -11,6 +11,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _textEmail = TextEditingController();
+  final _textPassword = TextEditingController();
+  bool _validateEmail = true;
+  bool _validatePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +50,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: Column(
                   children: [
-                    AuthTextFormField(label: 'Nama/Email Pengguna'),
+                    AuthTextFormField(
+                      label: 'Nama/Email Pengguna',
+                      controller: _textEmail,
+                      validator: _validateEmail,
+                    ),
                     SizedBox(height: 15),
-                    AuthTextFormField(label: 'Password'),
+                    AuthTextFormField(
+                      label: 'Password',
+                      controller: _textPassword,
+                      validator: _validatePassword,
+                    ),
                   ],
                 ),
               ),
@@ -87,7 +100,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    setState(() {
+                      _textEmail.text.isEmpty
+                          ? _validateEmail = false
+                          : _validateEmail = true;
+                      _textPassword.text.isEmpty
+                          ? _validatePassword = false
+                          : _validatePassword = true;
+                      if (_validateEmail && _validatePassword)
+                        Navigator.pushNamed(context, '/home');
+                    });
                   },
                   child: Text(
                     'masuk',
