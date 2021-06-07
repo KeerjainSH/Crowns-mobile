@@ -22,7 +22,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
         physics: ScrollPhysics(),
         child: Column(
           children: [
-            // Header that show the product and amount
+            /// Header that show the product and amount
             Container(
               decoration: BoxDecoration(
                 color: ColorConstants.backgroundColor,
@@ -46,6 +46,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  /// Show picture of product
                   ClipRRect(
                     borderRadius: BorderRadius.circular(18.0),
                     child: Image.asset(
@@ -57,6 +58,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        /// Show the information of produc
                         Container(
                           child: Column(
                             children: [
@@ -94,6 +96,8 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                             ],
                           ),
                         ),
+
+                        /// Show order quantity and widget to increase/decrease quantity
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -182,6 +186,8 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               ),
             ),
             SizedBox(height: 15),
+
+            /// Title and form input detail pesanan
             Container(
               padding: EdgeInsets.only(left: 23, right: 23),
               child: Column(
@@ -208,6 +214,8 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                     ),
                   ),
                   SizedBox(height: 15),
+
+                  /// Form input detail pesanan
                   MediaQuery.removePadding(
                     context: context,
                     removeTop: true,
@@ -224,108 +232,35 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               ),
             ),
             SizedBox(height: 25),
-            // Bottom widget to checkout and input code voucher
+
+            /// Button for submit the order
             Container(
-              decoration: BoxDecoration(
-                color: ColorConstants.backgroundColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorConstants.grey,
-                    blurRadius: 6,
-                    offset: Offset(0, -8),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              height: 85,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 23),
-                    height: 26,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Voucher',
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            'Masukkan Kode >',
-                            style: TextStyle(
-                              color: ColorConstants.darkGrey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
+              padding: EdgeInsets.symmetric(horizontal: 23),
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                  width: double.infinity,
+                  height: 40,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: TextStyle(fontFamily: 'SFProDisplay'),
+                    primary: ColorConstants.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(180.0),
                     ),
                   ),
-                  Container(
-                    color: ColorConstants.middleGrey,
-                    height: 1,
-                    width: double.infinity,
+                  onPressed: () {},
+                  child: Text(
+                    'pesan',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 140,
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'SubTotal',
-                                style: TextStyle(
-                                  color: ColorConstants.darkGrey,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Rp 440.000',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 9),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 54,
-                          width: 138,
-                          color: ColorConstants.primaryColor,
-                          child: Center(
-                            child: Text(
-                              'Checkout',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                ),
               ),
             ),
+            SizedBox(height: 100),
           ],
         ),
       ),
