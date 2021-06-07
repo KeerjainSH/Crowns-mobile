@@ -58,7 +58,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /// Show the information of produc
+                        /// Show the information of product
                         Container(
                           child: Column(
                             children: [

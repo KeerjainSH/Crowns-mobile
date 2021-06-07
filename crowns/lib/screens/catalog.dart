@@ -54,103 +54,59 @@ class CataloPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 14),
-            Container(
-              padding: EdgeInsets.only(left: 32),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Seragam Sekolah',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 5),
-            Container(
-              height: 106,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(width: 32),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                ],
-              ),
-            ),
-            SizedBox(height: 14),
-            Container(
-              padding: EdgeInsets.only(left: 32),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Busana Pesta',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 5),
-            Container(
-              height: 106,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(width: 32),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                ],
-              ),
-            ),
-            SizedBox(height: 14),
-            Container(
-              padding: EdgeInsets.only(left: 32),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Busana Formal',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 5),
-            Container(
-              height: 106,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SizedBox(width: 32),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                  CatalogImage(),
-                ],
-              ),
-            ),
+
+            CatalogPerCategory(category: 'Seragam Sekolah'),
+            CatalogPerCategory(category: 'Busana Pesta'),
+            CatalogPerCategory(category: 'Busana Formal'),
             SizedBox(height: 32),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CatalogPerCategory extends StatelessWidget {
+  final String category;
+
+  CatalogPerCategory({this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 14),
+        Container(
+          padding: EdgeInsets.only(left: 32),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              category,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          height: 106,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              SizedBox(width: 32),
+              CatalogImage(),
+              CatalogImage(),
+              CatalogImage(),
+              CatalogImage(),
+              CatalogImage(),
+              CatalogImage(),
+              CatalogImage(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
