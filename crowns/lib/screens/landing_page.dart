@@ -11,7 +11,7 @@ class LandingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Header home page
+            /// Header home page
             Container(
               width: double.infinity,
               child: Image.asset(
@@ -23,7 +23,7 @@ class LandingPage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Create your Own Style
+                /// Jahit sekarang section
                 Container(
                   padding: EdgeInsets.only(left: 29, right: 29),
                   child: Column(
@@ -62,7 +62,8 @@ class LandingPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 42),
-                // Kreasi
+
+                /// Kreasi Section
                 Container(
                   child: Column(
                     children: [
@@ -235,107 +236,6 @@ class LandingPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24),
-
-                // Terdekat
-                Container(
-                  padding: EdgeInsets.only(left: 29, right: 29),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Terdekat',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Penjahit spesial yang ada di dekatmu',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(right: 29),
-                          height: 150,
-                          width: 150,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 0,
-                                  offset: Offset(-6, 4),
-                                  blurRadius: 2,
-                                )
-                              ],
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  child: Image.asset(
-                                    ImageConstants.terdekatDisplay1,
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '120m',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          Text(
-                                            '2H',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Bu Tejo',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(height: 100)
               ],
             ),
