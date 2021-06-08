@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:crowns/widgets/app_header.dart';
 import 'package:crowns/utils/color_constants.dart';
 
-// import 'package:crowns/utils/image_constants.dart';
-
 class CataloPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,7 +51,6 @@ class CataloPage extends StatelessWidget {
                 ),
               ),
             ),
-
             CatalogPerCategory(category: 'Seragam Sekolah'),
             CatalogPerCategory(category: 'Busana Pesta'),
             CatalogPerCategory(category: 'Busana Formal'),

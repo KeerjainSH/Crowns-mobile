@@ -222,7 +222,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                       shrinkWrap: true,
                       itemCount: _count,
                       itemBuilder: (context, i) {
-                        return FormDetilPesanan();
+                        return FormDetilPesanan(counter: i);
                       },
                     ),
                   ),
@@ -236,7 +236,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               padding: EdgeInsets.symmetric(horizontal: 23),
               child: ConstrainedBox(
                 constraints: BoxConstraints.tightFor(
-                  width: double.infinity,
+                  width: 125,
                   height: 40,
                 ),
                 child: ElevatedButton(
@@ -267,10 +267,21 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
 }
 
 class FormDetilPesanan extends StatelessWidget {
+  int counter;
+
+  FormDetilPesanan({this.counter});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        counter > 0
+            ? Container(
+                height: 1,
+                color: ColorConstants.middleGrey,
+              )
+            : Container(),
+        SizedBox(height: 11),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -380,11 +391,6 @@ class FormDetilPesanan extends StatelessWidget {
           ),
         ),
         SizedBox(height: 22),
-        Container(
-          height: 1,
-          color: Colors.black,
-        ),
-        SizedBox(height: 11),
       ],
     );
   }
