@@ -247,7 +247,9 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                       borderRadius: BorderRadius.circular(180.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/isi-alamat');
+                  },
                   child: Text(
                     'pesan',
                     style: TextStyle(

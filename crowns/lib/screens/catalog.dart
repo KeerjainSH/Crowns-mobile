@@ -18,7 +18,6 @@ class CataloPage extends StatelessWidget {
 
             /// Show image progress bar
             Container(
-              padding: EdgeInsets.only(left: 32),
               width: 221,
               child: Image.asset(ImageConstants.progressBar2),
             ),
