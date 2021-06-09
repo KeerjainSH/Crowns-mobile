@@ -9,18 +9,12 @@ class SubFormLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 84,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 13,
-            color: ColorConstants.darkGrey,
-          ),
-        ),
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 13,
+        color: ColorConstants.darkGrey,
       ),
     );
   }

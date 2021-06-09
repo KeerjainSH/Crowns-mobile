@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:crowns/widgets/app_header.dart';
 import 'package:crowns/widgets/form_label.dart';
@@ -16,6 +17,53 @@ class IsiAlamatPage extends StatefulWidget {
 
 class _IsiAlamatPageState extends State<IsiAlamatPage> {
   int _state = 1;
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  buildMaterialDatePicker(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+      initialEntryMode: DatePickerEntryMode.calendar,
+      initialDatePickerMode: DatePickerMode.day,
+      helpText: 'Select booking date',
+      cancelText: 'Not now',
+      confirmText: 'Book',
+      errorFormatText: 'Enter valid date',
+      errorInvalidText: 'Enter date in valid range',
+      fieldLabelText: 'Booking date',
+      fieldHintText: 'Month/Date/Year',
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light(),
+          child: child,
+        );
+      },
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  buildMaterialTimePicker(BuildContext context) async {
+    TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      },
+    );
+    if (picked != null && picked != selectedTime)
+      setState(() {
+        selectedTime = picked;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,28 +266,83 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                         FormLabel('Waktu Penjemputan'),
                         SizedBox(height: 6),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          padding: EdgeInsets.only(
+                            left: 12,
+                            right: 32,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                children: [
-                                  SubFormLabel('Tanggal'),
-                                  SizedBox(height: 2),
-                                ],
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  width: 84,
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SubFormLabel('Tanggal'),
+                                      ),
+                                      SizedBox(height: 2),
+                                      InkWell(
+                                        onTap: () =>
+                                            buildMaterialDatePicker(context),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: ColorConstants.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          height: 22,
+                                          child: Center(
+                                            child: Text(
+                                              DateFormat('dd/MM/yyy')
+                                                  .format(selectedDate),
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  SubFormLabel('Jam'),
-                                  SizedBox(height: 2),
-                                ],
-                              )
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  width: 53,
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SubFormLabel('Jam'),
+                                      ),
+                                      SizedBox(height: 2),
+                                      InkWell(
+                                        onTap: () =>
+                                            buildMaterialTimePicker(context),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: ColorConstants.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          height: 22,
+                                          child: Center(
+                                            child: Text(
+                                              selectedTime.format(context),
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 30),
-                        CustomButton('berikutnya'),
-                        SizedBox(height: 40),
                       ],
                     )
                   : Column(
@@ -302,11 +405,11 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
-                        CustomButton('berikutnya'),
-                        SizedBox(height: 40),
                       ],
                     ),
+              SizedBox(height: 30),
+              CustomButton('berikutnya'),
+              SizedBox(height: 40),
             ],
           ),
         ),
