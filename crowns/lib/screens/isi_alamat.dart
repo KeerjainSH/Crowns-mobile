@@ -162,85 +162,151 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
               ),
 
               SizedBox(height: 22),
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Lokasi Kamu',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Isi dengan benar ya!',
-                      style: TextStyle(color: ColorConstants.darkGrey),
-                    ),
-                  ),
-                  Container(
-                    height: 203,
-                    color: ColorConstants.grey,
-                  ),
-                  SizedBox(height: 15),
-                  FormLabel('Alamat Penjemputan'),
-                  SizedBox(height: 5),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: ColorConstants.grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    width: double.infinity,
-                    height: 25,
-                    padding: EdgeInsets.only(left: 11),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  FormLabel('Instruksi penjemputan'),
-                  SizedBox(height: 5),
-                  CustomTextField(5),
-                  SizedBox(height: 8),
-                  FormLabel('Waktu Penjemputan'),
-                  SizedBox(height: 6),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              _state == 1
+                  ? Column(
                       children: [
-                        Column(
-                          children: [
-                            SubFormLabel('Tanggal'),
-                            SizedBox(height: 2),
-                          ],
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Lokasi Kamu',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                            ),
+                          ),
                         ),
-                        Column(
-                          children: [
-                            SubFormLabel('Jam'),
-                            SizedBox(height: 2),
-                          ],
-                        )
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Isi dengan benar ya!',
+                            style: TextStyle(color: ColorConstants.darkGrey),
+                          ),
+                        ),
+                        Container(
+                          height: 203,
+                          color: ColorConstants.grey,
+                        ),
+                        SizedBox(height: 15),
+                        FormLabel('Alamat Penjemputan'),
+                        SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: ColorConstants.grey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          width: double.infinity,
+                          height: 25,
+                          padding: EdgeInsets.only(left: 11),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        FormLabel('Instruksi penjemputan'),
+                        SizedBox(height: 5),
+                        CustomTextField(5),
+                        SizedBox(height: 8),
+                        FormLabel('Waktu Penjemputan'),
+                        SizedBox(height: 6),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  SubFormLabel('Tanggal'),
+                                  SizedBox(height: 2),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  SubFormLabel('Jam'),
+                                  SizedBox(height: 2),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        CustomButton('berikutnya'),
+                        SizedBox(height: 40),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Lokasi Penjahit',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Antar kesini ya!',
+                            style: TextStyle(color: ColorConstants.darkGrey),
+                          ),
+                        ),
+                        Container(
+                          height: 203,
+                          color: ColorConstants.grey,
+                        ),
+                        SizedBox(height: 15),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Pak Kamirin',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        FormLabel('Alamat'),
+                        SizedBox(height: 6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Jalan legundi Kemarau Blok A No. 1 Keputih Sukolilo Surabaya 60123',
+                            style: TextStyle(
+                              color: ColorConstants.darkGrey,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        FormLabel('No Telepon'),
+                        SizedBox(height: 6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '08001128888',
+                            style: TextStyle(
+                              color: ColorConstants.darkGrey,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        CustomButton('berikutnya'),
+                        SizedBox(height: 40),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  CustomButton('berikutnya'),
-                  SizedBox(height: 40),
-                ],
-              )
             ],
           ),
         ),
