@@ -230,10 +230,6 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                             style: TextStyle(color: ColorConstants.darkGrey),
                           ),
                         ),
-                        Container(
-                          height: 203,
-                          color: ColorConstants.grey,
-                        ),
                         SizedBox(height: 15),
                         FormLabel('Alamat Penjemputan'),
                         SizedBox(height: 5),
@@ -364,10 +360,6 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                             style: TextStyle(color: ColorConstants.darkGrey),
                           ),
                         ),
-                        Container(
-                          height: 203,
-                          color: ColorConstants.grey,
-                        ),
                         SizedBox(height: 15),
                         Align(
                           alignment: Alignment.centerLeft,
@@ -380,12 +372,38 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        FormLabel('Alamat'),
+                        FormLabel('Kelurahan'),
                         SizedBox(height: 6),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Jalan legundi Kemarau Blok A No. 1 Keputih Sukolilo Surabaya 60123',
+                            'Keputih',
+                            style: TextStyle(
+                              color: ColorConstants.darkGrey,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        FormLabel('Kecamatan'),
+                        SizedBox(height: 6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Sukolilo',
+                            style: TextStyle(
+                              color: ColorConstants.darkGrey,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        FormLabel('Kota'),
+                        SizedBox(height: 6),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Surabaya 60123',
                             style: TextStyle(
                               color: ColorConstants.darkGrey,
                               fontSize: 10,
