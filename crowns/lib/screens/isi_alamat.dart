@@ -426,7 +426,10 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                       ],
                     ),
               SizedBox(height: 30),
-              CustomButton('berikutnya'),
+              CustomButton(
+                text: 'berikutnya',
+                route: '/detil-pembayaran',
+              ),
               SizedBox(height: 40),
             ],
           ),

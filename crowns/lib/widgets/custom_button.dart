@@ -4,8 +4,9 @@ import 'package:crowns/utils/color_constants.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
+  final String route;
 
-  CustomButton(this.text);
+  CustomButton({this.text, this.route});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class CustomButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/isi-alamat');
+            Navigator.pushNamed(context, route);
           },
           child: Text(
             text,
