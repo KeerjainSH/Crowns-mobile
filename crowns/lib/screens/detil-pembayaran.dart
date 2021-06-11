@@ -52,6 +52,8 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
               SizedBox(height: 6),
               Subtitle('Estimasi harga yang harus dibayar'),
               SizedBox(height: 20),
+
+              // Detil Pembayaran Info
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -121,6 +123,8 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                 height: 1,
                 width: double.infinity,
               ),
+
+              /// Detil Pembayaran Total
               SizedBox(height: 3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -680,7 +684,7 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                 ],
               ),
               SizedBox(height: 30),
-              CustomButton(text: 'bayar', route: 'detil-pembayaran'),
+              CustomButton(text: 'bayar', route: '/pembayaran'),
               SizedBox(height: 40),
             ],
           ),

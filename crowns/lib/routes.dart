@@ -8,6 +8,7 @@ import 'package:crowns/screens/catalog.dart';
 import 'package:crowns/screens/detil_pesanan.dart';
 import 'package:crowns/screens/isi_alamat.dart';
 import 'package:crowns/screens/detil-pembayaran.dart';
+import 'package:crowns/screens/pembayaran.dart';
 
 class CustomRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,6 +29,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => IsiAlamatPage());
       case '/detil-pembayaran':
         return MaterialPageRoute(builder: (_) => DetilPembayaranPage());
+      case '/pembayaran':
+        return MaterialPageRoute(builder: (_) => PembayaranPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
