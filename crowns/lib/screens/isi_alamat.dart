@@ -172,12 +172,14 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                                       _state = 1;
                                     });
                                   },
-                                  child: Text(
-                                    "Di Ambil",
-                                    style: TextStyle(
-                                      color: ColorConstants.primaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
+                                  child: Center(
+                                    child: Text(
+                                      "Di Ambil",
+                                      style: TextStyle(
+                                        color: ColorConstants.primaryColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -290,7 +292,8 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                                                 BorderRadius.circular(8),
                                           ),
                                           height: 22,
-                                          child: Center(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
                                             child: Text(
                                               DateFormat('dd/MM/yyy')
                                                   .format(selectedDate),
@@ -324,7 +327,8 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                                                 BorderRadius.circular(8),
                                           ),
                                           height: 22,
-                                          child: Center(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
                                             child: Text(
                                               selectedTime.format(context),
                                               style: TextStyle(fontSize: 10),

@@ -406,11 +406,10 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                                   width: 60,
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
-                                    child:
-                                        Image.asset(ImageConstants.bankBCAlogo),
+                                    child: Image.asset(ImageConstants.ovoLogo),
                                   ),
                                 ),
-                                _buildText12('Bank BCA'),
+                                _buildText12('OVO'),
                               ],
                             ),
                           ),
@@ -438,11 +437,10 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                                   width: 60,
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
-                                    child: Image.asset(
-                                        ImageConstants.bankMandiriLogo),
+                                    child: Image.asset(ImageConstants.danaLogo),
                                   ),
                                 ),
-                                _buildText12('Bank Mandiri'),
+                                _buildText12('DANA'),
                               ],
                             ),
                           ),
@@ -471,10 +469,10 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
                                     child:
-                                        Image.asset(ImageConstants.bankBNIlogo),
+                                        Image.asset(ImageConstants.linkAjaLogo),
                                   ),
                                 ),
-                                _buildText12('Bank BNI'),
+                                _buildText12('Link Aja'),
                               ],
                             ),
                           ),
@@ -503,10 +501,10 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                                   child: Padding(
                                     padding: EdgeInsets.all(3),
                                     child:
-                                        Image.asset(ImageConstants.bankBRILogo),
+                                        Image.asset(ImageConstants.gopayLogo),
                                   ),
                                 ),
-                                _buildText12('Bank BRI'),
+                                _buildText12('Gopay'),
                               ],
                             ),
                           ),
@@ -572,108 +570,11 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                                 Container(
                                   width: 60,
                                   child: Padding(
-                                    padding: EdgeInsets.all(3),
-                                    child:
-                                        Image.asset(ImageConstants.bankBCAlogo),
-                                  ),
+                                      padding: EdgeInsets.all(3),
+                                      child: FittedBox(
+                                          child: Icon(Icons.credit_card))),
                                 ),
                                 _buildText12('Bank BCA'),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _selectedMethod = 4;
-                              _selectedProvider = 2;
-                            });
-                          },
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color:
-                                  _selectedMethod == 4 && _selectedProvider == 2
-                                      ? ColorConstants.softBlue
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3),
-                                    child: Image.asset(
-                                        ImageConstants.bankMandiriLogo),
-                                  ),
-                                ),
-                                _buildText12('Bank Mandiri'),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _selectedMethod = 4;
-                              _selectedProvider = 3;
-                            });
-                          },
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color:
-                                  _selectedMethod == 4 && _selectedProvider == 3
-                                      ? ColorConstants.softBlue
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3),
-                                    child:
-                                        Image.asset(ImageConstants.bankBNIlogo),
-                                  ),
-                                ),
-                                _buildText12('Bank BNI'),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _selectedMethod = 4;
-                              _selectedProvider = 4;
-                            });
-                          },
-                          child: Container(
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color:
-                                  _selectedMethod == 4 && _selectedProvider == 4
-                                      ? ColorConstants.softBlue
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3),
-                                    child:
-                                        Image.asset(ImageConstants.bankBRILogo),
-                                  ),
-                                ),
-                                _buildText12('Bank BRI'),
                               ],
                             ),
                           ),
