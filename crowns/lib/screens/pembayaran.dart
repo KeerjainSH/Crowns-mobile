@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:crowns/widgets/app_header.dart';
 import 'package:crowns/widgets/texts.dart';
 
-import 'package:crowns/utils/image_constants.dart';
 import 'package:crowns/utils/color_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
 

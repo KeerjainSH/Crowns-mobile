@@ -16,16 +16,16 @@ class IsiAlamatPage extends StatefulWidget {
 }
 
 class _IsiAlamatPageState extends State<IsiAlamatPage> {
-  int _state = 1;
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  int? _state = 1;
+  DateTime? selectedDate = DateTime.now();
+  TimeOfDay? selectedTime = TimeOfDay.now();
 
   buildMaterialDatePicker(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
+      initialDate: selectedDate!,
+      firstDate: DateTime(2019),
+      lastDate: DateTime(2020),
       initialEntryMode: DatePickerEntryMode.calendar,
       initialDatePickerMode: DatePickerMode.day,
       helpText: 'Select booking date',
@@ -35,33 +35,33 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
       errorInvalidText: 'Enter date in valid range',
       fieldLabelText: 'Booking date',
       fieldHintText: 'Month/Date/Year',
-      builder: (context, child) {
+      builder: (BuildContext? context, Widget? child) {
         return Theme(
           data: ThemeData.light(),
-          child: child,
+          child: child!,
         );
       },
     );
-    if (picked != null && picked != selectedDate)
+    if (pickedDate != selectedDate)
       setState(() {
-        selectedDate = picked;
+        selectedDate = pickedDate;
       });
   }
 
   buildMaterialTimePicker(BuildContext context) async {
-    TimeOfDay picked = await showTimePicker(
+    TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext? context, Widget? child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child,
+          data: MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
         );
       },
     );
-    if (picked != null && picked != selectedTime)
+    if (pickedTime != selectedTime)
       setState(() {
-        selectedTime = picked;
+        selectedTime = pickedTime;
       });
   }
 
@@ -296,7 +296,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               DateFormat('dd/MM/yyy')
-                                                  .format(selectedDate),
+                                                  .format(selectedDate!),
                                               style: TextStyle(fontSize: 10),
                                             ),
                                           ),
@@ -330,7 +330,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                                           child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              selectedTime.format(context),
+                                              selectedTime!.format(context),
                                               style: TextStyle(fontSize: 10),
                                             ),
                                           ),

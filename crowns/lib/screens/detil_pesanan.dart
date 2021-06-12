@@ -271,7 +271,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
 class FormDetilPesanan extends StatelessWidget {
   int counter;
 
-  FormDetilPesanan({this.counter});
+  FormDetilPesanan({required this.counter});
 
   @override
   Widget build(BuildContext context) {
@@ -401,7 +401,7 @@ class FormDetilPesanan extends StatelessWidget {
 class UkuranBajuFormField extends StatelessWidget {
   final String label;
 
-  UkuranBajuFormField({this.label});
+  UkuranBajuFormField({required this.label});
 
   @override
   Widget build(BuildContext context) {

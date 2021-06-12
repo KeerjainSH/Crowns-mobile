@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final String route;
 
-  CustomButton({this.text, this.route});
+  CustomButton({required this.text, required this.route});
 
   @override
   Widget build(BuildContext context) {

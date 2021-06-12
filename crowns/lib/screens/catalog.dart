@@ -64,7 +64,7 @@ class CataloPage extends StatelessWidget {
 class CatalogPerCategory extends StatelessWidget {
   final String category;
 
-  CatalogPerCategory({this.category});
+  CatalogPerCategory({required this.category});
 
   @override
   Widget build(BuildContext context) {

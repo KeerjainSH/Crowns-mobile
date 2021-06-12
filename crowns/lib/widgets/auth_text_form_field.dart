@@ -7,7 +7,8 @@ class AuthTextFormField extends StatelessWidget {
   final TextEditingController controller;
   bool validator;
 
-  AuthTextFormField({this.label, this.controller, this.validator});
+  AuthTextFormField(
+      {required this.label, required this.controller, required this.validator});
 
   @override
   Widget build(BuildContext context) {

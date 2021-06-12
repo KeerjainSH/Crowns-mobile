@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'package:crowns/utils/image_constants.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
+  @override
+  _LandingPageState createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +120,19 @@ class LandingPage extends StatelessWidget {
           ],
         ),
       ),
+      // bottomNavigationBar: FloatingNavbar(
+      //   borderRadius: 90,
+      //   backgroundColor: Colors.green,
+      //   selectedItemColor: ColorConstants.primaryColor,
+      //   unselectedItemColor: Colors.black,
+      //   onTap: (int val) => setState(() {}),
+      //   currentIndex: 0,
+      //   items: [
+      //     FloatingNavbarItem(icon: Icons.home, title: 'Home'),
+      //     FloatingNavbarItem(icon: Icons.shop, title: 'Shop'),
+      //     FloatingNavbarItem(icon: Icons.person, title: 'Profile'),
+      //   ],
+      // ),
     );
   }
 }
