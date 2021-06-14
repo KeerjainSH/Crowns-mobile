@@ -1,3 +1,4 @@
+import 'package:crowns/utils/color_constants.dart';
 import 'package:flutter/material.dart';
 
 typedef Widget ItemBuilder(BuildContext context, FloatingNavbarItem items);
@@ -80,6 +81,13 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(widget.borderRadius!),
                 color: widget.backgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    spreadRadius: 3,
+                    color: ColorConstants.grey,
+                    offset: Offset(-1, 2),
+                  ),
+                ],
               ),
               width: 263,
               child: Padding(
