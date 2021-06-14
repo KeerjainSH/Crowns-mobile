@@ -29,4 +29,8 @@ class ImageConstants {
   static String progressBar4 = 'assets/images/progress-bar-4.png';
 
   static String splashScreen = 'assets/images/spalsh-screen.png';
+
+  static String homeIcon = 'assets/images/icon-home.png';
+  static String profileIcon = 'assets/images/icon-profile.png';
+  static String shopIcon = 'assets/images/icon-shop.png';
 }

@@ -42,7 +42,7 @@ class AuthTextFormField extends StatelessWidget {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintText: 'Masukkan ${label} Anda',
+                        hintText: 'Masukkan $label Anda',
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
@@ -59,7 +59,7 @@ class AuthTextFormField extends StatelessWidget {
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        hintText: "${label} tidak boleh kosong",
+                        hintText: "$label tidak boleh kosong",
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,

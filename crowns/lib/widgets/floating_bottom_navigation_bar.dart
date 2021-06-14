@@ -26,14 +26,14 @@ class FloatingNavbar extends StatefulWidget {
     @required this.currentIndex,
     @required this.onTap,
     ItemBuilder? itemBuilder,
-    this.backgroundColor = Colors.black,
+    this.backgroundColor = Colors.white,
     this.selectedBackgroundColor = Colors.white,
     this.selectedItemColor = Colors.black,
     this.iconSize = 24.0,
     this.fontSize = 11.0,
     this.borderRadius = 8,
     this.itemBorderRadius = 8,
-    this.unselectedItemColor = Colors.white,
+    this.unselectedItemColor = Colors.black,
     this.margin = const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
     this.padding = const EdgeInsets.only(bottom: 8, top: 8),
     this.width = double.infinity,
@@ -81,7 +81,7 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
                 borderRadius: BorderRadius.circular(widget.borderRadius!),
                 color: widget.backgroundColor,
               ),
-              width: widget.width,
+              width: 263,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
@@ -94,6 +94,7 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
               ),
             ),
           ),
+          SizedBox(height: 5),
         ],
       ),
     );
@@ -131,31 +132,20 @@ ItemBuilder _defaultItemBuilder({
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  //max-width for each item
-                  //24 is the padding from left and right
-                  width: MediaQuery.of(context).size.width *
-                          (100 / (items.length * 100)) -
-                      24,
                   padding: EdgeInsets.all(4),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Icon(
-                        item.icon,
-                        color: currentIndex == items.indexOf(item)
-                            ? selectedItemColor
-                            : unselectedItemColor,
-                        size: iconSize,
-                      ),
-                      Text(
-                        '${item.title}',
-                        style: TextStyle(
+                      Container(
+                        height: 24,
+                        width: 24,
+                        child: Image.asset(
+                          item.imgPath!,
                           color: currentIndex == items.indexOf(item)
                               ? selectedItemColor
                               : unselectedItemColor,
-                          fontSize: fontSize,
                         ),
                       ),
                     ],
@@ -169,13 +159,11 @@ ItemBuilder _defaultItemBuilder({
 }
 
 class FloatingNavbarItem {
-  final String? title;
-  final IconData? icon;
+  final String? imgPath;
   final Widget? customWidget;
 
   FloatingNavbarItem({
-    @required this.icon,
-    @required this.title,
+    @required this.imgPath,
     this.customWidget = const SizedBox(),
   });
 }

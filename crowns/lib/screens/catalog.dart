@@ -1,10 +1,17 @@
-import 'package:crowns/utils/image_constants.dart';
 import 'package:flutter/material.dart';
+
+import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 
 import 'package:crowns/widgets/app_header.dart';
 import 'package:crowns/utils/color_constants.dart';
+import 'package:crowns/utils/image_constants.dart';
 
-class CataloPage extends StatelessWidget {
+class CataloPage extends StatefulWidget {
+  @override
+  _CataloPageState createState() => _CataloPageState();
+}
+
+class _CataloPageState extends State<CataloPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +63,17 @@ class CataloPage extends StatelessWidget {
             SizedBox(height: 32),
           ],
         ),
+      ),
+      extendBody: true,
+      bottomNavigationBar: FloatingNavbar(
+        borderRadius: 90,
+        onTap: (int val) => setState(() {}),
+        currentIndex: 0,
+        items: [
+          FloatingNavbarItem(imgPath: ImageConstants.homeIcon),
+          FloatingNavbarItem(imgPath: ImageConstants.shopIcon),
+          FloatingNavbarItem(imgPath: ImageConstants.profileIcon),
+        ],
       ),
     );
   }

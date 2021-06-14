@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
+
 import 'package:crowns/utils/image_constants.dart';
 
 class LandingPage extends StatefulWidget {
@@ -120,19 +122,17 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ),
       ),
-      // bottomNavigationBar: FloatingNavbar(
-      //   borderRadius: 90,
-      //   backgroundColor: Colors.green,
-      //   selectedItemColor: ColorConstants.primaryColor,
-      //   unselectedItemColor: Colors.black,
-      //   onTap: (int val) => setState(() {}),
-      //   currentIndex: 0,
-      //   items: [
-      //     FloatingNavbarItem(icon: Icons.home, title: 'Home'),
-      //     FloatingNavbarItem(icon: Icons.shop, title: 'Shop'),
-      //     FloatingNavbarItem(icon: Icons.person, title: 'Profile'),
-      //   ],
-      // ),
+      extendBody: true,
+      bottomNavigationBar: FloatingNavbar(
+        borderRadius: 90,
+        onTap: (int val) => setState(() {}),
+        currentIndex: 0,
+        items: [
+          FloatingNavbarItem(imgPath: ImageConstants.homeIcon),
+          FloatingNavbarItem(imgPath: ImageConstants.shopIcon),
+          FloatingNavbarItem(imgPath: ImageConstants.profileIcon),
+        ],
+      ),
     );
   }
 }
