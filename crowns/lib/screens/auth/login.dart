@@ -127,31 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
-              /// Login with google or facebook
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset(ImageConstants.googleLogo),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset(ImageConstants.facebookLogo),
-                      ),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
