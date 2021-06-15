@@ -147,43 +147,6 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
               Subtitle('Mau membayar dimana?'),
               SizedBox(height: 16),
 
-              /// Method Bayar di Tempat
-              ConfigurableExpansionTile(
-                header: InkWell(
-                  onTap: () {
-                    setState(() {
-                      _selectedMethod = 1;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ColorConstants.grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    height: 25,
-                    width: MediaQuery.of(context).size.width - 64,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 8),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration: BoxDecoration(
-                            color: _selectedMethod == 1
-                                ? ColorConstants.darkGrey
-                                : Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        _buildText12('Bayar di Tempat'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
-
               /// Method Transfer Bank
               ConfigurableExpansionTile(
                 header: Container(
