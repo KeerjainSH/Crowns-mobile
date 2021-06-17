@@ -339,9 +339,7 @@ class FormDetilPesanan extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   UkuranBajuFormField(label: 'Lengan'),
-                  UkuranBajuFormField(
-                    label: 'Pinggang',
-                  ),
+                  UkuranBajuFormField(label: 'Pinggang'),
                   UkuranBajuFormField(label: 'Dada'),
                 ],
               ),

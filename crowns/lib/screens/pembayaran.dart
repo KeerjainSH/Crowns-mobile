@@ -10,7 +10,6 @@ class PembayaranPage extends StatefulWidget {
   @override
   _PembayaranPageState createState() => _PembayaranPageState();
 }
-
 class _PembayaranPageState extends State<PembayaranPage> {
   @override
   Widget build(BuildContext context) {
@@ -147,7 +146,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Kode Pembayaran',
+                        'Nomor Rekening Bank BRI',
                         style: TextStyle(
                           color: ColorConstants.darkGrey,
                           fontWeight: FontWeight.w700,

@@ -233,7 +233,79 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        FormLabel('Alamat Penjemputan'),
+                        FormLabel('Alamat'),
+                        SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: ColorConstants.grey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          width: double.infinity,
+                          height: 25,
+                          padding: EdgeInsets.only(left: 11),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        FormLabel('Kecamatan'),
+                        SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: ColorConstants.grey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          width: double.infinity,
+                          height: 25,
+                          padding: EdgeInsets.only(left: 11),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        FormLabel('Kota'),
+                        SizedBox(height: 5),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: ColorConstants.grey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          width: double.infinity,
+                          height: 25,
+                          padding: EdgeInsets.only(left: 11),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        FormLabel('Kode Pos'),
                         SizedBox(height: 5),
                         Container(
                           decoration: BoxDecoration(
