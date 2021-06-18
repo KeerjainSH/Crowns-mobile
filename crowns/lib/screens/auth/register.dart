@@ -1,9 +1,10 @@
+import 'package:crowns/provider/auth_provider.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'package:crowns/widgets/auth_text_form_field.dart';
 
 import 'package:crowns/utils/image_constants.dart';
 import 'package:crowns/utils/color_constants.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -11,132 +12,135 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _textName = TextEditingController();
-  final _textEmail = TextEditingController();
-  final _textPassword = TextEditingController();
-  bool _validateName = true;
-  bool _validateEmail = true;
-  bool _validatePassword = true;
+  final formKey = new GlobalKey<FormState>();
+
+  String _username = '', _password = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        color: ColorConstants.backgroundColor,
-        height: double.infinity,
-        padding: EdgeInsets.only(left: 30, right: 30),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              /// App logo
-              Image.asset(ImageConstants.appLogo),
+    var padding = MediaQuery.of(context).padding;
+    AuthProvider auth = Provider.of<AuthProvider>(context);
 
-              /// Form input
-              Container(
-                padding: EdgeInsets.only(
-                  left: 28,
-                  right: 28,
-                  top: 24,
-                  bottom: 24,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 0,
-                      offset: Offset(0, 4),
-                      blurRadius: 2,
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    AuthTextFormField(
-                      label: 'Nama Pengguna',
-                      controller: _textName,
-                      validator: _validateName,
-                    ),
-                    SizedBox(height: 15),
-                    AuthTextFormField(
-                      label: 'Email',
-                      controller: _textEmail,
-                      validator: _validateEmail,
-                    ),
-                    SizedBox(height: 15),
-                    AuthTextFormField(
-                      label: 'Password',
-                      controller: _textPassword,
-                      validator: _validatePassword,
-                    ),
-                  ],
-                ),
+    final usernameField = TextFormField(
+      onSaved: (value) => _username = value!,
+      validator: (value) => value == '' ? 'Please enter username' : null,
+      decoration: buildInputDecoration('Enter username'),
+    );
+
+    final passwordField = TextFormField(
+      obscureText: true,
+      onSaved: (value) => _password = value!,
+      validator: (value) => value == '' ? 'Please enter password' : null,
+      decoration: buildInputDecoration('Enter password'),
+    );
+
+    final confirmPasswordField = TextFormField(
+      obscureText: true,
+      onSaved: (value) => _password = value!,
+      validator: (value) {
+        if (value == '')
+          return 'Please enter confirm password';
+        else if (value != _password) return 'Password not same';
+        return null;
+      },
+      decoration: buildInputDecoration('Enter password'),
+    );
+
+    Align buildLabel(String text) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          text,
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+      );
+    }
+
+    final formInput = Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 28,
+        vertical: 24,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 0,
+            offset: Offset(0, 4),
+            blurRadius: 2,
+          )
+        ],
+      ),
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            buildLabel('Username'),
+            SizedBox(height: 9),
+            usernameField,
+            SizedBox(height: 15),
+            buildLabel('Password'),
+            SizedBox(height: 9),
+            passwordField,
+            SizedBox(height: 15),
+            buildLabel('Confirm Password'),
+            SizedBox(height: 9),
+            confirmPasswordField,
+          ],
+        ),
+      ),
+    );
+
+    var doRegister = () {
+      final FormState? form = formKey.currentState;
+
+      if (form!.validate()) {
+        form.save();
+      }
+    };
+
+    final registerButton = ConstrainedBox(
+      constraints: BoxConstraints.tightFor(width: 125, height: 40),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          textStyle: TextStyle(fontFamily: 'SFProDisplay'),
+          primary: ColorConstants.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(180.0),
+          ),
+        ),
+        onPressed: doRegister,
+        child: Text(
+          'daftar',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height -
+                padding.top -
+                padding.bottom,
+            color: ColorConstants.backgroundColor,
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(ImageConstants.appLogo),
+                  formInput,
+                  registerButton,
+                ],
               ),
-
-              /// Sign up button with validation checking
-              ConstrainedBox(
-                constraints: BoxConstraints.tightFor(width: 125, height: 40),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-                    primary: ColorConstants.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(180.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _textName.text.isEmpty
-                          ? _validateName = false
-                          : _validateName = true;
-                      _textEmail.text.isEmpty
-                          ? _validateEmail = false
-                          : _validateEmail = true;
-                      _textPassword.text.isEmpty
-                          ? _validatePassword = false
-                          : _validatePassword = true;
-                      if (_validateEmail && _validatePassword)
-                        Navigator.pushNamed(context, '/login');
-                    });
-                  },
-                  child: Text(
-                    'daftar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-
-              /// Sign up with google or facebook
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset(ImageConstants.googleLogo),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Image.asset(ImageConstants.facebookLogo),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),
