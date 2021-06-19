@@ -33,4 +33,6 @@ class ImageConstants {
   static String homeIcon = 'assets/images/icon-home.png';
   static String profileIcon = 'assets/images/icon-profile.png';
   static String shopIcon = 'assets/images/icon-shop.png';
+
+  static String profilePhoto = 'assets/images/profile-1.png';
 }

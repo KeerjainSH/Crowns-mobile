@@ -107,24 +107,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     var doLogin = () {
-      final FormState? form = formKey.currentState;
+      Navigator.pushReplacementNamed(context, '/home');
 
-      if (form!.validate()) {
-        form.save();
+      // final FormState? form = formKey.currentState;
 
-        final Future<Map<String, dynamic>> successfulMessage =
-            auth.login(_username, _password);
+      // if (form!.validate()) {
+      //   form.save();
 
-        successfulMessage.then((response) {
-          if (response['status']) {
-            User user = response['user'];
-            Provider.of<UserProvider>(context, listen: false).setUser(user);
-            Navigator.pushReplacementNamed(context, '/');
-          } else {
-            print('Login gagal');
-          }
-        });
-      }
+      //   final Future<Map<String, dynamic>> successfulMessage =
+      //       auth.login(_username, _password);
+
+      //   successfulMessage.then((response) {
+      //     if (response['status']) {
+      //       User user = response['user'];
+      //       Provider.of<UserProvider>(context, listen: false).setUser(user);
+      //       Navigator.pushReplacementNamed(context, '/');
+      //     } else {
+      //       print('Login gagal');
+      //     }
+      //   });
+      // }
     };
 
     final loginButton = ConstrainedBox(
