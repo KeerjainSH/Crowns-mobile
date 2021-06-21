@@ -100,3 +100,30 @@ Container buildButton(BuildContext context, String text, String route) {
     ),
   );
 }
+
+Align buildBigHeavyText(String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 22,
+      ),
+    ),
+  );
+}
+
+Align buildGreyText13(String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        color: ColorConstants.darkGrey,
+        fontWeight: FontWeight.w400,
+        fontSize: 13,
+      ),
+    ),
+  );
+}

@@ -3,8 +3,6 @@ import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:expandable/expandable.dart';
-
 import 'package:crowns/widgets/texts.dart';
 
 import 'package:crowns/utils/constants.dart';
@@ -15,14 +13,14 @@ class DetilPembayaranPage extends StatefulWidget {
 }
 
 class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
-  String _selectedMethod = '';
+  int _selected = -1;
 
   Widget _buildText12(text) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
         text,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -107,62 +105,134 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
       ],
     );
 
-    ExpandablePanel buildMethodBayarTile(String text) {
-      return ExpandablePanel(
-        header: Container(
-          decoration: BoxDecoration(
-            color: ColorConstants.grey,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          height: 25,
-          width: MediaQuery.of(context).size.width - 64,
-          child: Row(
-            children: [
-              SizedBox(width: 8),
-              Container(
-                height: 10,
-                width: 10,
-                decoration: BoxDecoration(
-                  color: _selectedMethod == text
-                      ? ColorConstants.darkGrey
-                      : Colors.white,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              SizedBox(width: 12),
-              _buildText12(text),
-            ],
-          ),
-        ),
-        collapsed: SizedBox.shrink(),
-        expanded: Padding(
-          padding: EdgeInsets.only(left: 24),
-          child: Column(
-            children: [
-              SizedBox(height: 11),
-              Container(
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      child: Padding(
-                        padding: EdgeInsets.all(3),
-                        child: Image.asset(ImageConstants.bankBRILogo),
+    Widget _buildPanel() {
+      return Container(
+        height: 300,
+        child: ListView.builder(
+          key: Key(_selected.toString()),
+          itemCount: metodeBayarList.length,
+          itemBuilder: (context, i) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                color: ColorConstants.grey,
+                margin: EdgeInsets.only(bottom: 8),
+                child: ExpansionTile(
+                  initiallyExpanded: i == _selected,
+                  onExpansionChanged: (bool isExpanded) {
+                    if (isExpanded)
+                      setState(() {
+                        _selected = i;
+                        print(i);
+                      });
+                    else
+                      setState(() {
+                        _selected = -1;
+                      });
+                  },
+                  tilePadding: EdgeInsets.all(0),
+                  trailing: SizedBox.shrink(),
+                  title: Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Container(
+                        height: 15,
+                        width: 15,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(360),
+                          color: _selected == i
+                              ? ColorConstants.darkGrey
+                              : Colors.white,
+                        ),
                       ),
+                      SizedBox(width: 12),
+                      _buildText12(metodeBayarList[i].title),
+                    ],
+                  ),
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 30),
+                        Container(
+                          height: 60,
+                          width: 60,
+                          child: Image.asset(metodeBayarList[i].logo),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: buildBigHeavyText(
+                                    metodeBayarList[i].number),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: buildGreyText13(metodeBayarList[i].name),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    _buildText12(methodBayarProvider[text]['name']),
                   ],
                 ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       );
+
+      // return ExpansionPanelList.radio(
+      //   initialOpenPanelValue: 0,
+      //   dividerColor: Colors.transparent,
+      //   elevation: 0,
+      //   expandedHeaderPadding: EdgeInsets.all(0),
+      //   expansionCallback: (int index, bool isExpanded) {
+      //     setState(() {
+      //       metodeBayarList[index].isExpanded = !isExpanded;
+      //     });
+      //   },
+      //   children: metodeBayarList.map<ExpansionPanel>((MetodeBayarClass item) {
+      //     return ExpansionPanelRadio(
+      //       value: item.id,
+      //       canTapOnHeader: true,
+      //       headerBuilder: (BuildContext context, bool isExpanded) {
+      //         // return ListTile(
+      //         //   title: Text(item.title),
+      //         // );
+      //         return Container(
+      //           decoration: BoxDecoration(
+      //             color: ColorConstants.grey,
+      //             borderRadius: BorderRadius.circular(8),
+      //           ),
+      //           height: 25,
+      //           width: MediaQuery.of(context).size.width - 64,
+      //           child: Row(
+      //             children: [
+      //               SizedBox(width: 8),
+      //               Container(
+      //                 height: 10,
+      //                 width: 10,
+      //                 decoration: BoxDecoration(
+      //                   color: ColorConstants.darkGrey,
+      //                   shape: BoxShape.circle,
+      //                 ),
+      //               ),
+      //               SizedBox(width: 12),
+      //               _buildText12(item.title),
+      //             ],
+      //           ),
+      //         );
+      //       },
+      //       body: ListTile(
+      //         title: Text(item.number),
+      //       ),
+      //       // isExpanded: item.isExpanded,
+      //     );
+      //   }).toList(),
+      // );
     }
 
     return Scaffold(
@@ -207,25 +277,7 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
               SizedBox(height: 6),
               Subtitle('Mau membayar dimana?'),
 
-              /// Method Transfer Bank
-              Container(
-                height: 500,
-                child: ExpandableTheme(
-                  data: ExpandableThemeData(
-                    hasIcon: false,
-                    tapHeaderToExpand: true,
-                    useInkWell: true,
-                  ),
-                  child: ListView(
-                    children: <Widget>[
-                      buildMethodBayarTile('BRI'),
-                      SizedBox(height: 10),
-                      buildMethodBayarTile('BNI'),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 8),
+              _buildPanel(),
 
               SizedBox(height: 30),
               CustomButton(text: 'bayar', route: '/pembayaran'),
@@ -238,7 +290,46 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
   }
 }
 
-const Map<String, dynamic> methodBayarProvider = {
-  'BRI': {'number': '081081081081081', 'name': 'An. Hadi Prayetyo'},
-  'BNI': {'number': '091091091091091', 'name': 'An. Hadi Seseno'},
-};
+List<MetodeBayarClass> metodeBayarList = [
+  MetodeBayarClass(
+    title: 'Bank BRI',
+    number: '091091091',
+    logo: ImageConstants.bankBRILogo,
+    name: 'Ananda Bagus',
+  ),
+  MetodeBayarClass(
+    title: 'Bank BCA',
+    number: '091091091',
+    logo: ImageConstants.bankBCAlogo,
+    name: 'Ananda Bagus',
+  ),
+  MetodeBayarClass(
+    title: 'Bank BNI',
+    number: '091091091',
+    logo: ImageConstants.bankBNIlogo,
+    name: 'Ananda Bagus',
+  ),
+];
+
+class MetodeBayarClass {
+  MetodeBayarClass({
+    required this.title,
+    required this.number,
+    required this.logo,
+    this.name = '',
+  });
+
+  String title;
+  String number;
+  String name;
+  String logo;
+}
+
+// List<Item> generateItems(int numberOfItems) {
+//   return List.generate(numberOfItems, (int index) {
+//     return Item(
+//       headerValue: 'Book $index',
+//       expandedValue: 'Details for Book $index goes here',
+//     );
+//   });
+// }
