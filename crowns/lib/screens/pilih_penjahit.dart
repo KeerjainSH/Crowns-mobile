@@ -1,5 +1,5 @@
-import 'package:crowns/utils/color_constants.dart';
-import 'package:crowns/utils/image_constants.dart';
+import 'package:crowns/utils/constants.dart';
+
 import 'package:crowns/widgets/app_header.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -57,37 +57,42 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
   Padding tile() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 18),
-      child: ListTile(
-        leading: Container(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  spreadRadius: 2,
-                  color: ColorConstants.middleGrey,
-                  offset: Offset(-2, 1),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(ImageConstants.profilePhoto),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, RouteConstants.detilPesanan);
+        },
+        child: ListTile(
+          leading: Container(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    spreadRadius: 2,
+                    color: ColorConstants.middleGrey,
+                    offset: Offset(-2, 1),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(ImageConstants.profilePhoto),
+              ),
             ),
           ),
-        ),
-        title: Text(
-          'Pak Munir',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
+          title: Text(
+            'Pak Munir',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        subtitle: Text(
-          'Jl. Pagesangan No. 5',
-          style: TextStyle(
-            fontSize: 10,
-            color: ColorConstants.darkGrey,
+          subtitle: Text(
+            'Jl. Pagesangan No. 5',
+            style: TextStyle(
+              fontSize: 10,
+              color: ColorConstants.darkGrey,
+            ),
           ),
         ),
       ),

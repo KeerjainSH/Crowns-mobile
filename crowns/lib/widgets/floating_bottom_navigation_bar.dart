@@ -1,4 +1,5 @@
-import 'package:crowns/utils/color_constants.dart';
+import 'package:crowns/utils/constants.dart';
+
 import 'package:flutter/material.dart';
 
 typedef Widget ItemBuilder(BuildContext context, FloatingNavbarItem items);

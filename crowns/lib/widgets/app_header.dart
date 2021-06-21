@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:crowns/utils/image_constants.dart';
+import 'package:crowns/utils/constants.dart';
 
 class AppHeader extends StatelessWidget {
   @override

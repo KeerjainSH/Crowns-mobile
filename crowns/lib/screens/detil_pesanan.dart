@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:crowns/utils/color_constants.dart';
-import 'package:crowns/utils/image_constants.dart';
+import 'package:crowns/utils/constants.dart';
+
 import 'package:flutter/services.dart';
 
 class DetilPesananPage extends StatefulWidget {
@@ -248,7 +248,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/isi-alamat');
+                    Navigator.pushNamed(context, RouteConstants.isiAlamat);
                   },
                   child: Text(
                     'pesan',

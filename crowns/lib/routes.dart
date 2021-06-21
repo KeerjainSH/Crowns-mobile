@@ -1,3 +1,4 @@
+import 'package:crowns/screens/menunggu-konfirmasi.dart';
 import 'package:crowns/screens/pilih_penjahit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,30 +11,31 @@ import 'package:crowns/screens/detil_pesanan.dart';
 import 'package:crowns/screens/isi_alamat.dart';
 import 'package:crowns/screens/detil_pembayaran.dart';
 import 'package:crowns/screens/pembayaran.dart';
+import 'package:crowns/utils/constants.dart';
 
 class CustomRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case RouteConstants.login:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case '/login':
-        return MaterialPageRoute(builder: (_) => LoginScreen());
-      case '/register':
+      case RouteConstants.register:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
-      case '/home':
+      case RouteConstants.landingPage:
         return MaterialPageRoute(builder: (_) => LandingPage());
-      case '/catalog':
+      case RouteConstants.catalog:
         return MaterialPageRoute(builder: (_) => CataloPage());
-      case '/detil-pesanan':
+      case RouteConstants.detilPesanan:
         return MaterialPageRoute(builder: (_) => DetilPesananPage());
-      case '/isi-alamat':
+      case RouteConstants.isiAlamat:
         return MaterialPageRoute(builder: (_) => IsiAlamatPage());
-      case '/detil-pembayaran':
+      case RouteConstants.detilPembayaran:
         return MaterialPageRoute(builder: (_) => DetilPembayaranPage());
-      case '/pembayaran':
+      case RouteConstants.pembayarn:
         return MaterialPageRoute(builder: (_) => PembayaranPage());
-      case '/pilih-penjahit':
+      case RouteConstants.pilihPenjahit:
         return MaterialPageRoute(builder: (_) => PilihPenjahitScreen());
+      case RouteConstants.menungguKonfirmasi:
+        return MaterialPageRoute(builder: (_) => MenungguKonfirmasiScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 
-import 'package:crowns/utils/image_constants.dart';
+import 'package:crowns/utils/constants.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class _LandingPageState extends State<LandingPage> {
           SizedBox(height: 8),
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/catalog');
+              Navigator.pushNamed(context, RouteConstants.catalog);
             },
             child: Image.asset(
               ImageConstants.jahitSeakarangBanner,

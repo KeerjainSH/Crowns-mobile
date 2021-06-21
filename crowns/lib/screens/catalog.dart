@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 
 import 'package:crowns/widgets/app_header.dart';
-import 'package:crowns/utils/color_constants.dart';
-import 'package:crowns/utils/image_constants.dart';
+import 'package:crowns/utils/constants.dart';
 
 class CataloPage extends StatefulWidget {
   @override
@@ -42,7 +41,7 @@ class _CataloPageState extends State<CataloPage> {
                 ),
               ),
             ),
-            SizedBox(height: 6),
+
             Container(
               padding: EdgeInsets.only(left: 32),
               child: Align(
@@ -134,7 +133,7 @@ class CatalogImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, '/detil-pesanan');
+            Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
           },
           child: Image.asset(ImageConstants.pestaProduct1),
         ),
