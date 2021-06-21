@@ -70,31 +70,28 @@ Container buildHeadlineSub(String text) {
   );
 }
 
-Container buildButton(BuildContext context, String text, String route) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 23),
-    child: ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        width: 125,
-        height: 40,
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-          primary: ColorConstants.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(180.0),
-          ),
+ConstrainedBox buildButton(BuildContext context, String text, String route) {
+  return ConstrainedBox(
+    constraints: BoxConstraints.tightFor(
+      width: 125,
+      height: 40,
+    ),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        textStyle: TextStyle(fontFamily: 'SFProDisplay'),
+        primary: ColorConstants.primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(180.0),
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, route);
-        },
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
         ),
       ),
     ),
