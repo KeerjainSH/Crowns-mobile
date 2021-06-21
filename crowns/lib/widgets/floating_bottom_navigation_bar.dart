@@ -84,8 +84,8 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
                 color: widget.backgroundColor,
                 boxShadow: [
                   BoxShadow(
-                    spreadRadius: 3,
-                    color: ColorConstants.grey,
+                    blurRadius: 1,
+                    color: ColorConstants.middleGrey,
                     offset: Offset(-1, 2),
                   ),
                 ],

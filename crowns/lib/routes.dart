@@ -1,5 +1,3 @@
-import 'package:crowns/screens/menunggu-konfirmasi.dart';
-import 'package:crowns/screens/pilih_penjahit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +9,9 @@ import 'package:crowns/screens/detil_pesanan.dart';
 import 'package:crowns/screens/isi_alamat.dart';
 import 'package:crowns/screens/detil_pembayaran.dart';
 import 'package:crowns/screens/pembayaran.dart';
+import 'package:crowns/screens/menunggu-konfirmasi.dart';
+import 'package:crowns/screens/pilih_penjahit.dart';
+import 'package:crowns/screens/profile.dart';
 import 'package:crowns/utils/constants.dart';
 
 class CustomRouter {
@@ -36,6 +37,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => PilihPenjahitScreen());
       case RouteConstants.menungguKonfirmasi:
         return MaterialPageRoute(builder: (_) => MenungguKonfirmasiScreen());
+      case RouteConstants.profile:
+        return MaterialPageRoute(builder: (_) => ProfileScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

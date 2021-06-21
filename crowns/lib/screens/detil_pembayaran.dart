@@ -1,10 +1,7 @@
-import 'package:crowns/widgets/app_header.dart';
-import 'package:crowns/widgets/custom_button.dart';
-import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:crowns/widgets/texts.dart';
-
+import 'package:crowns/widgets/custom_button.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:crowns/utils/constants.dart';
 
 class DetilPembayaranPage extends StatefulWidget {
@@ -104,11 +101,28 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
         ),
       ],
     );
+    final detilPembayaran = Column(
+      children: [
+        detilPembayaranInfo,
+        SizedBox(height: 6),
+        Container(
+          color: ColorConstants.middleGrey,
+          height: 1,
+          width: double.infinity,
+        ),
 
-    Widget _buildPanel() {
+        /// Detil Pembayaran Total
+        SizedBox(height: 3),
+        detilPembayaranTotal,
+      ],
+    );
+
+    Container _buildPanel() {
       return Container(
+        padding: EdgeInsets.symmetric(horizontal: 32),
         height: 300,
         child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           key: Key(_selected.toString()),
           itemCount: metodeBayarList.length,
           itemBuilder: (context, i) {
@@ -183,67 +197,16 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
           },
         ),
       );
-
-      // return ExpansionPanelList.radio(
-      //   initialOpenPanelValue: 0,
-      //   dividerColor: Colors.transparent,
-      //   elevation: 0,
-      //   expandedHeaderPadding: EdgeInsets.all(0),
-      //   expansionCallback: (int index, bool isExpanded) {
-      //     setState(() {
-      //       metodeBayarList[index].isExpanded = !isExpanded;
-      //     });
-      //   },
-      //   children: metodeBayarList.map<ExpansionPanel>((MetodeBayarClass item) {
-      //     return ExpansionPanelRadio(
-      //       value: item.id,
-      //       canTapOnHeader: true,
-      //       headerBuilder: (BuildContext context, bool isExpanded) {
-      //         // return ListTile(
-      //         //   title: Text(item.title),
-      //         // );
-      //         return Container(
-      //           decoration: BoxDecoration(
-      //             color: ColorConstants.grey,
-      //             borderRadius: BorderRadius.circular(8),
-      //           ),
-      //           height: 25,
-      //           width: MediaQuery.of(context).size.width - 64,
-      //           child: Row(
-      //             children: [
-      //               SizedBox(width: 8),
-      //               Container(
-      //                 height: 10,
-      //                 width: 10,
-      //                 decoration: BoxDecoration(
-      //                   color: ColorConstants.darkGrey,
-      //                   shape: BoxShape.circle,
-      //                 ),
-      //               ),
-      //               SizedBox(width: 12),
-      //               _buildText12(item.title),
-      //             ],
-      //           ),
-      //         );
-      //       },
-      //       body: ListTile(
-      //         title: Text(item.number),
-      //       ),
-      //       // isExpanded: item.isExpanded,
-      //     );
-      //   }).toList(),
-      // );
     }
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             children: [
               SizedBox(height: 41),
-              AppHeader(),
+              appHeader,
               SizedBox(height: 36),
 
               /// Show image progress bar
@@ -253,29 +216,21 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
               ),
               SizedBox(height: 24),
 
-              Headline('Pembayaran'),
+              buildHeadline('Pembayaran'),
               SizedBox(height: 6),
-              Subtitle('Estimasi harga yang harus dibayar'),
+              buildHeadlineSub('Estimasi harga yang harus dibayar'),
               SizedBox(height: 20),
 
-              // Detil Pembayaran Info
-              detilPembayaranInfo,
-              SizedBox(height: 6),
-              Container(
-                color: ColorConstants.middleGrey,
-                height: 1,
-                width: double.infinity,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: detilPembayaran,
               ),
-
-              /// Detil Pembayaran Total
-              SizedBox(height: 3),
-              detilPembayaranTotal,
               SizedBox(height: 47),
               buildButton(context, 'tawar', RouteConstants.detilPembayaran),
               SizedBox(height: 36),
-              Headline('Metode'),
+              buildHeadline('Metode'),
               SizedBox(height: 6),
-              Subtitle('Mau membayar dimana?'),
+              buildHeadlineSub('Mau membayar dimana?'),
 
               _buildPanel(),
 

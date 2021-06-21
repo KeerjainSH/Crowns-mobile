@@ -1,11 +1,8 @@
-import 'package:crowns/models/user.dart';
 import 'package:crowns/provider/auth_provider.dart';
-import 'package:crowns/provider/user_provider.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/utils/constants.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

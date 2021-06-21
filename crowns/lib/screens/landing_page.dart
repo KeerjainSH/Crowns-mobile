@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
-
 import 'package:crowns/utils/constants.dart';
 
 class LandingPage extends StatefulWidget {

@@ -1,13 +1,9 @@
-import 'package:crowns/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:crowns/widgets/texts.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:crowns/utils/constants.dart';
-
 import 'package:crowns/widgets/custom_button.dart';
 
 class PembayaranPage extends StatefulWidget {
@@ -65,9 +61,9 @@ class _PembayaranPageState extends State<PembayaranPage> {
         /// Please comment this
         child: Column(
           children: [
-            Headline('Pembayaran'),
+            buildHeadline('Pembayaran'),
             SizedBox(height: 6),
-            Subtitle('Estimasi harga yang harus dibayar'),
+            buildHeadlineSub('Estimasi harga yang harus dibayar'),
             SizedBox(height: 20),
 
             // Detil Pembayaran Info

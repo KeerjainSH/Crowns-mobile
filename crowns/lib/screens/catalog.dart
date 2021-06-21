@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
-
-import 'package:crowns/widgets/app_header.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:crowns/utils/constants.dart';
 
 class CataloPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _CataloPageState extends State<CataloPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 41),
-            AppHeader(),
+            appHeader,
             SizedBox(height: 36),
 
             /// Show image progress bar

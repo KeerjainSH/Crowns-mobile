@@ -2,12 +2,6 @@ import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:crowns/widgets/app_header.dart';
-import 'package:crowns/widgets/form_label.dart';
-import 'package:crowns/widgets/custom_text_field.dart';
-import 'package:crowns/widgets/sub_form_label.dart';
-import 'package:crowns/widgets/custom_button.dart';
-
 import 'package:crowns/utils/constants.dart';
 
 class IsiAlamatPage extends StatefulWidget {
@@ -19,6 +13,30 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
   int? _state = 1;
   DateTime? selectedDate = DateTime.now();
   TimeOfDay? selectedTime = TimeOfDay.now();
+
+  Text buildSubFormLabel(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 13,
+        color: ColorConstants.darkGrey,
+      ),
+    );
+  }
+
+  Align buildFormLabel(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
 
   buildMaterialDatePicker(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -63,6 +81,32 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
       setState(() {
         selectedTime = pickedTime;
       });
+  }
+
+  Container buildTextField() {
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorConstants.grey,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      width: double.infinity,
+      padding: EdgeInsets.only(left: 11),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: TextField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+          ),
+          keyboardType: TextInputType.multiline,
+          minLines: 4,
+          maxLines: null,
+        ),
+      ),
+    );
   }
 
   @override
@@ -209,7 +253,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 15),
-        FormLabel('Alamat'),
+        buildFormLabel('Alamat'),
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
@@ -233,7 +277,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 5),
-        FormLabel('Kecamatan'),
+        buildFormLabel('Kecamatan'),
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
@@ -257,7 +301,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 8),
-        FormLabel('Kota'),
+        buildFormLabel('Kota'),
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
@@ -281,7 +325,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 8),
-        FormLabel('Kode Pos'),
+        buildFormLabel('Kode Pos'),
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
@@ -305,11 +349,11 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 8),
-        FormLabel('Instruksi penjemputan'),
+        buildFormLabel('Instruksi penjemputan'),
         SizedBox(height: 5),
-        CustomTextField(5),
+        buildTextField(),
         SizedBox(height: 8),
-        FormLabel('Waktu Penjemputan'),
+        buildFormLabel('Waktu Penjemputan'),
         SizedBox(height: 6),
         Container(
           padding: EdgeInsets.only(
@@ -327,7 +371,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: SubFormLabel('Tanggal'),
+                        child: buildSubFormLabel('Tanggal'),
                       ),
                       SizedBox(height: 2),
                       InkWell(
@@ -359,7 +403,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: SubFormLabel('Jam'),
+                        child: buildSubFormLabel('Jam'),
                       ),
                       SizedBox(height: 2),
                       InkWell(
@@ -420,7 +464,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 10),
-        FormLabel('Kelurahan'),
+        buildFormLabel('Kelurahan'),
         SizedBox(height: 6),
         Align(
           alignment: Alignment.centerLeft,
@@ -433,7 +477,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 10),
-        FormLabel('Kecamatan'),
+        buildFormLabel('Kecamatan'),
         SizedBox(height: 6),
         Align(
           alignment: Alignment.centerLeft,
@@ -446,7 +490,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 10),
-        FormLabel('Kota'),
+        buildFormLabel('Kota'),
         SizedBox(height: 6),
         Align(
           alignment: Alignment.centerLeft,
@@ -459,7 +503,7 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
           ),
         ),
         SizedBox(height: 10),
-        FormLabel('No Telepon'),
+        buildFormLabel('No Telepon'),
         SizedBox(height: 6),
         Align(
           alignment: Alignment.centerLeft,
@@ -477,11 +521,10 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             children: [
               SizedBox(height: 41),
-              AppHeader(),
+              appHeader,
               SizedBox(height: 36),
 
               /// Show image progress bar
@@ -493,7 +536,10 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
 
               buttonChoice,
               SizedBox(height: 22),
-              _state == 1 ? diambilContent : antarSendiriContent,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: _state == 1 ? diambilContent : antarSendiriContent,
+              ),
               SizedBox(height: 30),
               buildButton(
                   context, 'berikutnya', RouteConstants.detilPembayaran),

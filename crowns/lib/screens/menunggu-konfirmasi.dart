@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/widgets.dart';
-
 import 'package:crowns/utils/constants.dart';
 
 class MenungguKonfirmasiScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class MenungguKonfirmasiScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildButton(context, 'Kembali', RouteConstants.landingPage),
+                    buildButton(context, 'Home', RouteConstants.landingPage),
                     SizedBox(width: 20),
                     buildButton(context, 'Cart', RouteConstants.landingPage),
                   ],
