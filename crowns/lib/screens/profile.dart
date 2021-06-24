@@ -89,30 +89,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
       color: ColorConstants.darkGrey,
     );
 
-    final aturProfile = Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            width: 1,
-            color: ColorConstants.darkGrey,
-          ),
-          bottom: BorderSide(
-            width: 1,
-            color: ColorConstants.darkGrey,
+    final aturProfile = InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, RouteConstants.editProfile);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              width: 1,
+              color: ColorConstants.darkGrey,
+            ),
+            bottom: BorderSide(
+              width: 1,
+              color: ColorConstants.darkGrey,
+            ),
           ),
         ),
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
-      width: MediaQuery.of(context).size.width * 0.87,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'Atur Profil',
-          style: TextStyle(
-            color: ColorConstants.darkGrey,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        width: MediaQuery.of(context).size.width * 0.87,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Atur Profil',
+            style: TextStyle(
+              color: ColorConstants.darkGrey,
+            ),
           ),
         ),
       ),

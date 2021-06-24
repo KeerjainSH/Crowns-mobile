@@ -1,6 +1,7 @@
 import 'package:crowns/provider/auth_provider.dart';
 import 'package:crowns/provider/user_provider.dart';
 import 'package:crowns/screens/auth/login.dart';
+import 'package:crowns/screens/pesanan.dart';
 import 'package:crowns/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'SFProDisplay',
         ),
-        home: ProfileScreen(),
+        home: PesananScreen(),
       ),
     );
   }

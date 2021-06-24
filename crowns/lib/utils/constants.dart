@@ -63,4 +63,5 @@ class RouteConstants {
   static const String pilihPenjahit = '/pilih-penjahit';
   static const String menungguKonfirmasi = '/menunggu-konfirmasi';
   static const String profile = '/profile';
+  static const String editProfile = '/edit-profile';
 }

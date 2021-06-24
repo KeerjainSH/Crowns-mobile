@@ -4,12 +4,12 @@ import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:crowns/utils/constants.dart';
 
-class CataloPage extends StatefulWidget {
+class CatalogScreen extends StatefulWidget {
   @override
-  _CataloPageState createState() => _CataloPageState();
+  _CatalogScreenState createState() => _CatalogScreenState();
 }
 
-class _CataloPageState extends State<CataloPage> {
+class _CatalogScreenState extends State<CatalogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
