@@ -2,6 +2,8 @@ import 'package:crowns/utils/constants.dart';
 
 import 'package:flutter/material.dart';
 
+import 'floating_bottom_navigation_bar.dart';
+
 Container appHeader = Container(
   padding: EdgeInsets.symmetric(horizontal: 32),
   width: double.infinity,
@@ -9,6 +11,25 @@ Container appHeader = Container(
     ImageConstants.appHeader,
     fit: BoxFit.cover,
   ),
+);
+
+FloatingNavbar navbar = FloatingNavbar(
+  borderRadius: 90,
+  currentIndex: 0,
+  items: [
+    FloatingNavbarItem(
+      imgPath: ImageConstants.homeIcon,
+      route: RouteConstants.landingPage,
+    ),
+    FloatingNavbarItem(
+      imgPath: ImageConstants.shopIcon,
+      route: RouteConstants.pesanan,
+    ),
+    FloatingNavbarItem(
+      imgPath: ImageConstants.profileIcon,
+      route: RouteConstants.profile,
+    ),
+  ],
 );
 
 InputDecoration buildInputDecoration(String hint) {

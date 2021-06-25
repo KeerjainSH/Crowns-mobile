@@ -63,16 +63,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: FloatingNavbar(
-        borderRadius: 90,
-        onTap: (int val) => setState(() {}),
-        currentIndex: 0,
-        items: [
-          FloatingNavbarItem(imgPath: ImageConstants.homeIcon),
-          FloatingNavbarItem(imgPath: ImageConstants.shopIcon),
-          FloatingNavbarItem(imgPath: ImageConstants.profileIcon),
-        ],
-      ),
+      bottomNavigationBar: navbar,
     );
   }
 }

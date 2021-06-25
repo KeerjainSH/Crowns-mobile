@@ -1,4 +1,5 @@
 import 'package:crowns/utils/constants.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -174,6 +175,7 @@ class _PesananScreenState extends State<PesananScreen> {
             ),
           ),
         ),
+        bottomNavigationBar: navbar,
       ),
     );
   }

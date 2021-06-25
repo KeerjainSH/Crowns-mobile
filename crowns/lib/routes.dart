@@ -1,4 +1,5 @@
 import 'package:crowns/screens/edit_profile.dart';
+import 'package:crowns/screens/pesanan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case RouteConstants.editProfile:
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
+      case RouteConstants.pesanan:
+        return MaterialPageRoute(builder: (_) => PesananScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

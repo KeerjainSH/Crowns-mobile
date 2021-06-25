@@ -1,3 +1,4 @@
+import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/utils/constants.dart';
@@ -142,16 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: FloatingNavbar(
-          borderRadius: 90,
-          onTap: (int val) => setState(() {}),
-          currentIndex: 0,
-          items: [
-            FloatingNavbarItem(imgPath: ImageConstants.homeIcon),
-            FloatingNavbarItem(imgPath: ImageConstants.shopIcon),
-            FloatingNavbarItem(imgPath: ImageConstants.profileIcon),
-          ],
-        ),
+        bottomNavigationBar: navbar,
       ),
     );
   }

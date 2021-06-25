@@ -15,18 +15,6 @@ class _PembayaranPageState extends State<PembayaranPage> {
   File? _image;
   final picker = ImagePicker();
 
-  Future getImageFromCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
   Future getImageFromGallery() async {
     print('getImage');
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -57,8 +45,6 @@ class _PembayaranPageState extends State<PembayaranPage> {
           ],
         ),
         padding: EdgeInsets.all(12),
-
-        /// Please comment this
         child: Column(
           children: [
             buildHeadline('Pembayaran'),

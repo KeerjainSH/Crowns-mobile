@@ -1,13 +1,11 @@
-import 'package:crowns/utils/constants.dart';
-
 import 'package:flutter/material.dart';
+import 'package:crowns/utils/constants.dart';
 
 typedef Widget ItemBuilder(BuildContext context, FloatingNavbarItem items);
 
 class FloatingNavbar extends StatefulWidget {
   final List<FloatingNavbarItem>? items;
   final int? currentIndex;
-  final void Function(int val)? onTap;
   final Color? selectedBackgroundColor;
   final Color? selectedItemColor;
   final Color? unselectedItemColor;
@@ -26,7 +24,6 @@ class FloatingNavbar extends StatefulWidget {
     Key? key,
     @required this.items,
     @required this.currentIndex,
-    @required this.onTap,
     ItemBuilder? itemBuilder,
     this.backgroundColor = Colors.white,
     this.selectedBackgroundColor = Colors.white,
@@ -55,7 +52,6 @@ class FloatingNavbar extends StatefulWidget {
               iconSize: iconSize,
               itemBorderRadius: itemBorderRadius,
               items: items,
-              onTap: onTap,
               selectedBackgroundColor: selectedBackgroundColor,
             ),
         super(key: key);
@@ -135,19 +131,18 @@ ItemBuilder _defaultItemBuilder({
                       ? selectedBackgroundColor
                       : backgroundColor,
                   borderRadius: BorderRadius.circular(itemBorderRadius!)),
-              child: InkWell(
-                onTap: () {
-                  onTap!(items.indexOf(item));
-                },
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
+              child: Container(
+                padding: EdgeInsets.all(4),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, item.route!);
+                      },
+                      child: Container(
                         height: 24,
                         width: 24,
                         child: Image.asset(
@@ -157,8 +152,8 @@ ItemBuilder _defaultItemBuilder({
                               : unselectedItemColor,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -170,9 +165,11 @@ ItemBuilder _defaultItemBuilder({
 class FloatingNavbarItem {
   final String? imgPath;
   final Widget? customWidget;
+  final String? route;
 
   FloatingNavbarItem({
     @required this.imgPath,
+    @required this.route,
     this.customWidget = const SizedBox(),
   });
 }
