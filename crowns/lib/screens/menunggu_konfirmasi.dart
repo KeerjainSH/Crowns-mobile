@@ -1,3 +1,4 @@
+import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/widgets.dart';
@@ -47,9 +48,17 @@ class MenungguKonfirmasiScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildButton(context, 'Home', RouteConstants.landingPage),
+                    CustomButton(
+                      text: 'Home',
+                      callback: () => Navigator.pushNamed(
+                          context, RouteConstants.landingPage),
+                    ),
                     SizedBox(width: 20),
-                    buildButton(context, 'Cart', RouteConstants.landingPage),
+                    CustomButton(
+                      text: 'Cart',
+                      callback: () =>
+                          Navigator.pushNamed(context, RouteConstants.pesanan),
+                    ),
                   ],
                 ),
                 SizedBox(height: 100),

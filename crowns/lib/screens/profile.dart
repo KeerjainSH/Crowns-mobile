@@ -137,7 +137,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 buildProfileHeader(),
                 aturProfile,
                 SizedBox(height: 20),
-                CustomButton(text: 'logout', route: RouteConstants.profile),
+                CustomButton(
+                  text: 'logout',
+                  callback: () =>
+                      Navigator.pushNamed(context, RouteConstants.profile),
+                ),
                 SizedBox(height: 50),
               ],
             ),

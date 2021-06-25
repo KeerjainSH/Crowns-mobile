@@ -4,14 +4,14 @@ import 'package:crowns/utils/constants.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final String route;
+  final void Function() callback;
 
-  CustomButton({required this.text, required this.route});
+  CustomButton({required this.text, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 23),
+      // padding: EdgeInsets.symmetric(horizontal: 23),
       child: ConstrainedBox(
         constraints: BoxConstraints.tightFor(
           width: 125,
@@ -25,9 +25,7 @@ class CustomButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(180.0),
             ),
           ),
-          onPressed: () {
-            Navigator.pushNamed(context, route);
-          },
+          onPressed: callback,
           child: Text(
             text,
             style: TextStyle(

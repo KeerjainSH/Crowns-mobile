@@ -1,3 +1,4 @@
+import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -541,8 +542,13 @@ class _IsiAlamatPageState extends State<IsiAlamatPage> {
                 child: _state == 1 ? diambilContent : antarSendiriContent,
               ),
               SizedBox(height: 30),
-              buildButton(
-                  context, 'berikutnya', RouteConstants.detilPembayaran),
+              CustomButton(
+                text: 'berikutnya',
+                callback: () => Navigator.pushNamed(
+                  context,
+                  RouteConstants.detilPembayaran,
+                ),
+              ),
               SizedBox(height: 40),
             ],
           ),

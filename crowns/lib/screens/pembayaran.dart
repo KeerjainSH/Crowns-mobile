@@ -15,6 +15,8 @@ class _PembayaranPageState extends State<PembayaranPage> {
   File? _image;
   final picker = ImagePicker();
 
+  String _state = 'starting';
+
   Future getImageFromGallery() async {
     print('getImage');
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -22,6 +24,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        _state = 'uploaded';
       } else {
         print('No image selected.');
       }
@@ -175,7 +178,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-            primary: ColorConstants.softBlue,
+            primary: ColorConstants.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(180.0),
             ),
@@ -252,10 +255,13 @@ class _PembayaranPageState extends State<PembayaranPage> {
                     ),
             ),
             SizedBox(height: 34),
-            CustomButton(
-              text: 'simpan',
-              route: RouteConstants.menungguKonfirmasi,
-            ),
+            _state == 'uploaded'
+                ? CustomButton(
+                    text: 'simpan',
+                    callback: () => Navigator.pushNamed(
+                        context, RouteConstants.menungguKonfirmasi),
+                  )
+                : SizedBox.shrink(),
             SizedBox(height: 50),
           ],
         ),

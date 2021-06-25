@@ -101,6 +101,7 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
         ),
       ],
     );
+
     final detilPembayaran = Column(
       children: [
         detilPembayaranInfo,
@@ -225,8 +226,16 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
                 padding: EdgeInsets.symmetric(horizontal: 32),
                 child: detilPembayaran,
               ),
+
               SizedBox(height: 47),
-              buildButton(context, 'tawar', RouteConstants.detilPembayaran),
+              CustomButton(
+                text: 'tawar',
+                callback: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TawarDialog();
+                    }),
+              ),
               SizedBox(height: 36),
               buildHeadline('Metode'),
               SizedBox(height: 6),
@@ -235,10 +244,146 @@ class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
               _buildPanel(),
 
               SizedBox(height: 30),
-              CustomButton(text: 'bayar', route: '/pembayaran'),
+              CustomButton(
+                text: 'bayar',
+                callback: () => Navigator.pushNamed(context, '/pembayaran'),
+              ),
               SizedBox(height: 40),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TawarDialog extends StatefulWidget {
+  @override
+  _TawarDialogState createState() => _TawarDialogState();
+}
+
+Align buildDialogTextLabel(String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
+}
+
+class _TawarDialogState extends State<TawarDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Tawar',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(height: 25),
+            buildDialogTextLabel('Harga dari penjahit'),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Biaya:'),
+                  Text('Rp. 440.000'),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            buildDialogTextLabel('Biaya yang ingin kamu tawarkan'),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Harga: '),
+                        Text('Rp. '),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: Text('Hari: '),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(isDense: true),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                margin: EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstants.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Kirim tawaran',
+                    style: TextStyle(
+                      // color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -279,12 +424,3 @@ class MetodeBayarClass {
   String name;
   String logo;
 }
-
-// List<Item> generateItems(int numberOfItems) {
-//   return List.generate(numberOfItems, (int index) {
-//     return Item(
-//       headerValue: 'Book $index',
-//       expandedValue: 'Details for Book $index goes here',
-//     );
-//   });
-// }
