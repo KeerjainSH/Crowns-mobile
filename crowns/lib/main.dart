@@ -1,16 +1,14 @@
-import 'package:crowns/provider/auth/auth_provider.dart';
-import 'package:crowns/provider/catalog/catalog_provider.dart';
-import 'package:crowns/provider/home/home_provider.dart';
-import 'package:crowns/provider/pesanan/desain_custom_provider.dart';
-import 'package:crowns/provider/pesanan/detail_pesanan_provider.dart';
-import 'package:crowns/provider/auth/user_provider.dart';
-import 'package:crowns/screens/auth/login.dart';
-import 'package:crowns/screens/pesanan/pesanan.dart';
-import 'package:crowns/screens/profile/profile.dart';
+import 'package:crowns/modules/auth/providers/auth_provider.dart';
+import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
+import 'package:crowns/modules/home/providers/home_provider.dart';
+import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
+import 'package:crowns/modules/pesanan/providers/detail_pesanan_provider.dart';
+import 'package:crowns/modules/auth/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:crowns/config/themes/app_theme.dart';
 
-import 'package:crowns/routes.dart';
+import 'package:crowns/config/routes/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,10 +30,24 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         onGenerateRoute: CustomRouter.generateRoute,
-        theme: ThemeData(
-          fontFamily: 'SFProDisplay',
+        theme: appTheme,
+        home: Screen(),
+      ),
+    );
+  }
+}
+
+class Screen extends StatelessWidget {
+  const Screen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Hello there!',
+          style: Theme.of(context).textTheme.button,
         ),
-        home: PesananScreen(),
       ),
     );
   }

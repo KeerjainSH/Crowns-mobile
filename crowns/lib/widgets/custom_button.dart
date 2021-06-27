@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:crowns/utils/constants.dart';
+import 'package:crowns/constants/app_constants.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -11,7 +11,6 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.symmetric(horizontal: 23),
       child: ConstrainedBox(
         constraints: BoxConstraints.tightFor(
           width: 125,
