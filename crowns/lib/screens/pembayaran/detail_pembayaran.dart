@@ -4,12 +4,12 @@ import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:crowns/utils/constants.dart';
 
-class DetilPembayaranPage extends StatefulWidget {
+class DetailPembayaranPage extends StatefulWidget {
   @override
-  _DetilPembayaranPageState createState() => _DetilPembayaranPageState();
+  _DetailPembayaranPageState createState() => _DetailPembayaranPageState();
 }
 
-class _DetilPembayaranPageState extends State<DetilPembayaranPage> {
+class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   int _selected = -1;
 
   Widget _buildText12(text) {

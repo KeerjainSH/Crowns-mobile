@@ -10,11 +10,13 @@ class ColorConstants {
   static const Color middleGrey = Color.fromRGBO(196, 196, 196, 1);
 
   static const Color softBlue = Color.fromRGBO(52, 110, 147, 0.2);
+
+  static const Color black = Color.fromRGBO(22, 22, 22, 1);
 }
 
 class ImageConstants {
   static const String appLogo = 'assets/images/logo-app.png';
-  static const String homeHeader = 'assets/images/header-home.png';
+  static const String homeHeader = 'assets/images/header-screens.home.png';
   static const String appHeader = 'assets/images/header-app.png';
   static const String jahitSeakarangBanner =
       'assets/images/banner-jahit-sekarang.png';
@@ -44,7 +46,7 @@ class ImageConstants {
 
   static const String splashScreen = 'assets/images/spalsh-screen.png';
 
-  static const String homeIcon = 'assets/images/icon-home.png';
+  static const String homeIcon = 'assets/images/icon-screens.home.png';
   static const String profileIcon = 'assets/images/icon-profile.png';
   static const String shopIcon = 'assets/images/icon-shop.png';
 

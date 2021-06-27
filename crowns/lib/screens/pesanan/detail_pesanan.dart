@@ -1,98 +1,52 @@
 import 'dart:io';
 
-import 'package:crowns/provider/auth_provider.dart';
+import 'package:crowns/models/desain_custom.dart';
+import 'package:crowns/models/detail_pesanan.dart';
+import 'package:crowns/provider/auth/auth_provider.dart';
+import 'package:crowns/provider/pesanan/detail_pesanan_provider.dart';
+import 'package:crowns/screens/pesanan/upload_desain.dart';
+import 'package:crowns/widgets/custom_button.dart';
+import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/utils/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-class DetilPesananPage extends StatefulWidget {
+class DetailPesananPage extends StatefulWidget {
   @override
-  _DetilPesananPageState createState() => _DetilPesananPageState();
+  _DetailPesananPageState createState() => _DetailPesananPageState();
 }
 
-enum StatusUploadDesain {
-  Starting,
-  DesainSendiri,
-  DesainPenjahit,
-  Uploaded,
-}
-
-class DetailPesanan {
-  String nama;
-  int ukuranLengan;
-  int ukuranLeher;
-  int ukuranPinggang;
-  int tinggiTubuh;
-  int ukuranDada;
-  int BeratBadan;
-  String instruksi;
-
-  DetailPesanan({
-    required this.nama,
-    required this.ukuranDada,
-    required this.ukuranLeher,
-    required this.ukuranLengan,
-    required this.ukuranPinggang,
-    required this.BeratBadan,
-    required this.tinggiTubuh,
-    required this.instruksi,
-  });
-}
-
-class _DetilPesananPageState extends State<DetilPesananPage> {
-  File? _image;
-  final picker = ImagePicker();
+class _DetailPesananPageState extends State<DetailPesananPage> {
+  List<DesainCustom> _imageList = [];
+  int _highlightedImageIndex = 0;
 
   int _count = 1;
 
-  StatusUploadDesain _state = StatusUploadDesain.Starting;
-
-  Future getImageFromGallery() async {
-    print('getImage');
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        _state = StatusUploadDesain.Uploaded;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  DetailPesananStatus _state = DetailPesananStatus.NotChoosen;
 
   @override
   Widget build(BuildContext context) {
+    DetailPesananProvider detailPesananProvider =
+        Provider.of<DetailPesananProvider>(context);
+
     final productPicture = Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18.0),
-        child: _state == StatusUploadDesain.Uploaded
-            ? Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Image.file(
-                      _image!,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: getImageFromGallery,
-                    child: Container(
-                      color: ColorConstants.grey.withOpacity(0.3),
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Center(
-                        child: Icon(Icons.edit),
-                      ),
-                    ),
-                  ),
-                ],
+        child: detailPesananProvider.detailPesananStatus ==
+                DetailPesananStatus.DesainAdded
+            ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Image.file(
+                  detailPesananProvider
+                      .desainCustomList[_highlightedImageIndex].image,
+                  fit: BoxFit.fitHeight,
+                ),
               )
             : Image.asset(
                 ImageConstants.seragamProduc1,
@@ -124,16 +78,29 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Lengan dan Rok Panjang',
-              style: TextStyle(
-                color: ColorConstants.darkGrey,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
+          detailPesananProvider.detailPesananStatus ==
+                  DetailPesananStatus.DesainAdded
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    detailPesananProvider
+                        .desainCustomList[_highlightedImageIndex].description,
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                )
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Lengan dan Rok Panjang',
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -282,8 +249,6 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
             ),
           ),
           SizedBox(height: 15),
-
-          /// Form input detail pesanan
           MediaQuery.removePadding(
             context: context,
             removeTop: true,
@@ -335,7 +300,10 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
         borderRadius: BorderRadius.circular(5),
       ),
       margin: EdgeInsets.symmetric(horizontal: 23),
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 5,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -343,6 +311,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
             flex: 7,
             child: Text(
               'Apakah kamu ingin memakai desain sendiri?',
+              style: TextStyle(fontSize: 16),
             ),
           ),
           Flexible(
@@ -352,10 +321,8 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        _state = StatusUploadDesain.DesainSendiri;
-                      });
-                      print(_state);
+                      detailPesananProvider
+                          .setStatus(DetailPesananStatus.DesainSendiri);
                     },
                     child: Text('Ya'),
                     style: ElevatedButton.styleFrom(
@@ -370,13 +337,13 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        _state = StatusUploadDesain.DesainPenjahit;
+                        _state = DetailPesananStatus.DesainPenjahit;
                       });
                     },
                     child: Text('Tidak'),
                     style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-                      primary: ColorConstants.softBlue,
+                      primary: ColorConstants.darkGrey,
                       visualDensity: VisualDensity.compact,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -390,6 +357,37 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
         ],
       ),
     );
+
+    Container _buildCatalogImage(File imageItem, int index) {
+      return Container(
+        margin: EdgeInsets.only(right: 15),
+        width: 83,
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              print('highlight');
+              _highlightedImageIndex = index;
+            });
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: Image.file(
+              detailPesananProvider.desainCustomList[index].image,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      );
+    }
+
+    final showDesainDialog = () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UploadDesainDialog();
+        },
+      );
+    };
 
     final uploadDesain = Container(
       decoration: BoxDecoration(
@@ -412,7 +410,7 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
               child: Container(
                 margin: EdgeInsets.only(right: 10),
                 child: ElevatedButton(
-                  onPressed: getImageFromGallery,
+                  onPressed: showDesainDialog,
                   child: Text('Pilih Gambar'),
                   style: ElevatedButton.styleFrom(
                     textStyle: TextStyle(fontFamily: 'SFProDisplay'),
@@ -430,33 +428,88 @@ class _DetilPesananPageState extends State<DetilPesananPage> {
       ),
     );
 
-    // final uploadedImage = Container(
-    //   child: Image.file(_image!),
-    // );
+    final catalogAddImage = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        color: ColorConstants.grey,
+      ),
+      margin: EdgeInsets.only(right: 15),
+      width: 83,
+      child: InkWell(
+        // onTap: getImageFromGallery,
+        onTap: showDesainDialog,
+        child: Center(
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
 
-    return Scaffold(
-      backgroundColor: ColorConstants.backgroundColor,
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: [
-            header,
-            SizedBox(height: 15),
-            _state == StatusUploadDesain.Starting
-                ? question
-                : SizedBox.shrink(),
-            _state == StatusUploadDesain.DesainSendiri
-                ? uploadDesain
-                : SizedBox.shrink(),
-            // _state == StatusUploadDesain.Uploaded
-            //     ? uploadedImage
-            //     : SizedBox.shrink(),
-            SizedBox(height: 15),
-            form,
-            SizedBox(height: 25),
-            submitButton,
-            SizedBox(height: 100),
-          ],
+    final uploadedImages = Column(
+      children: [
+        SizedBox(height: 14),
+        Container(
+          padding: EdgeInsets.only(left: 23),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Desain Kamu',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          height: 106,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [Container(child: SizedBox(width: 23))] +
+                List.generate(
+                  detailPesananProvider.desainCustomList.length,
+                  (index) => _buildCatalogImage(
+                    detailPesananProvider.desainCustomList[index].image,
+                    index,
+                  ),
+                ) +
+                [Container(child: catalogAddImage)],
+          ),
+        ),
+      ],
+    );
+
+    return Provider(
+      lazy: false,
+      create: (context) {},
+      dispose: (context, data) => detailPesananProvider.resetDetailPesanan(),
+      child: Scaffold(
+        backgroundColor: ColorConstants.backgroundColor,
+        body: SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Column(
+            children: [
+              header,
+              SizedBox(height: 15),
+              detailPesananProvider.detailPesananStatus ==
+                      DetailPesananStatus.NotChoosen
+                  ? question
+                  : SizedBox.shrink(),
+              detailPesananProvider.detailPesananStatus ==
+                      DetailPesananStatus.DesainSendiri
+                  ? uploadDesain
+                  : SizedBox.shrink(),
+              detailPesananProvider.detailPesananStatus ==
+                      DetailPesananStatus.DesainAdded
+                  ? uploadedImages
+                  : SizedBox.shrink(),
+              SizedBox(height: 15),
+              form,
+              SizedBox(height: 25),
+              submitButton,
+              SizedBox(height: 100),
+            ],
+          ),
         ),
       ),
     );

@@ -1,19 +1,19 @@
-import 'package:crowns/screens/edit_profile.dart';
-import 'package:crowns/screens/pesanan.dart';
+import 'package:crowns/screens/auth/register.dart';
+import 'package:crowns/screens/profile/edit_profile.dart';
+import 'package:crowns/screens/pesanan/pesanan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/screens/auth/login.dart';
-import 'package:crowns/screens/auth/register.dart';
-import 'package:crowns/screens/landing_page.dart';
-import 'package:crowns/screens/catalog.dart';
-import 'package:crowns/screens/detil_pesanan.dart';
-import 'package:crowns/screens/isi_alamat.dart';
-import 'package:crowns/screens/detil_pembayaran.dart';
-import 'package:crowns/screens/pembayaran.dart';
-import 'package:crowns/screens/menunggu_konfirmasi.dart';
-import 'package:crowns/screens/pilih_penjahit.dart';
-import 'package:crowns/screens/profile.dart';
+import 'package:crowns/screens/home/home.dart';
+import 'package:crowns/screens/catalog/catalog.dart';
+import 'package:crowns/screens/pesanan/detail_pesanan.dart';
+import 'package:crowns/screens/pesanan/update_alamat.dart';
+import 'package:crowns/screens/pembayaran/detail_pembayaran.dart';
+import 'package:crowns/screens/pembayaran/pembayaran.dart';
+import 'package:crowns/screens/pembayaran/menunggu_konfirmasi.dart';
+import 'package:crowns/screens/pesanan/pilih_penjahit.dart';
+import 'package:crowns/screens/profile/profile.dart';
 import 'package:crowns/utils/constants.dart';
 
 class CustomRouter {
@@ -24,15 +24,15 @@ class CustomRouter {
       case RouteConstants.register:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
       case RouteConstants.landingPage:
-        return MaterialPageRoute(builder: (_) => LandingPage());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case RouteConstants.catalog:
         return MaterialPageRoute(builder: (_) => CatalogScreen());
       case RouteConstants.detilPesanan:
-        return MaterialPageRoute(builder: (_) => DetilPesananPage());
+        return MaterialPageRoute(builder: (_) => DetailPesananPage());
       case RouteConstants.isiAlamat:
-        return MaterialPageRoute(builder: (_) => IsiAlamatPage());
+        return MaterialPageRoute(builder: (_) => UpdateAlamatScreen());
       case RouteConstants.detilPembayaran:
-        return MaterialPageRoute(builder: (_) => DetilPembayaranPage());
+        return MaterialPageRoute(builder: (_) => DetailPembayaranPage());
       case RouteConstants.pembayarn:
         return MaterialPageRoute(builder: (_) => PembayaranPage());
       case RouteConstants.pilihPenjahit:

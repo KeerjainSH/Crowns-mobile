@@ -19,7 +19,6 @@ class CustomButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            textStyle: TextStyle(fontFamily: 'SFProDisplay'),
             primary: ColorConstants.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(180.0),

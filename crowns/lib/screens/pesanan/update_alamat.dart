@@ -5,12 +5,12 @@ import 'package:intl/intl.dart';
 
 import 'package:crowns/utils/constants.dart';
 
-class IsiAlamatPage extends StatefulWidget {
+class UpdateAlamatScreen extends StatefulWidget {
   @override
-  _IsiAlamatPageState createState() => _IsiAlamatPageState();
+  _UpdateAlamatScreenState createState() => _UpdateAlamatScreenState();
 }
 
-class _IsiAlamatPageState extends State<IsiAlamatPage> {
+class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
   int? _state = 1;
   DateTime? selectedDate = DateTime.now();
   TimeOfDay? selectedTime = TimeOfDay.now();

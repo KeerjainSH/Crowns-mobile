@@ -1,8 +1,10 @@
-import 'package:crowns/provider/auth_provider.dart';
-import 'package:crowns/provider/user_provider.dart';
+import 'package:crowns/provider/auth/auth_provider.dart';
+import 'package:crowns/provider/pesanan/desain_custom_provider.dart';
+import 'package:crowns/provider/pesanan/detail_pesanan_provider.dart';
+import 'package:crowns/provider/auth/user_provider.dart';
 import 'package:crowns/screens/auth/login.dart';
-import 'package:crowns/screens/pesanan.dart';
-import 'package:crowns/screens/profile.dart';
+import 'package:crowns/screens/pesanan/pesanan.dart';
+import 'package:crowns/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => DetailPesananProvider()),
+        ChangeNotifierProvider(create: (_) => DesainCustomProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

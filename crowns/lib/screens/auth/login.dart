@@ -1,4 +1,4 @@
-import 'package:crowns/provider/auth_provider.dart';
+import 'package:crowns/provider/auth/auth_provider.dart';
 import 'package:crowns/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 

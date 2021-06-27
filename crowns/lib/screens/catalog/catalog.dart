@@ -12,6 +12,60 @@ class CatalogScreen extends StatefulWidget {
 class _CatalogScreenState extends State<CatalogScreen> {
   @override
   Widget build(BuildContext context) {
+    Container _buildCatalogImage() {
+      return Container(
+        margin: EdgeInsets.only(right: 15),
+        width: 83,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
+            },
+            child: Image.asset(ImageConstants.pestaProduct1),
+          ),
+        ),
+      );
+    }
+
+    Column _buildCatalogPerCategory(String text) {
+      return Column(
+        children: [
+          SizedBox(height: 14),
+          Container(
+            padding: EdgeInsets.only(left: 32),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Container(
+            height: 106,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                SizedBox(width: 32),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+                _buildCatalogImage(),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -55,79 +109,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 ),
               ),
             ),
-            CatalogPerCategory(category: 'Seragam Sekolah'),
-            CatalogPerCategory(category: 'Busana Pesta'),
-            CatalogPerCategory(category: 'Busana Formal'),
+            _buildCatalogPerCategory('Seragam Sekolah'),
+            _buildCatalogPerCategory('Busana Pesta'),
+            _buildCatalogPerCategory('Busana Formal'),
             SizedBox(height: 32),
           ],
         ),
       ),
       extendBody: true,
       bottomNavigationBar: navbar,
-    );
-  }
-}
-
-class CatalogPerCategory extends StatelessWidget {
-  final String category;
-
-  CatalogPerCategory({required this.category});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 14),
-        Container(
-          padding: EdgeInsets.only(left: 32),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              category,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 5),
-        Container(
-          height: 106,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              SizedBox(width: 32),
-              CatalogImage(),
-              CatalogImage(),
-              CatalogImage(),
-              CatalogImage(),
-              CatalogImage(),
-              CatalogImage(),
-              CatalogImage(),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class CatalogImage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 15),
-      width: 83,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
-          },
-          child: Image.asset(ImageConstants.pestaProduct1),
-        ),
-      ),
     );
   }
 }

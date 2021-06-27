@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:crowns/config/api.dart';
 import 'package:crowns/utils/shared_preferences.dart';
 
-enum Status {
+enum AuthStatus {
   NotLoggedIn,
   NotRegistered,
   LoggedIn,
@@ -18,11 +18,11 @@ enum Status {
 }
 
 class AuthProvider with ChangeNotifier {
-  Status _loggedInStatus = Status.NotLoggedIn;
-  Status _registeredInStatus = Status.NotRegistered;
+  AuthStatus _loggedInStatus = AuthStatus.NotLoggedIn;
+  AuthStatus _registeredInStatus = AuthStatus.NotRegistered;
 
-  Status get loggedInStatus => _loggedInStatus;
-  Status get registeredInStatus => _registeredInStatus;
+  AuthStatus get loggedInStatus => _loggedInStatus;
+  AuthStatus get registeredInStatus => _registeredInStatus;
 
   Future<Map<String, dynamic>> login(String username, String password) async {
     var result;
@@ -32,7 +32,7 @@ class AuthProvider with ChangeNotifier {
       'password': password
     };
 
-    _loggedInStatus = Status.Authenticating;
+    _loggedInStatus = AuthStatus.Authenticating;
     notifyListeners();
 
     Response response = await post(
@@ -50,10 +50,10 @@ class AuthProvider with ChangeNotifier {
 
       UserPreferences().saveUser(authUser);
 
-      _loggedInStatus = Status.LoggedIn;
+      _loggedInStatus = AuthStatus.LoggedIn;
       result = {'status': true, 'message': 'Successful', 'user': authUser};
     } else {
-      _loggedInStatus = Status.NotLoggedIn;
+      _loggedInStatus = AuthStatus.NotLoggedIn;
       notifyListeners();
       result = {
         'status': false,

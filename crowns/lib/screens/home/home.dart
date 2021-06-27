@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 import 'package:crowns/utils/constants.dart';
 
-class LandingPage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var padding = MediaQuery.of(context).padding;

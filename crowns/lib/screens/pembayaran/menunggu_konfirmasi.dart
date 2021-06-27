@@ -20,9 +20,11 @@ class MenungguKonfirmasiScreen extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
+        SizedBox(height: 10),
         Text(
-          'Kamu bisa melihat status pesanan pada menu cart',
+          'Silakan menunggu admin untuk mengkonfirmasi pesanan kamu',
           style: TextStyle(color: ColorConstants.darkGrey),
+          textAlign: TextAlign.center,
         ),
       ],
     );
