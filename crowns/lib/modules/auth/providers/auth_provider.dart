@@ -36,7 +36,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     Response response = await post(
-      Uri.parse(AppUrl.login),
+      Uri.parse(ApiPath.login),
       body: jsonEncode(loginData),
       headers: {'Content-Type': 'application/json'},
     );

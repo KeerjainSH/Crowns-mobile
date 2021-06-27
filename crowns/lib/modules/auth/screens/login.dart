@@ -1,5 +1,7 @@
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/custom_button.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -31,16 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
       validator: (value) => value == '' ? 'Please enter password' : null,
     );
 
-    Align buildLabel(String text) {
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: TextStyle(fontWeight: FontWeight.w500),
-        ),
-      );
-    }
-
     final formInput = Container(
       padding: EdgeInsets.symmetric(
         horizontal: 28,
@@ -62,11 +54,11 @@ class _LoginScreenState extends State<LoginScreen> {
         key: formKey,
         child: Column(
           children: [
-            buildLabel('Username'),
+            buildFormLabel(context, 'Username'),
             SizedBox(height: 9),
             usernameField,
             SizedBox(height: 15),
-            buildLabel('Password'),
+            buildFormLabel(context, 'Password'),
             SizedBox(height: 9),
             passwordField,
           ],
@@ -74,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    final register = Container(
+    final haveAccountQuestion = Container(
       child: Column(
         children: [
           Text(
@@ -100,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
-    var doLogin = () {
+    var login = () {
       Navigator.pushNamed(context, RouteConstants.landingPage);
 
       // final FormState? form = formKey.currentState;
@@ -123,49 +115,34 @@ class _LoginScreenState extends State<LoginScreen> {
       // }
     };
 
-    final loginButton = ConstrainedBox(
-      constraints: BoxConstraints.tightFor(width: 125, height: 40),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-          primary: ColorConstants.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(180.0),
-          ),
-        ),
-        onPressed: doLogin,
-        child: Text(
-          'masuk',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-    );
-
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
+        body: Container(
             height: MediaQuery.of(context).size.height -
                 padding.top -
                 padding.bottom,
             color: ColorConstants.backgroundColor,
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(ImageConstants.appLogo),
-                  formInput,
-                  register,
-                  loginButton,
-                ],
-              ),
-            ),
-          ),
-        ),
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: LayoutBuilder(
+              builder: (context, constraint) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraint.maxHeight),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(ImageConstants.appLogo),
+                        formInput,
+                        haveAccountQuestion,
+                        CustomButton(text: 'masuk', callback: login),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            )),
       ),
     );
   }

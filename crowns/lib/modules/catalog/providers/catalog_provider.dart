@@ -27,7 +27,7 @@ class CatalogProvider extends ChangeNotifier {
     // notifyListeners();
 
     Response response = await get(
-      Uri.parse(AppUrl.catalog),
+      Uri.parse(ApiPath.catalog),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -59,7 +59,7 @@ class CatalogProvider extends ChangeNotifier {
     // notifyListeners();
 
     Response response = await get(
-      Uri.parse(AppUrl.getCatalogByCategoryId(id)),
+      Uri.parse(ApiPath.getCatalogByCategoryId(id)),
       headers: {'Content-Type': 'application/json'},
     );
 

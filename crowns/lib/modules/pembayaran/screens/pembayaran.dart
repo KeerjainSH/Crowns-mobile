@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
 

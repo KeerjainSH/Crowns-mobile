@@ -1,4 +1,4 @@
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';

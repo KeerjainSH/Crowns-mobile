@@ -46,3 +46,13 @@ Align buildHeadline5(BuildContext context, String text) {
     ),
   );
 }
+
+Align buildFormLabel(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: Theme.of(context).textTheme.bodyText1,
+    ),
+  );
+}

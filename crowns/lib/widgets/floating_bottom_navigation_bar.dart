@@ -86,7 +86,7 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
                   ),
                 ],
               ),
-              width: 263,
+              width: MediaQuery.of(context).size.width * 0.8,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(

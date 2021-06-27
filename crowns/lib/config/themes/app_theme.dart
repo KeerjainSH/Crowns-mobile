@@ -1,3 +1,4 @@
+import 'package:crowns/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 final inputDecorationBorderTheme = OutlineInputBorder(
@@ -16,7 +17,7 @@ ThemeData appTheme = ThemeData(
       borderRadius: BorderRadius.circular(18),
     ),
   ),
-  hintColor: Color.fromRGBO(210, 210, 210, 1),
+  hintColor: ColorConstants.hintColor,
   inputDecorationTheme: InputDecorationTheme(
       border: inputDecorationBorderTheme,
       focusedBorder: inputDecorationBorderTheme,
@@ -25,7 +26,7 @@ ThemeData appTheme = ThemeData(
       disabledBorder: inputDecorationBorderTheme,
       filled: true,
       isCollapsed: true,
-      fillColor: Color.fromRGBO(244, 244, 244, 1),
+      fillColor: ColorConstants.softGrey,
       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       hintStyle: TextStyle(
         fontWeight: FontWeight.w400,
@@ -33,7 +34,7 @@ ThemeData appTheme = ThemeData(
       )),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: Color.fromRGBO(52, 110, 147, 1),
+      primary: ColorConstants.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(180.0),
       ),
@@ -53,16 +54,17 @@ ThemeData appTheme = ThemeData(
       fontSize: 22,
     ),
     subtitle2: TextStyle(
-      color: Color.fromRGBO(128, 128, 128, 1),
+      color: ColorConstants.darkGrey,
       fontWeight: FontWeight.w400,
       fontSize: 13,
     ),
     bodyText1: TextStyle(
-      fontSize: 13,
+      color: ColorConstants.black,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
     ),
     bodyText2: TextStyle(
-      color: Color.fromRGBO(128, 128, 128, 1),
+      color: ColorConstants.black,
       fontWeight: FontWeight.w400,
       fontSize: 13,
     ),

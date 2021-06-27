@@ -1,5 +1,5 @@
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -120,24 +120,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            color: ColorConstants.backgroundColor,
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(ImageConstants.appLogo),
-                  formInput,
-                  registerButton,
-                ],
+        body: Container(
+          height:
+              MediaQuery.of(context).size.height - padding.top - padding.bottom,
+          color: ColorConstants.backgroundColor,
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: LayoutBuilder(builder: (context, constraint) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(ImageConstants.appLogo),
+                    formInput,
+                    registerButton,
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
+import 'package:crowns/modules/auth/screens/login.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/modules/home/providers/home_provider.dart';
 import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
@@ -31,23 +32,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         onGenerateRoute: CustomRouter.generateRoute,
         theme: appTheme,
-        home: Screen(),
-      ),
-    );
-  }
-}
-
-class Screen extends StatelessWidget {
-  const Screen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          'Hello there!',
-          style: Theme.of(context).textTheme.button,
-        ),
+        home: LoginScreen(),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@ import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/custom_button.dart';
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 
 class DetailPembayaranPage extends StatefulWidget {

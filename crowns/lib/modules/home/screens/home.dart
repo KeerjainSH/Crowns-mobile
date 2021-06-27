@@ -1,6 +1,6 @@
 import 'package:crowns/modules/home/models/category.dart';
 import 'package:crowns/modules/home/providers/home_provider.dart';
-import 'package:crowns/widgets/widgets.dart';
+import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 import 'package:crowns/constants/app_constants.dart';

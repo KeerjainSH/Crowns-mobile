@@ -21,7 +21,7 @@ class HomeProvider extends ChangeNotifier {
     // notifyListeners();
 
     Response response = await get(
-      Uri.parse(AppUrl.category),
+      Uri.parse(ApiPath.category),
       headers: {'Content-Type': 'application/json'},
     );
 
