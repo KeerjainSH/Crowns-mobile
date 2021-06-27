@@ -62,8 +62,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
     }
 
-    ;
-
     InputDecoration buildDecoration() {
       var border = OutlineInputBorder(
         borderRadius: const BorderRadius.all(
@@ -79,7 +77,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         disabledBorder: border,
         filled: true,
         isCollapsed: true,
-        fillColor: ColorConstants.grey,
+        fillColor: ColorConstants.softGrey,
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         hintStyle: TextStyle(
           fontWeight: FontWeight.w400,
@@ -109,7 +107,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           BoxShadow(
             spreadRadius: 2,
             offset: Offset(-1, 2),
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
           )
         ],
       ),

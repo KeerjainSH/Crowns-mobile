@@ -54,10 +54,8 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
       Navigator.of(context).pop();
     }
 
-    ;
-
     return Provider(
-      create: (context) => desainCustomProvider.resetDialogState(),
+      create: (context) => desainCustomProvider.reset(),
       lazy: false,
       child: Dialog(
         shape: RoundedRectangleBorder(
@@ -75,7 +73,7 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                 children: [
                   // Text(model.detailPesananStatus.toString()),
                   _buildDialogTextLabel('Gambar desain'),
-                  model.desainDialogStatus == DesainDialogStatus.Picked
+                  model.desainDialogStatus == DesainCustomStatus.Picked
                       ? Image.file(model.image)
                       : Container(
                           width: double.infinity,
@@ -86,9 +84,9 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              primary: ColorConstants.grey,
+                              primary: ColorConstants.softGrey,
                             ),
-                            onPressed: model.pickImageFromGallery,
+                            onPressed: model.pickImage,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -120,7 +118,7 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                         enabledBorder: border,
                         errorBorder: border,
                         disabledBorder: border,
-                        fillColor: ColorConstants.grey,
+                        fillColor: ColorConstants.softGrey,
                       ),
                       keyboardType: TextInputType.multiline,
                       minLines: 2,

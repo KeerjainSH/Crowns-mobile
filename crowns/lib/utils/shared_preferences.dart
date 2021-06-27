@@ -1,4 +1,4 @@
-import 'package:crowns/models/user.dart';
+import 'package:crowns/models/auth/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 

@@ -68,7 +68,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
                 boxShadow: [
                   BoxShadow(
                     spreadRadius: 2,
-                    color: ColorConstants.middleGrey,
+                    color: ColorConstants.grey,
                     offset: Offset(-2, 1),
                     blurRadius: 2,
                   ),

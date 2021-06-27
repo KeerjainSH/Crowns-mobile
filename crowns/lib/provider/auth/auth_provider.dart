@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:crowns/models/user.dart';
+import 'package:crowns/models/auth/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:crowns/config/api.dart';

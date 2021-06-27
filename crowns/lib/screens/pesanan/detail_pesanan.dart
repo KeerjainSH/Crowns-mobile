@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:crowns/models/desain_custom.dart';
-import 'package:crowns/models/detail_pesanan.dart';
+import 'package:crowns/models/pesanan/desain_custom.dart';
+import 'package:crowns/models/pesanan/detail_pesanan.dart';
 import 'package:crowns/provider/auth/auth_provider.dart';
 import 'package:crowns/provider/pesanan/detail_pesanan_provider.dart';
 import 'package:crowns/screens/pesanan/upload_desain.dart';
@@ -144,7 +144,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             Container(
               height: 18,
               width: 43,
-              color: ColorConstants.middleGrey,
+              color: ColorConstants.grey,
               child: Center(
                 child: Text(
                   "$_count",
@@ -190,7 +190,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         color: ColorConstants.backgroundColor,
         boxShadow: [
           BoxShadow(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             blurRadius: 6,
             offset: Offset(0, 8),
             spreadRadius: 0,
@@ -431,7 +431,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
     final catalogAddImage = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        color: ColorConstants.grey,
+        color: ColorConstants.softGrey,
       ),
       margin: EdgeInsets.only(right: 15),
       width: 83,
@@ -482,7 +482,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
     return Provider(
       lazy: false,
       create: (context) {},
-      dispose: (context, data) => detailPesananProvider.resetDetailPesanan(),
+      dispose: (context, data) => detailPesananProvider.reset(),
       child: Scaffold(
         backgroundColor: ColorConstants.backgroundColor,
         body: SingleChildScrollView(
@@ -528,7 +528,7 @@ class FormDetilPesanan extends StatelessWidget {
         counter > 0
             ? Container(
                 height: 1,
-                color: ColorConstants.middleGrey,
+                color: ColorConstants.grey,
               )
             : Container(),
         SizedBox(height: 11),
@@ -545,7 +545,7 @@ class FormDetilPesanan extends StatelessWidget {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -617,7 +617,7 @@ class FormDetilPesanan extends StatelessWidget {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -668,7 +668,7 @@ class UkuranBajuFormField extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: ColorConstants.grey,
+              color: ColorConstants.softGrey,
               borderRadius: BorderRadius.circular(8),
             ),
             height: 25,

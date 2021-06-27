@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:crowns/models/catalog/catalog.dart';
 import 'package:crowns/provider/catalog/catalog_provider.dart';
 import 'package:crowns/provider/home/home_provider.dart';
@@ -12,12 +9,14 @@ import 'package:crowns/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-class CatalogScreen extends StatefulWidget {
+class KreasiScreen extends StatefulWidget {
+  const KreasiScreen({Key? key}) : super(key: key);
+
   @override
-  _CatalogScreenState createState() => _CatalogScreenState();
+  _KreasiScreenState createState() => _KreasiScreenState();
 }
 
-class _CatalogScreenState extends State<CatalogScreen> {
+class _KreasiScreenState extends State<KreasiScreen> {
   @override
   Widget build(BuildContext context) {
     CatalogProvider catalogProvider =
@@ -25,64 +24,45 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
     final padding = MediaQuery.of(context).padding;
 
-    Container _buildCatalogImage(Catalog catalog, int index) {
-      return Container(
-        margin: index == 0
-            ? EdgeInsets.only(left: 32, right: 15)
-            : EdgeInsets.only(right: 15),
-        width: 83,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(18),
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
-            },
-            child: new Image.memory(catalog.foto),
-            // child: Text(catalog.nama),
-            // child: Image.asset(ImageConstants.pestaProduct1),
+    InkWell _buildCatalogImage(Catalog catalog) {
+      return InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            image: DecorationImage(
+              image: MemoryImage(catalog.foto),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       );
     }
 
-    Column _buildCatalogPerCategory(String text) {
-      return Column(
-        children: [
-          SizedBox(height: 14),
-          Container(
-            padding: EdgeInsets.only(left: 32),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
-              ),
+    Consumer _buildCatalog(String text) {
+      return Consumer<CatalogProvider>(
+        builder: (context, model, child) {
+          return GridView.count(
+            crossAxisSpacing: 15,
+            physics: NeverScrollableScrollPhysics(),
+            crossAxisCount: 3,
+            childAspectRatio: 4 / 5,
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            children: List.generate(
+              model.catalogByCategoryList.length,
+              (index) => _buildCatalogImage(model.catalogByCategoryList[index]),
             ),
-          ),
-          SizedBox(height: 5),
-          Consumer<CatalogProvider>(
-            builder: (context, model, child) {
-              return Container(
-                height: 106,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: model.catalogAllList.length,
-                  itemBuilder: (context, i) {
-                    return _buildCatalogImage(model.catalogAllList[i], i);
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+          );
+        },
       );
     }
 
     return Provider(
-      create: (context) => catalogProvider.fetchCatalogAll(),
+      create: (context) => catalogProvider.fetchCatalogByCategoryId(1),
+      dispose: (context, data) => catalogProvider.resetKreasi(),
       lazy: false,
       child: SafeArea(
         child: Scaffold(
@@ -109,7 +89,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Katalog',
+                        'Katalog Kategori',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 22,
@@ -132,9 +112,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       ),
                     ),
                   ),
-                  _buildCatalogPerCategory('Seragam Sekolah'),
-                  _buildCatalogPerCategory('Busana Pesta'),
-                  _buildCatalogPerCategory('Busana Formal'),
+                  SizedBox(height: 15),
+                  _buildCatalog('Seragam Sekolah'),
                   SizedBox(height: 32),
                 ],
               ),

@@ -6,8 +6,8 @@ class ColorConstants {
   static const Color backgroundColor = Color.fromRGBO(255, 255, 255, 1);
 
   static const Color darkGrey = Color.fromRGBO(128, 128, 128, 1);
-  static const Color grey = Color.fromRGBO(244, 244, 244, 1);
-  static const Color middleGrey = Color.fromRGBO(196, 196, 196, 1);
+  static const Color grey = Color.fromRGBO(196, 196, 196, 1);
+  static const Color softGrey = Color.fromRGBO(244, 244, 244, 1);
 
   static const Color softBlue = Color.fromRGBO(52, 110, 147, 0.2);
 
@@ -16,7 +16,7 @@ class ColorConstants {
 
 class ImageConstants {
   static const String appLogo = 'assets/images/logo-app.png';
-  static const String homeHeader = 'assets/images/header-screens.home.png';
+  static const String homeHeader = 'assets/images/header-home.png';
   static const String appHeader = 'assets/images/header-app.png';
   static const String jahitSeakarangBanner =
       'assets/images/banner-jahit-sekarang.png';
@@ -44,9 +44,9 @@ class ImageConstants {
   static const String progressBar3 = 'assets/images/progress-bar-3.png';
   static const String progressBar4 = 'assets/images/progress-bar-4.png';
 
-  static const String splashScreen = 'assets/images/spalsh-screen.png';
+  static const String splashScreen = 'assets/images/splash-screen.png';
 
-  static const String homeIcon = 'assets/images/icon-screens.home.png';
+  static const String homeIcon = 'assets/images/icon-home.png';
   static const String profileIcon = 'assets/images/icon-profile.png';
   static const String shopIcon = 'assets/images/icon-shop.png';
 
@@ -67,4 +67,5 @@ class RouteConstants {
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
   static const String pesanan = '/pesanan';
+  static const String kreasi = '/kreasi';
 }

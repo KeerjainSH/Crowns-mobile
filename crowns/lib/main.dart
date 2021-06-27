@@ -1,4 +1,6 @@
 import 'package:crowns/provider/auth/auth_provider.dart';
+import 'package:crowns/provider/catalog/catalog_provider.dart';
+import 'package:crowns/provider/home/home_provider.dart';
 import 'package:crowns/provider/pesanan/desain_custom_provider.dart';
 import 'package:crowns/provider/pesanan/detail_pesanan_provider.dart';
 import 'package:crowns/provider/auth/user_provider.dart';
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => DetailPesananProvider()),
         ChangeNotifierProvider(create: (_) => DesainCustomProvider()),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => CatalogProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

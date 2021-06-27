@@ -41,7 +41,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
           boxShadow: [
             BoxShadow(
               blurRadius: 2,
-              color: ColorConstants.grey,
+              color: ColorConstants.softGrey,
               offset: Offset(0, 5),
               spreadRadius: 2,
             ),
@@ -121,7 +121,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
             ),
             SizedBox(height: 6),
             Container(
-              color: ColorConstants.middleGrey,
+              color: ColorConstants.grey,
               height: 1,
               width: double.infinity,
             ),

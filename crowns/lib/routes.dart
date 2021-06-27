@@ -1,4 +1,5 @@
 import 'package:crowns/screens/auth/register.dart';
+import 'package:crowns/screens/catalog/kreasi.dart';
 import 'package:crowns/screens/profile/edit_profile.dart';
 import 'package:crowns/screens/pesanan/pesanan.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +46,8 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
       case RouteConstants.pesanan:
         return MaterialPageRoute(builder: (_) => PesananScreen());
+      case RouteConstants.kreasi:
+        return MaterialPageRoute(builder: (_) => KreasiScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

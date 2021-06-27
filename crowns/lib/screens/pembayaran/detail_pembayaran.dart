@@ -107,7 +107,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
         detilPembayaranInfo,
         SizedBox(height: 6),
         Container(
-          color: ColorConstants.middleGrey,
+          color: ColorConstants.grey,
           height: 1,
           width: double.infinity,
         ),
@@ -130,7 +130,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
             return ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                color: ColorConstants.grey,
+                color: ColorConstants.softGrey,
                 margin: EdgeInsets.only(bottom: 8),
                 child: ExpansionTile(
                   initiallyExpanded: i == _selected,

@@ -87,7 +87,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
   Container buildTextField() {
     return Container(
       decoration: BoxDecoration(
-        color: ColorConstants.grey,
+        color: ColorConstants.softGrey,
         borderRadius: BorderRadius.circular(8),
       ),
       width: double.infinity,
@@ -258,7 +258,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -282,7 +282,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -306,7 +306,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -330,7 +330,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: ColorConstants.grey,
+            color: ColorConstants.softGrey,
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
@@ -379,7 +379,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         onTap: () => buildMaterialDatePicker(context),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: ColorConstants.grey,
+                            color: ColorConstants.softGrey,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           height: 22,
@@ -411,7 +411,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         onTap: () => buildMaterialTimePicker(context),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: ColorConstants.grey,
+                            color: ColorConstants.softGrey,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           height: 22,

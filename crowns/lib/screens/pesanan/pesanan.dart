@@ -50,7 +50,7 @@ class _PesananScreenState extends State<PesananScreen> {
             color:
                 _currState == text ? ColorConstants.primaryColor : Colors.white,
             border: Border.all(
-              color: ColorConstants.middleGrey,
+              color: ColorConstants.grey,
               width: 1,
             ),
             borderRadius: BorderRadius.circular(18),
@@ -87,7 +87,7 @@ class _PesananScreenState extends State<PesananScreen> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: ColorConstants.middleGrey,
+              color: ColorConstants.grey,
               offset: Offset(0, 2),
               blurRadius: 1,
             ),

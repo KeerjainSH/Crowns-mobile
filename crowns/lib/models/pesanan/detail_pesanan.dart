@@ -5,7 +5,7 @@ class DetailPesanan {
   int ukuranPinggang;
   int tinggiTubuh;
   int ukuranDada;
-  int BeratBadan;
+  int beratBadan;
   String instruksi;
 
   DetailPesanan({
@@ -14,7 +14,7 @@ class DetailPesanan {
     required this.ukuranLeher,
     required this.ukuranLengan,
     required this.ukuranPinggang,
-    required this.BeratBadan,
+    required this.beratBadan,
     required this.tinggiTubuh,
     required this.instruksi,
   });

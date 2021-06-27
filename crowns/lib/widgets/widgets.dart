@@ -47,7 +47,7 @@ InputDecoration buildInputDecoration(String hint) {
     disabledBorder: border,
     filled: true,
     isCollapsed: true,
-    fillColor: ColorConstants.grey,
+    fillColor: ColorConstants.softGrey,
     hintText: hint,
     contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     hintStyle: TextStyle(
