@@ -9,4 +9,8 @@ class ApiPath {
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';
   }
+
+  static String getProfileById(int id) {
+    return baseUrl + '/pembeli/' + id.toString();
+  }
 }

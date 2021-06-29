@@ -1,5 +1,9 @@
 import 'package:crowns/constants/app_constants.dart';
+import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/profile/providers/profile_provider.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -13,17 +17,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
+
     final padding = MediaQuery.of(context).padding;
 
     final appBar = AppBar(
-      backgroundColor: ColorConstants.softBlue,
+      backgroundColor: Colors.transparent,
       leading: GestureDetector(
         onTap: () {
           Navigator.pop(context);
         },
         child: Icon(
           Icons.arrow_back_rounded,
-          color: Colors.black,
+          color: ColorConstants.black,
         ),
       ),
       actions: [
@@ -35,73 +41,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             },
             child: Icon(
               Icons.check,
-              color: Colors.black,
+              color: ColorConstants.black,
             ),
           ),
         ),
       ],
-      title: Text(
-        'Edit Profile',
-        style: TextStyle(color: Colors.black),
+      title: Center(
+        child: Text(
+          'Edit Profile',
+          style: TextStyle(color: ColorConstants.black),
+        ),
       ),
       // backgroundColor: ColorConstants.softBlue,
       elevation: 0,
     );
 
-    Align buildLabel(String text) {
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
+    Column buildFormItem(String label, String value) {
+      return Column(
+        children: [
+          buildFormLabel(context, label),
+          SizedBox(height: 9),
+          TextFormField(
+            style: Theme.of(context).textTheme.bodyText2,
+            initialValue: value,
+            enabled: false,
+            validator: (value) => value == '' ? 'required' : null,
           ),
-        ),
+          SizedBox(height: 15),
+        ],
       );
     }
-
-    InputDecoration buildDecoration() {
-      var border = OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          const Radius.circular(16),
-        ),
-        borderSide: BorderSide(width: 0, style: BorderStyle.none),
-      );
-      return InputDecoration(
-        border: border,
-        focusedBorder: border,
-        enabledBorder: border,
-        errorBorder: border,
-        disabledBorder: border,
-        filled: true,
-        isCollapsed: true,
-        fillColor: ColorConstants.softGrey,
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        hintStyle: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 15,
-          color: ColorConstants.hintColor,
-        ),
-      );
-    }
-
-    final formField = Column(
-      children: [
-        buildLabel('label'),
-        SizedBox(height: 9),
-        TextFormField(
-          validator: (value) => value == '' ? 'required' : null,
-          decoration: buildDecoration(),
-        ),
-        SizedBox(height: 15),
-      ],
-    );
 
     final formInput = Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             spreadRadius: 2,
@@ -114,33 +88,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       padding: EdgeInsets.all(20),
       child: Form(
         key: formKey,
-        child: Column(
-          children: [
-            formField,
-            formField,
-            formField,
-            formField,
-            formField,
-            formField,
-            formField,
-          ],
-        ),
+        child: profileProvider.profileStatus == RequestStatus.Fetched
+            ? Column(
+                children: [
+                  buildFormItem('Username', profileProvider.profile.username),
+                  buildFormItem('Email', profileProvider.profile.email),
+                  buildFormItem('Nama', profileProvider.profile.nama),
+                  buildFormItem(
+                      'Jenis kelamin', profileProvider.profile.jenis_kelamin),
+                  buildFormItem('No HP', profileProvider.profile.no_hp),
+                  buildFormItem(
+                      'Tanggal Lahir', profileProvider.profile.tanggal_lahir),
+                  buildFormItem('Kode Pos', profileProvider.profile.kodepos),
+                  buildFormItem('Alamat', profileProvider.profile.alamat),
+                  buildFormItem('Kecamatan', profileProvider.profile.kecamatan),
+                  buildFormItem('Kota', profileProvider.profile.kota),
+                  buildFormItem('Provinsi', profileProvider.profile.provinsi),
+                ],
+              )
+            : Center(child: CircularProgressIndicator()),
       ),
     );
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: ColorConstants.softGrey,
         appBar: appBar,
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                formInput,
-              ],
-            ),
-          ),
-        ),
+        body: profileProvider.profileStatus == RequestStatus.Fetched
+            ? Container(
+                height: MediaQuery.of(context).size.height -
+                    padding.top -
+                    padding.bottom,
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      children: [
+                        formInput,
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }

@@ -25,9 +25,10 @@ ThemeData appTheme = ThemeData(
       errorBorder: inputDecorationBorderTheme,
       disabledBorder: inputDecorationBorderTheme,
       filled: true,
+      isDense: true,
       isCollapsed: true,
       fillColor: ColorConstants.softGrey,
-      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       hintStyle: TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 12,

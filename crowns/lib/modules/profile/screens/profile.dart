@@ -1,8 +1,10 @@
+import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,6 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
+    ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
 
     Container buildProfileHeader() {
       return Container(
@@ -123,30 +127,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                buildProfileHeader(),
-                aturProfile,
-                SizedBox(height: 20),
-                CustomButton(
-                  text: 'logout',
-                  callback: () =>
-                      Navigator.pushNamed(context, RouteConstants.profile),
-                ),
-                SizedBox(height: 50),
-              ],
+    return Provider(
+      lazy: false,
+      create: (context) => profileProvider.fetchProfile(1),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height -
+                  padding.top -
+                  padding.bottom,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  buildProfileHeader(),
+                  aturProfile,
+                  SizedBox(height: 20),
+                  CustomButton(
+                    text: 'logout',
+                    callback: () =>
+                        Navigator.pushNamed(context, RouteConstants.profile),
+                  ),
+                  SizedBox(height: 50),
+                ],
+              ),
             ),
           ),
+          bottomNavigationBar: navbar,
         ),
-        bottomNavigationBar: navbar,
       ),
     );
   }
