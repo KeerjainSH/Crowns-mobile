@@ -73,9 +73,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
         right: appPadding + 10,
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, RouteConstants.detilPesanan);
-        },
+        onTap: () => Navigator.pushNamed(context, RouteConstants.detilPesanan),
         child: ListTile(
           leading: Container(
             child: DecoratedBox(

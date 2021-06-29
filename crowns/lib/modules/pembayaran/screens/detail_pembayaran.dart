@@ -180,7 +180,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                             children: [
                               Align(
                                 alignment: Alignment.centerLeft,
-                                child: buildHeadline5(
+                                child: buildHeadline(
                                     context, metodeBayarList[i].number),
                               ),
                               Align(
@@ -264,19 +264,6 @@ class TawarDialog extends StatefulWidget {
   _TawarDialogState createState() => _TawarDialogState();
 }
 
-Align buildDialogTextLabel(String text) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Text(
-      text,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-  );
-}
-
 class _TawarDialogState extends State<TawarDialog> {
   @override
   Widget build(BuildContext context) {
@@ -292,15 +279,9 @@ class _TawarDialogState extends State<TawarDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Tawar',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            buildHeadline(context, 'Tawar'),
             SizedBox(height: 25),
-            buildDialogTextLabel('Harga dari penjahit'),
+            buildDialogTextLabel(context, 'Harga dari penjahit'),
             SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -313,7 +294,7 @@ class _TawarDialogState extends State<TawarDialog> {
               ),
             ),
             SizedBox(height: 20),
-            buildDialogTextLabel('Biaya yang ingin kamu tawarkan'),
+            buildDialogTextLabel(context, 'Biaya yang ingin kamu tawarkan'),
             SizedBox(height: 10),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),

@@ -19,20 +19,24 @@ ThemeData appTheme = ThemeData(
   ),
   hintColor: ColorConstants.hintColor,
   inputDecorationTheme: InputDecorationTheme(
-      border: inputDecorationBorderTheme,
-      focusedBorder: inputDecorationBorderTheme,
-      enabledBorder: inputDecorationBorderTheme,
-      errorBorder: inputDecorationBorderTheme,
-      disabledBorder: inputDecorationBorderTheme,
-      filled: true,
-      isDense: true,
-      isCollapsed: true,
-      fillColor: ColorConstants.softGrey,
-      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      hintStyle: TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 12,
-      )),
+    border: inputDecorationBorderTheme,
+    focusedBorder: inputDecorationBorderTheme,
+    enabledBorder: inputDecorationBorderTheme,
+    errorBorder: inputDecorationBorderTheme,
+    disabledBorder: inputDecorationBorderTheme,
+    filled: true,
+    isDense: true,
+    isCollapsed: true,
+    contentPadding: EdgeInsets.symmetric(
+      horizontal: 10,
+      vertical: 4,
+    ),
+    fillColor: ColorConstants.softGrey,
+    hintStyle: TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: 12,
+    ),
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       primary: ColorConstants.primaryColor,
@@ -45,10 +49,6 @@ ThemeData appTheme = ThemeData(
     button: TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w700,
-    ),
-    headline5: TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 22,
     ),
     headline6: TextStyle(
       fontWeight: FontWeight.w700,

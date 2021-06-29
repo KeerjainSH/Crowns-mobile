@@ -11,38 +11,35 @@ Align buildBodyText2(BuildContext context, String text) {
   );
 }
 
-Container buildHeadline(BuildContext context, String text) {
-  return Container(
-    margin: EdgeInsets.only(left: appPadding),
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.headline6,
-      ),
-    ),
-  );
-}
-
-Container buildSubtitle(BuildContext context, String text) {
-  return Container(
-    padding: EdgeInsets.only(left: appPadding),
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.subtitle2,
-      ),
-    ),
-  );
-}
-
-Align buildHeadline5(BuildContext context, String text) {
+Align buildHeadline(BuildContext context, String text) {
   return Align(
     alignment: Alignment.centerLeft,
     child: Text(
       text,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline6,
+    ),
+  );
+}
+
+Align buildHeadline2(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  );
+}
+
+Align buildSubtitle(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: Theme.of(context).textTheme.subtitle2,
     ),
   );
 }
@@ -53,6 +50,46 @@ Align buildFormLabel(BuildContext context, String text) {
     child: Text(
       text,
       style: Theme.of(context).textTheme.bodyText1,
+    ),
+  );
+}
+
+Align buildFormLabel2(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
+}
+
+Align buildFormLabel3(BuildContext contxt, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 13,
+        color: ColorConstants.darkGrey,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
+}
+
+Align buildDialogTextLabel(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
     ),
   );
 }

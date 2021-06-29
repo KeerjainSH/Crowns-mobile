@@ -117,31 +117,30 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            color: ColorConstants.backgroundColor,
-            padding: EdgeInsets.symmetric(horizontal: 30),
-            child: LayoutBuilder(
-              builder: (context, constraint) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraint.maxHeight),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(ImageConstants.appLogo),
-                        formInput,
-                        haveAccountQuestion,
-                        CustomButton(text: 'masuk', callback: login),
-                      ],
-                    ),
+          height:
+              MediaQuery.of(context).size.height - padding.top - padding.bottom,
+          color: ColorConstants.backgroundColor,
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset(ImageConstants.appLogo),
+                      formInput,
+                      haveAccountQuestion,
+                      CustomButton(text: 'masuk', callback: login),
+                    ],
                   ),
-                );
-              },
-            )),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

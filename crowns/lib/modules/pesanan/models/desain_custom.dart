@@ -1,8 +1,8 @@
 import 'dart:io';
 
 class DesainCustom {
-  File image;
-  String description;
+  File foto;
+  String deskipsi;
 
-  DesainCustom({required this.image, required this.description});
+  DesainCustom({required this.foto, required this.deskipsi});
 }

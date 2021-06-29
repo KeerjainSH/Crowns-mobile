@@ -1,6 +1,6 @@
 import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
 import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
-import 'package:crowns/modules/pesanan/providers/detail_pesanan_provider.dart';
+import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -18,19 +18,6 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
   final _descController = TextEditingController();
   String? _description;
 
-  Align _buildDialogTextLabel(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-
   var border = OutlineInputBorder(
     borderRadius: const BorderRadius.all(
       const Radius.circular(5),
@@ -40,8 +27,8 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
 
   @override
   Widget build(BuildContext context) {
-    DetailPesananProvider detailPesananProvider =
-        Provider.of<DetailPesananProvider>(context, listen: false);
+    PesananProvider detailPesananProvider =
+        Provider.of<PesananProvider>(context, listen: false);
     DesainCustomProvider desainCustomProvider =
         Provider.of<DesainCustomProvider>(context, listen: false);
 
@@ -71,7 +58,7 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Text(model.detailPesananStatus.toString()),
-                  _buildDialogTextLabel('Gambar desain'),
+                  buildDialogTextLabel(context, 'Gambar desain'),
                   model.desainDialogStatus == DesainCustomStatus.Picked
                       ? Image.file(model.image)
                       : Container(
@@ -99,7 +86,7 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                             ),
                           ),
                         ),
-                  _buildDialogTextLabel('Deskripsi'),
+                  buildDialogTextLabel(context, 'Deskripsi'),
                   Container(
                     margin: EdgeInsets.only(bottom: 15),
                     child: TextField(
