@@ -22,18 +22,19 @@ class ProfileProvider extends ChangeNotifier {
       Uri.parse(ApiPath.getProfileById(id)),
       headers: {'Content-Type': 'application/json'},
     );
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      var profileData = responseData['data'];
-      _profile = Profile.fromJson(profileData);
+      var penjahitData = responseData['data'];
+
+      _profile = Profile.fromJson(penjahitData);
       _profileStatus = RequestStatus.Fetched;
+
       notifyListeners();
-      print('status ok');
     } else {
       _profileStatus = RequestStatus.Failed;
       notifyListeners();
-      print('status failed');
     }
   }
 }

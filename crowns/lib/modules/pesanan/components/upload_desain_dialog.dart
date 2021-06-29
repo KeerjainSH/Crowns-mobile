@@ -1,7 +1,9 @@
+import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
 import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
 import 'package:crowns/modules/pesanan/providers/detail_pesanan_provider.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -92,12 +94,7 @@ class _UploadDesainDialogState extends State<UploadDesainDialog> {
                                   color: Colors.black,
                                 ),
                                 SizedBox(width: 5),
-                                Text(
-                                  'Pilih gambar desain',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                buildFormLabel(context, 'Pilih gambar desain'),
                               ],
                             ),
                           ),

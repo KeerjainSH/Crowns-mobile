@@ -56,3 +56,14 @@ Align buildFormLabel(BuildContext context, String text) {
     ),
   );
 }
+
+Text buildButtonText(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
+  );
+}

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'floating_bottom_navigation_bar.dart';
 
 Container appHeader = Container(
-  padding: EdgeInsets.symmetric(horizontal: 32),
+  padding: EdgeInsets.only(left: appPadding),
   width: double.infinity,
   child: Image.asset(
     ImageConstants.appHeader,

@@ -11,7 +11,7 @@ final inputDecorationBorderTheme = OutlineInputBorder(
 ThemeData appTheme = ThemeData(
   fontFamily: 'SFProDisplay',
   backgroundColor: Colors.white,
-  dialogBackgroundColor: Colors.transparent,
+  dialogBackgroundColor: Colors.white,
   dialogTheme: DialogTheme(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(18),

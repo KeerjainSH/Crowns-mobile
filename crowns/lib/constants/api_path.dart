@@ -13,4 +13,8 @@ class ApiPath {
   static String getProfileById(int id) {
     return baseUrl + '/pembeli/' + id.toString();
   }
+
+  static String getPenjahitByCatalogId(int id) {
+    return baseUrl + '/katalog/' + id.toString() + '/penjahit';
+  }
 }

@@ -53,6 +53,8 @@ class ImageConstants {
   static const String shopIcon = 'assets/images/icon-shop.png';
 
   static const String profilePhoto = 'assets/images/profile-1.png';
+
+  static const String starIcon = 'assets/svg/icon-star.svg';
 }
 
 class RouteConstants {

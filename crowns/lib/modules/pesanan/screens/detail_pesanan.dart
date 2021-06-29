@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/providers/detail_pesanan_provider.dart';
-import 'package:crowns/modules/pesanan/screens/upload_desain.dart';
+import 'package:crowns/modules/pesanan/components/upload_desain_dialog.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -297,32 +298,30 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       margin: EdgeInsets.symmetric(horizontal: 23),
       padding: EdgeInsets.symmetric(
         horizontal: 12,
-        vertical: 5,
+        vertical: 2,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
             flex: 7,
-            child: Text(
-              'Apakah kamu ingin memakai desain sendiri?',
-              style: TextStyle(fontSize: 16),
-            ),
+            child: buildBodyText2(
+                context, 'Apakah kamu ingin memakai desain sendiri?'),
           ),
           Flexible(
             flex: 3,
             child: Center(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       detailPesananProvider
                           .setStatus(DetailPesananStatus.DesainSendiri);
                     },
-                    child: Text('Ya'),
+                    child: buildButtonText(context, 'ya'),
                     style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-                      primary: ColorConstants.primaryColor,
                       visualDensity: VisualDensity.compact,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -335,9 +334,8 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                         _state = DetailPesananStatus.DesainPenjahit;
                       });
                     },
-                    child: Text('Tidak'),
+                    child: buildButtonText(context, 'tidak'),
                     style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(fontFamily: 'SFProDisplay'),
                       primary: ColorConstants.darkGrey,
                       visualDensity: VisualDensity.compact,
                       shape: RoundedRectangleBorder(
@@ -389,31 +387,27 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         color: ColorConstants.softBlue,
         borderRadius: BorderRadius.circular(5),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 23),
-      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal: appPadding),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+      width: double.infinity,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Flexible(
-            child: Text(
-              'Upload desain kamu di sini!',
-            ),
+            flex: 7,
+            child: buildBodyText2(context, 'Upload desain kamu di sini!'),
           ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: EdgeInsets.only(right: 10),
-                child: ElevatedButton(
-                  onPressed: showDesainDialog,
-                  child: Text('Pilih Gambar'),
-                  style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontFamily: 'SFProDisplay'),
-                    primary: ColorConstants.primaryColor,
-                    visualDensity: VisualDensity.comfortable,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+          Flexible(
+            flex: 4,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: showDesainDialog,
+                child: buildButtonText(context, 'Pilih Gambar'),
+                style: ElevatedButton.styleFrom(
+                  visualDensity: VisualDensity.comfortable,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),

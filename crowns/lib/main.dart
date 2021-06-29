@@ -5,6 +5,7 @@ import 'package:crowns/modules/home/providers/home_provider.dart';
 import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
 import 'package:crowns/modules/pesanan/providers/detail_pesanan_provider.dart';
 import 'package:crowns/modules/auth/providers/user_provider.dart';
+import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => CatalogProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => PenjahitProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
