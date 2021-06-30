@@ -1,9 +1,13 @@
+import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:crowns/constants/app_constants.dart';
+import 'package:provider/provider.dart';
 
 class UpdateAlamatScreen extends StatefulWidget {
   @override
@@ -11,113 +15,20 @@ class UpdateAlamatScreen extends StatefulWidget {
 }
 
 class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
-  int? _state = 1;
+  final formKey = new GlobalKey<FormState>();
   DateTime? selectedDate = DateTime.now();
   TimeOfDay? selectedTime = TimeOfDay.now();
 
-  Text buildSubFormLabel(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 13,
-        color: ColorConstants.darkGrey,
-      ),
-    );
-  }
-
-  Align buildFormLabel(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-
-  buildMaterialDatePicker(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate!,
-      firstDate: DateTime(2019),
-      lastDate: DateTime(2020),
-      initialEntryMode: DatePickerEntryMode.calendar,
-      initialDatePickerMode: DatePickerMode.day,
-      helpText: 'Select booking date',
-      cancelText: 'Not now',
-      confirmText: 'Book',
-      errorFormatText: 'Enter valid date',
-      errorInvalidText: 'Enter date in valid range',
-      fieldLabelText: 'Booking date',
-      fieldHintText: 'Month/Date/Year',
-      builder: (BuildContext? context, Widget? child) {
-        return Theme(
-          data: ThemeData.light(),
-          child: child!,
-        );
-      },
-    );
-    if (pickedDate != selectedDate)
-      setState(() {
-        selectedDate = pickedDate;
-      });
-  }
-
-  buildMaterialTimePicker(BuildContext context) async {
-    TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-      builder: (BuildContext? context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context!).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
-      },
-    );
-    if (pickedTime != selectedTime)
-      setState(() {
-        selectedTime = pickedTime;
-      });
-  }
-
-  Container buildTextField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softGrey,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      width: double.infinity,
-      padding: EdgeInsets.only(left: 11),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-          ),
-          keyboardType: TextInputType.multiline,
-          minLines: 4,
-          maxLines: null,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    AlamatProvider alamatProvider =
+        Provider.of<AlamatProvider>(context, listen: false);
+
     final buttonChoice = Center(
       child: Container(
         width: 227,
-        child: _state == 1
+        child: alamatProvider.alamat.dijemput == 1
             ? Stack(
-                /// if state if Di Ambil
                 children: [
                   Align(
                     alignment: Alignment.centerRight,
@@ -134,19 +45,12 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _state = 2;
+                            alamatProvider.alamat.dijemput = 0;
                           });
                         },
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            "Antar Sendiri",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          child: buildLightButtonText(context, 'Antar Sendiri'),
                         ),
                       ),
                     ),
@@ -161,14 +65,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                       width: 114,
                       height: 42,
                       child: Center(
-                        child: Text(
-                          "Di Ambil",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                          ),
-                        ),
+                        child: buildButtonText(context, 'Di Ambil'),
                       ),
                     ),
                   ),
@@ -192,17 +89,13 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _state = 1;
+                            alamatProvider.alamat.dijemput = 1;
                           });
                         },
                         child: Center(
-                          child: Text(
-                            "Di Ambil",
-                            style: TextStyle(
-                              color: ColorConstants.primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: buildLightButtonText(context, 'Di Ambil'),
                           ),
                         ),
                       ),
@@ -218,15 +111,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                       width: 114,
                       height: 42,
                       child: Center(
-                        child: Text(
-                          "Antar Sendiri",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                          child: buildButtonText(context, 'Antar Sendiri')),
                     ),
                   ),
                 ],
@@ -234,289 +119,108 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
       ),
     );
 
-    final diambilContent = Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Lokasi Kamu',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
+    final diambilContent = Form(
+      key: formKey,
+      child: Column(
+        children: [
+          buildHeadline(context, 'Lokasi Kamu'),
+          buildSubtitle(context, 'Isi dengan benar ya!'),
+          SizedBox(height: 15),
+          buildFormLabel(context, 'Alamat'),
+          SizedBox(height: 5),
+          TextFormField(
+            onSaved: (value) => alamatProvider.alamat.alamat = value!,
+            validator: (value) => value == '' ? 'harus diisi' : null,
+          ),
+          SizedBox(height: 8),
+          buildFormLabel(context, 'Kecamatan'),
+          SizedBox(height: 5),
+          TextFormField(
+            onSaved: (value) => alamatProvider.alamat.kecamatan = value!,
+            validator: (value) => value == '' ? 'harus diisi' : null,
+          ),
+          SizedBox(height: 8),
+          buildFormLabel(context, 'Kota'),
+          SizedBox(height: 5),
+          TextFormField(
+            onSaved: (value) => alamatProvider.alamat.kota = value!,
+            validator: (value) => value == '' ? 'harus diisi' : null,
+          ),
+          SizedBox(height: 8),
+          buildFormLabel(context, 'Kode Pos'),
+          SizedBox(height: 5),
+          TextFormField(
+            onSaved: (value) =>
+                alamatProvider.alamat.kode_pos = int.parse(value!),
+            validator: (value) => value == '' ? 'harus diisi' : null,
+          ),
+          SizedBox(height: 8),
+          buildFormLabel(context, 'Instruksi penjemputan'),
+          SizedBox(height: 5),
+          TextFormField(
+            minLines: 3,
+            maxLines: null,
+            onSaved: (value) => alamatProvider.alamat.instruksi = value!,
+            validator: (value) => value == '' ? 'harus diisi' : null,
+          ),
+          SizedBox(height: 8),
+          buildFormLabel(context, 'Waktu Penjemputan'),
+          SizedBox(height: 6),
+          DateTimePicker(
+            type: DateTimePickerType.dateTime,
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2100),
+            icon: Icon(
+              Icons.event,
+              color: ColorConstants.black,
             ),
+            onSaved: (value) => alamatProvider.alamat.waktu = value!,
+            validator: (value) => value == '' ? 'harus diisi' : null,
           ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Isi dengan benar ya!',
-            style: TextStyle(color: ColorConstants.darkGrey),
-          ),
-        ),
-        SizedBox(height: 15),
-        buildFormLabel('Alamat'),
-        SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: ColorConstants.softGrey,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          width: double.infinity,
-          height: 25,
-          padding: EdgeInsets.only(left: 11),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 5),
-        buildFormLabel('Kecamatan'),
-        SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: ColorConstants.softGrey,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          width: double.infinity,
-          height: 25,
-          padding: EdgeInsets.only(left: 11),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        buildFormLabel('Kota'),
-        SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: ColorConstants.softGrey,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          width: double.infinity,
-          height: 25,
-          padding: EdgeInsets.only(left: 11),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        buildFormLabel('Kode Pos'),
-        SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            color: ColorConstants.softGrey,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          width: double.infinity,
-          height: 25,
-          padding: EdgeInsets.only(left: 11),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        buildFormLabel('Instruksi penjemputan'),
-        SizedBox(height: 5),
-        buildTextField(),
-        SizedBox(height: 8),
-        buildFormLabel('Waktu Penjemputan'),
-        SizedBox(height: 6),
-        Container(
-          padding: EdgeInsets.only(
-            left: 12,
-            right: 32,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: 84,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: buildSubFormLabel('Tanggal'),
-                      ),
-                      SizedBox(height: 2),
-                      InkWell(
-                        onTap: () => buildMaterialDatePicker(context),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorConstants.softGrey,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          height: 22,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              DateFormat('dd/MM/yyy').format(selectedDate!),
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: 53,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: buildSubFormLabel('Jam'),
-                      ),
-                      SizedBox(height: 2),
-                      InkWell(
-                        onTap: () => buildMaterialTimePicker(context),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorConstants.softGrey,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          height: 22,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              selectedTime!.format(context),
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
 
     final antarSendiriContent = Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Lokasi Penjahit',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Antar kesini ya!',
-            style: TextStyle(color: ColorConstants.darkGrey),
-          ),
-        ),
+        buildHeadline(context, 'Lokasi Penjahit'),
+        buildSubtitle(context, 'Antar kesini ya!'),
         SizedBox(height: 15),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Pak Kamirin',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-            ),
-          ),
-        ),
+        buildHeadline2(context, 'Pak Kamirin'),
         SizedBox(height: 10),
-        buildFormLabel('Kelurahan'),
-        SizedBox(height: 6),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Keputih',
-            style: TextStyle(
-              color: ColorConstants.darkGrey,
-              fontSize: 10,
-            ),
-          ),
-        ),
+        buildFormLabel(context, 'Kelurahan'),
+        SizedBox(height: 5),
+        buildBodyText3(context, 'Keputih'),
         SizedBox(height: 10),
-        buildFormLabel('Kecamatan'),
-        SizedBox(height: 6),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Sukolilo',
-            style: TextStyle(
-              color: ColorConstants.darkGrey,
-              fontSize: 10,
-            ),
-          ),
-        ),
+        buildFormLabel(context, 'Kecamatan'),
+        SizedBox(height: 5),
+        buildBodyText3(context, 'Sukolilo'),
         SizedBox(height: 10),
-        buildFormLabel('Kota'),
-        SizedBox(height: 6),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Surabaya 60123',
-            style: TextStyle(
-              color: ColorConstants.darkGrey,
-              fontSize: 10,
-            ),
-          ),
-        ),
+        buildFormLabel(context, 'Kota'),
+        SizedBox(height: 5),
+        buildBodyText3(context, '60234'),
         SizedBox(height: 10),
-        buildFormLabel('No Telepon'),
-        SizedBox(height: 6),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            '08001128888',
-            style: TextStyle(
-              color: ColorConstants.darkGrey,
-              fontSize: 10,
-            ),
-          ),
-        ),
+        buildFormLabel(context, 'No Telepon'),
+        SizedBox(height: 5),
+        buildBodyText3(context, '08001128888'),
       ],
+    );
+
+    final submitButton = CustomButton(
+      text: 'berikutnya',
+      callback: () {
+        // final FormState? formState = formKey.currentState;
+        //
+        // if (formState!.validate()) {
+        //   formState.save();
+        //
+        //   alamatProvider.updateAlamat(alamatProvider.alamat);
+        // }
+        Navigator.pushNamed(
+          context,
+          RouteConstants.detilPembayaran,
+        );
+      },
     );
 
     return Scaffold(
@@ -539,16 +243,12 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
               SizedBox(height: 22),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32),
-                child: _state == 1 ? diambilContent : antarSendiriContent,
+                child: alamatProvider.alamat.dijemput == 1
+                    ? diambilContent
+                    : antarSendiriContent,
               ),
               SizedBox(height: 30),
-              CustomButton(
-                text: 'berikutnya',
-                callback: () => Navigator.pushNamed(
-                  context,
-                  RouteConstants.detilPembayaran,
-                ),
-              ),
+              submitButton,
               SizedBox(height: 40),
             ],
           ),

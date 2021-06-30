@@ -52,9 +52,15 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
                     child: Image.asset(ImageConstants.progressBar1),
                   ),
                   SizedBox(height: 36),
-                  buildHeadline(context, 'Penjahit'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: appPadding),
+                    child: buildHeadline(context, 'Penjahit'),
+                  ),
                   SizedBox(height: 6),
-                  buildSubtitle(context, 'Pilih penjahit favoritmu'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: appPadding),
+                    child: buildSubtitle(context, 'Pilih penjahit favoritmu'),
+                  ),
                   SizedBox(height: 15),
                   content,
                 ],

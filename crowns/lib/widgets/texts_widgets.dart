@@ -11,6 +11,19 @@ Align buildBodyText2(BuildContext context, String text) {
   );
 }
 
+Align buildBodyText3(BuildContext context, String text) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 12,
+        color: ColorConstants.darkGrey,
+      ),
+    ),
+  );
+}
+
 Align buildHeadline(BuildContext context, String text) {
   return Align(
     alignment: Alignment.centerLeft,
@@ -95,6 +108,28 @@ Align buildDialogTextLabel(BuildContext context, String text) {
 }
 
 Text buildButtonText(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+    ),
+  );
+}
+
+Text buildLightButtonText(BuildContext context, String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: ColorConstants.primaryColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+    ),
+  );
+}
+
+Text buildButtonText2(BuildContext context, String text) {
   return Text(
     text,
     style: TextStyle(

@@ -42,12 +42,13 @@ class _KreasiScreenState extends State<KreasiScreen> {
       return Consumer<CatalogProvider>(
         builder: (context, model, child) {
           return GridView.count(
-            crossAxisSpacing: 15,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 10,
             physics: NeverScrollableScrollPhysics(),
             crossAxisCount: 3,
             childAspectRatio: 4 / 5,
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 32),
+            padding: EdgeInsets.symmetric(horizontal: appPadding),
             children: List.generate(
               model.catalogByCategoryList.length,
               (index) => _buildCatalogImage(model.catalogByCategoryList[index]),
@@ -71,7 +72,6 @@ class _KreasiScreenState extends State<KreasiScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 41),
                   appHeader,
                   SizedBox(height: 36),
 
@@ -82,7 +82,7 @@ class _KreasiScreenState extends State<KreasiScreen> {
                   ),
                   SizedBox(height: 36),
                   Container(
-                    padding: EdgeInsets.only(left: 32),
+                    padding: EdgeInsets.only(left: appPadding),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -96,7 +96,7 @@ class _KreasiScreenState extends State<KreasiScreen> {
                   ),
 
                   Container(
-                    padding: EdgeInsets.only(left: 32),
+                    padding: EdgeInsets.only(left: appPadding),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(

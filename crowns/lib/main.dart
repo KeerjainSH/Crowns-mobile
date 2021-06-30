@@ -2,6 +2,7 @@ import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/modules/auth/screens/login.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/modules/home/providers/home_provider.dart';
+import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
 import 'package:crowns/modules/pesanan/providers/desain_custom_provider.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/modules/auth/providers/user_provider.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PenjahitProvider()),
         ChangeNotifierProvider(create: (_) => PesananProvider()),
+        ChangeNotifierProvider(create: (_) => AlamatProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

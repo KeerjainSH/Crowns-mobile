@@ -8,6 +8,7 @@ class ApiPath {
   static const String createPesanan = baseUrl + '/pesanan/create';
   static const String updateDetail = baseUrl + '/pesanan/updateDetail';
   static const String uploadDesain = baseUrl + '/pesanan/uploadDesignCustom';
+  static const String updateJemput = baseUrl + '/pesanan/updateJemput';
 
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';

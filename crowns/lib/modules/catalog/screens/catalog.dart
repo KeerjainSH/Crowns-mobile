@@ -22,7 +22,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     Container _buildCatalogImage(Catalog catalog, int index) {
       return Container(
         margin: index == 0
-            ? EdgeInsets.only(left: 32, right: 15)
+            ? EdgeInsets.only(left: appPadding, right: 15)
             : EdgeInsets.only(right: 15),
         width: 83,
         child: ClipRRect(
@@ -44,7 +44,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         children: [
           SizedBox(height: 14),
           Container(
-            padding: EdgeInsets.only(left: 32),
+            padding: EdgeInsets.only(left: appPadding),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -88,7 +88,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 41),
                   appHeader,
                   SizedBox(height: 36),
 
@@ -99,7 +98,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   ),
                   SizedBox(height: 36),
                   Container(
-                    padding: EdgeInsets.only(left: 32),
+                    padding: EdgeInsets.only(left: appPadding),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -113,7 +112,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   ),
 
                   Container(
-                    padding: EdgeInsets.only(left: 32),
+                    padding: EdgeInsets.only(left: appPadding),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(

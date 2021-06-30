@@ -263,7 +263,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       pesananProvider
                           .setStatus(PesananStatus.DesainSendiriSelected);
                     },
-                    child: buildButtonText(context, 'ya'),
+                    child: buildButtonText2(context, 'ya'),
                     style: ElevatedButton.styleFrom(
                       visualDensity: VisualDensity.compact,
                       shape: RoundedRectangleBorder(
@@ -277,7 +277,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                         _state = PesananStatus.DesainPenjahitSelected;
                       });
                     },
-                    child: buildButtonText(context, 'tidak'),
+                    child: buildButtonText2(context, 'tidak'),
                     style: ElevatedButton.styleFrom(
                       primary: ColorConstants.darkGrey,
                       visualDensity: VisualDensity.compact,
@@ -345,7 +345,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             child: Center(
               child: ElevatedButton(
                 onPressed: showDesainDialog,
-                child: buildButtonText(context, 'Pilih Gambar'),
+                child: buildButtonText2(context, 'Pilih Gambar'),
                 style: ElevatedButton.styleFrom(
                   visualDensity: VisualDensity.comfortable,
                   shape: RoundedRectangleBorder(
@@ -405,19 +405,19 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
     final submitButton = CustomButton(
       text: 'pesan',
-      // callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
+      callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
       // callback: () => formKey.currentState!.validate(),
-      callback: () {
-        final FormState? formState = formKey.currentState;
-
-        if (formState!.validate()) {
-          formState.save();
-
-          pesananProvider.uploadDesain();
-          pesananProvider.updateDetailPesanan(
-              pesananProvider.detailPesananList, pesananProvider.pesanan);
-        }
-      },
+      // callback: () {
+      //   final FormState? formState = formKey.currentState;
+      //
+      //   if (formState!.validate()) {
+      //     formState.save();
+      //
+      //     pesananProvider.uploadDesain();
+      //     pesananProvider.updateDetailPesanan(
+      //         pesananProvider.detailPesananList, pesananProvider.pesanan);
+      //   }
+      // },
     );
 
     return Provider(
