@@ -9,6 +9,9 @@ class ApiPath {
   static const String updateDetail = baseUrl + '/pesanan/updateDetail';
   static const String uploadDesain = baseUrl + '/pesanan/uploadDesignCustom';
   static const String updateJemput = baseUrl + '/pesanan/updateJemput';
+  static const String tawar = baseUrl + '/pesanan/ajukanTawar';
+  static const String pesananBelumValid =
+      baseUrl + '/pesanan/pembayaranBelumValid';
 
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';

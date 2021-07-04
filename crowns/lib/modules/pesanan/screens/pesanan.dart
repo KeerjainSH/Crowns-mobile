@@ -1,7 +1,10 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:crowns/constants/app_constants.dart';
+import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PesananScreen extends StatefulWidget {
   const PesananScreen({Key? key}) : super(key: key);
@@ -13,16 +16,11 @@ class PesananScreen extends StatefulWidget {
 class _PesananScreenState extends State<PesananScreen> {
   String _currState = 'Semua';
 
-  List<String> _stateList = [
-    'Semua',
-    'Pesanan Baru',
-    'Dikerjakan',
-    'Dikirim',
-    'Selesai',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    PesananProvider pesananProvider =
+        Provider.of<PesananProvider>(context, listen: false);
+
     var padding = MediaQuery.of(context).padding;
 
     final appBar = AppBar(
@@ -30,122 +28,81 @@ class _PesananScreenState extends State<PesananScreen> {
         'Pesanan',
         style: TextStyle(color: Colors.black),
       ),
+      leading: SizedBox.shrink(),
       backgroundColor: Colors.white,
     );
 
-    InkWell buildTabBarItem(String text) {
-      return InkWell(
-        onTap: () {
-          setState(() {
-            _currState = text;
-          });
-        },
+    Align buildTileContent() {
+      return Align(
+        alignment: Alignment.topCenter,
         child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 3,
-          ),
-          margin: EdgeInsets.only(right: 5),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color:
-                _currState == text ? ColorConstants.primaryColor : Colors.white,
-            border: Border.all(
-              color: ColorConstants.grey,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(18),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: ColorConstants.grey,
+                offset: Offset(0, 2),
+                blurRadius: 1,
+              ),
+            ],
           ),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: _currState == text ? Colors.white : Colors.black,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      );
-    }
-
-    final tabBar = SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 15,
-        ),
-        child: Row(
-          children: _stateList.map((e) => buildTabBarItem(e)).toList(),
-        ),
-      ),
-    );
-
-    Container buildTileContent() {
-      return Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: ColorConstants.grey,
-              offset: Offset(0, 2),
-              blurRadius: 1,
-            ),
-          ],
-        ),
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 120,
-        child: Row(
-          children: [
-            Container(
-              child: Image.asset(ImageConstants.appLogo),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Seragam SMP',
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Perempuan - Lengan dan Rok Panjang',
-                      style: TextStyle(
-                        color: ColorConstants.darkGrey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: ColorConstants.softBlue,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 3,
-                      ),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 120,
+          child: Row(
+            children: [
+              Container(
+                height: 200,
+                child: Image.asset(ImageConstants.appLogo),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
                       child: Text(
-                        'Dikerjakan',
+                        'Seragam SMP',
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Perempuan - Lengan dan Rok Panjang',
                         style: TextStyle(
+                          color: ColorConstants.darkGrey,
                           fontSize: 12,
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    SizedBox(height: 6),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: ColorConstants.softBlue,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 3,
+                        ),
+                        child: Text(
+                          'Dikerjakan',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
     }
@@ -162,17 +119,46 @@ class _PesananScreenState extends State<PesananScreen> {
       child: Scaffold(
         appBar: appBar,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            child: Column(
-              children: [
-                tabBar,
-                content,
-              ],
-            ),
+        body: DefaultTabController(
+          length: 3,
+          child: Column(
+            children: <Widget>[
+              ButtonsTabBar(
+                backgroundColor: ColorConstants.primaryColor,
+                unselectedBackgroundColor: ColorConstants.grey,
+                unselectedLabelStyle: TextStyle(color: Colors.black),
+                labelStyle:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                tabs: [
+                  Tab(text: "Pesanan Baru"),
+                  Tab(text: "Dikerjakan"),
+                  Tab(text: "Selesai"),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: <Widget>[
+                    FutureBuilder(
+                      future: pesananProvider.fetchAllPesananBelumValid(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return snapshot.connectionState == ConnectionState.done
+                            ? buildTileContent()
+                            : Center(
+                                child: CircularProgressIndicator(),
+                              );
+                      },
+                    ),
+                    Center(
+                      child: Icon(Icons.directions_transit),
+                    ),
+                    Center(
+                      child: Icon(Icons.directions_bike),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: navbar,

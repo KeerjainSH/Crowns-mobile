@@ -20,7 +20,7 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
         SizedBox(height: 5),
         TextFormField(
           validator: (value) => value == '' ? 'harus diisi' : null,
-          onSaved: (value) => widget.detailPesanan.nama = value!,
+          onSaved: (value) => widget.detailPesanan.nama_lengkap = value!,
         ),
         SizedBox(height: 8),
         buildFormLabel2(context, 'Ukuran Baju'),

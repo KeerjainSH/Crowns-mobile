@@ -1,4 +1,6 @@
+import 'package:crowns/modules/auth/models/user.dart';
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
+import 'package:crowns/modules/auth/providers/user_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
@@ -92,26 +94,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     var login = () {
-      Navigator.pushNamed(context, RouteConstants.landingPage);
+      // Navigator.pushNamed(context, RouteConstants.landingPage);
 
-      // final FormState? form = formKey.currentState;
+      final FormState? form = formKey.currentState;
 
-      // if (form!.validate()) {
-      //   form.save();
+      if (form!.validate()) {
+        form.save();
 
-      //   final Future<Map<String, dynamic>> successfulMessage =
-      //       auth.login(_username, _password);
+        final Future<Map<String, dynamic>> successfulMessage =
+            auth.login(_username, _password);
 
-      //   successfulMessage.then((response) {
-      //     if (response['status']) {
-      //       User user = response['user'];
-      //       Provider.of<UserProvider>(context, listen: false).setUser(user);
-      //       Navigator.pushReplacementNamed(context, '/');
-      //     } else {
-      //       print('Login gagal');
-      //     }
-      //   });
-      // }
+        successfulMessage.then((response) {
+          if (response['status']) {
+            User user = response['user'];
+            Provider.of<UserProvider>(context, listen: false).setUser(user);
+            Navigator.pushNamed(context, RouteConstants.landingPage);
+          } else {
+            print('Login gagal');
+          }
+        });
+      }
     };
 
     return SafeArea(

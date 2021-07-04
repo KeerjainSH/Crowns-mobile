@@ -1,5 +1,7 @@
+import 'package:crowns/modules/auth/models/user_register.dart';
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -13,7 +15,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = new GlobalKey<FormState>();
 
-  String _username = '', _password = '';
+  UserRegister userRegister = UserRegister();
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +23,144 @@ class _RegisterScreenState extends State<RegisterScreen> {
     AuthProvider auth = Provider.of<AuthProvider>(context);
 
     final usernameField = TextFormField(
-      onSaved: (value) => _username = value!,
-      validator: (value) => value == '' ? 'Please enter username' : null,
+      onSaved: (value) => userRegister.username = value!,
+      validator: (value) => value == '' ? 'wajib diisi' : null,
     );
 
     final passwordField = TextFormField(
-      obscureText: true,
-      onSaved: (value) => _password = value!,
-      validator: (value) => value == '' ? 'Please enter password' : null,
+      // obscureText: true,
+      onSaved: (value) => userRegister.password = value!,
+      validator: (value) => value == '' ? 'wajib diisi' : null,
     );
 
     final confirmPasswordField = TextFormField(
-      obscureText: true,
-      onSaved: (value) => _password = value!,
+      // obscureText: true,
+      onSaved: (value) => userRegister.password = value!,
       validator: (value) {
-        if (value == '')
-          return 'Please enter confirm password';
-        else if (value != _password) return 'Password not same';
+        if (value == '') return 'wajib diisi';
+        // else if (value != userRegister.password) return 'password harus sama';
         return null;
       },
     );
-
-    Align buildLabel(String text) {
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: TextStyle(fontWeight: FontWeight.w500),
+    final emailField = Column(
+      children: [
+        buildFormLabel(context, 'Email'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.email = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
-      );
-    }
+        SizedBox(height: 15),
+      ],
+    );
+
+    final namaField = Column(
+      children: [
+        buildFormLabel(context, 'Nama'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.nama = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kelaminField = Column(
+      children: [
+        buildFormLabel(context, 'Jenis Kelamin'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.jenis_kelamin = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final nohpField = Column(
+      children: [
+        buildFormLabel(context, 'No HP'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.no_hp = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final lahirField = Column(
+      children: [
+        buildFormLabel(context, 'Tanggal Lahir'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.tanggal_lahir = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kodeposField = Column(
+      children: [
+        buildFormLabel(context, 'Kode Pos'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.kodepos = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kecamatanField = Column(
+      children: [
+        buildFormLabel(context, 'Kecamatan'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.kecamatan = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kotaField = Column(
+      children: [
+        buildFormLabel(context, 'Kota'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.kota = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final provinsiField = Column(
+      children: [
+        buildFormLabel(context, 'Provinsi'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.provinsi = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final alamatField = Column(
+      children: [
+        buildFormLabel(context, 'Alamat'),
+        SizedBox(height: 9),
+        TextFormField(
+          onSaved: (value) => userRegister.alamat = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
 
     final formInput = Container(
       padding: EdgeInsets.symmetric(
@@ -73,17 +183,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         key: formKey,
         child: Column(
           children: [
-            buildLabel('Username'),
+            buildFormLabel(context, 'Username'),
             SizedBox(height: 9),
             usernameField,
             SizedBox(height: 15),
-            buildLabel('Password'),
+            buildFormLabel(context, 'Password'),
             SizedBox(height: 9),
             passwordField,
             SizedBox(height: 15),
-            buildLabel('Confirm Password'),
+            buildFormLabel(context, 'Confirm Password'),
             SizedBox(height: 9),
             confirmPasswordField,
+            SizedBox(height: 15),
+            kelaminField,
+            nohpField,
+            lahirField,
+            emailField,
+            namaField,
+            alamatField,
+            kecamatanField,
+            kotaField,
+            provinsiField,
+            kodeposField,
           ],
         ),
       ),
@@ -94,6 +215,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (form!.validate()) {
         form.save();
+
+        final Future<Map<String, dynamic>> successfulMessage =
+            auth.register(userRegister);
+
+        successfulMessage.then((response) {
+          if (response['status']) {
+            Navigator.pushNamed(context, RouteConstants.login);
+          } else {
+            print(response['message']);
+            print(response['data']);
+          }
+        });
       }
     };
 
@@ -124,16 +257,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height:
               MediaQuery.of(context).size.height - padding.top - padding.bottom,
           color: ColorConstants.backgroundColor,
-          padding: EdgeInsets.symmetric(horizontal: 30),
           child: LayoutBuilder(builder: (context, constraint) {
             return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset(ImageConstants.appLogo),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.3,
+                        child: Image.asset(ImageConstants.appLogo),
+                      ),
+                    ),
                     formInput,
+                    SizedBox(height: 20),
                     registerButton,
                   ],
                 ),

@@ -18,4 +18,17 @@ class Alamat {
     required this.waktu,
     required this.instruksi,
   });
+
+  factory Alamat.fromJson(Map<String, dynamic> responseData) {
+    return Alamat(
+      dijemput: 1,
+      id_pesanan: responseData['id_pesanan'],
+      waktu: responseData['waktu'],
+      kode_pos: int.parse(responseData['kode_pos']),
+      instruksi: responseData['instruksi'],
+      kecamatan: responseData['kecamatan'],
+      kota: responseData['kota'],
+      alamat: responseData['alamat'],
+    );
+  }
 }

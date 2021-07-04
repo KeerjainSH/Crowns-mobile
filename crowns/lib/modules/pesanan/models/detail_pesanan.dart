@@ -1,5 +1,5 @@
 class DetailPesanan {
-  String nama;
+  String nama_lengkap;
   int lengan;
   int leher;
   int pinggang;
@@ -9,7 +9,7 @@ class DetailPesanan {
   String instruksi_pembuatan;
 
   DetailPesanan({
-    required this.nama,
+    required this.nama_lengkap,
     required this.dada,
     required this.leher,
     required this.lengan,
@@ -18,4 +18,17 @@ class DetailPesanan {
     required this.tinggi_tubuh,
     required this.instruksi_pembuatan,
   });
+
+  factory DetailPesanan.fromJson(Map<String, dynamic> responseData) {
+    return DetailPesanan(
+      nama_lengkap: responseData['nama_lengkap'],
+      dada: responseData['dada'],
+      leher: responseData['leher'],
+      lengan: responseData['lengan'],
+      pinggang: responseData['pinggang'],
+      berat_badan: responseData['berat_badan'],
+      tinggi_tubuh: responseData['tinggi_tubuh'],
+      instruksi_pembuatan: responseData['instruksi_pembuatan'],
+    );
+  }
 }

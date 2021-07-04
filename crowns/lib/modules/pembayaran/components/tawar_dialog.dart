@@ -1,5 +1,6 @@
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 class TawarDialog extends StatefulWidget {
@@ -44,21 +45,23 @@ class _TawarDialogState extends State<TawarDialog> {
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Harga: '),
-                        Text('Rp. '),
-                      ],
-                    ),
+                    width: MediaQuery.of(context).size.width * 0.27,
+                    child: Text('Harga: '),
                   ),
                   Expanded(
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        isDense: true,
-                      ),
+                    child: Row(
+                      children: [
+                        Text('Rp. '),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              isDense: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -70,13 +73,15 @@ class _TawarDialogState extends State<TawarDialog> {
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.27,
                     child: Text('Hari: '),
                   ),
                   Expanded(
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(isDense: true),
+                    child: DateTimePicker(
+                      type: DateTimePickerType.date,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                      icon: Icon(Icons.event),
                     ),
                   ),
                 ],

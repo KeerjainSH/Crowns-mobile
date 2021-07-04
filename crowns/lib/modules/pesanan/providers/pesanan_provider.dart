@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crowns/constants/api_path.dart';
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
+import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 
@@ -24,11 +26,21 @@ enum PesananStatus {
 
 class PesananProvider extends ChangeNotifier {
   PesananStatus _pesananStatus = PesananStatus.PesananNotCreated;
-  Pesanan? _pesanan;
+  PesananBaru? _pesanan;
   List<DetailPesanan> _detailPesananList = [];
   List<DesainCustom> _desainCustomList = [];
 
-  Pesanan get pesanan => _pesanan!;
+  List<Pesanan> _pesananBelumValidList = [];
+  RequestStatus _fetchPesananBelumValidStatus = RequestStatus.NotFetched;
+  RequestStatus get fetchPesananBelumValidStatus =>
+      _fetchPesananBelumValidStatus;
+  List<Pesanan> get pesnanBelumValidList => _pesananBelumValidList;
+
+  List<Pesanan> _pesananSelesaiList = [];
+
+  List<Pesanan> _pesananDikerjakanList = [];
+
+  PesananBaru get pesanan => _pesanan!;
   PesananStatus get pesananStatus => _pesananStatus;
   List<DesainCustom> get desainCustomList => _desainCustomList;
   List<DetailPesanan> get detailPesananList => _detailPesananList;
@@ -60,7 +72,7 @@ class PesananProvider extends ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
       var pesananData = responseData['data'];
 
-      _pesanan = new Pesanan.fromJson(pesananData);
+      _pesanan = new PesananBaru.fromJson(pesananData);
 
       addDetailPesanan();
 
@@ -135,13 +147,13 @@ class PesananProvider extends ChangeNotifier {
 
   void updateDetailPesanan(
     List<DetailPesanan> detailPesananList,
-    Pesanan pesanan,
+    PesananBaru pesanan,
   ) async {
     List<Map<String, dynamic>> detailPesananDataList = [];
 
     for (final detailPesanan in detailPesananList) {
       final Map<String, dynamic> detailPesananData = {
-        'nama_lengkap': detailPesanan.nama,
+        'nama_lengkap': detailPesanan.nama_lengkap,
         'lengan': detailPesanan.lengan,
         'pinggang': detailPesanan.pinggang,
         'dada': detailPesanan.dada,
@@ -180,7 +192,7 @@ class PesananProvider extends ChangeNotifier {
 
   DetailPesanan createEmptyDetailPesanan() {
     return new DetailPesanan(
-      nama: '',
+      nama_lengkap: '',
       dada: 0,
       leher: 0,
       lengan: 0,
@@ -189,6 +201,50 @@ class PesananProvider extends ChangeNotifier {
       tinggi_tubuh: 0,
       instruksi_pembuatan: '',
     );
+  }
+
+  Future<Map<String, dynamic>> fetchAllPesananBelumValid() async {
+    var result;
+    _fetchPesananBelumValidStatus = RequestStatus.Fetching;
+
+    var token =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6ImZiNTM5NmE3YmJjMWFlMGFiYjcyODBmOWJlZDAwMGE5OTNlMjkyM2U2OTY1Y2Q4OWJlYjYxNDZkZWI3YWM1NWNlOGYyMmQzOGYwMDAxMDk5IiwiaWF0IjoxNjI1MzcxOTk5LjM3NTY4LCJuYmYiOjE2MjUzNzE5OTkuMzc1NjgzLCJleHAiOjE2NTY5MDc5OTkuMzY0OTc0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AkKGUzMJ4l-2pFAN7GeJGdl0w9B8on9sye-YgKTTG4s3fXyujb0VqiSdjpqQbqGU2dJ9NIhxugc0Kk03t_G7_eq4O8MEsoFgC6J5F4SWhDL-Ksr3xeln4Bovub1Q1li_GlClRWbI2vFpci1Xgp7ixAR3txf43lmBd8ZQtoXI8FZQpr3CUQT5LYDXsJhJZ7ewkpw6CbWs6k5l5HinocjKVuCB5o8nXe7zK1WoStnT21p9UvICSEFSgvELNMvL54D-v9aCREhsmIeu2SZ-SrXEL3sCx9Z8iQ0JsHKp-PkS_1b2JOorzmm2cwBur1jzFfQNGYKuKBLAZKePv84oaZeS4QaaYh_f1UyrGxu6SB9ciq4fEOscoo_jmGX2sq7wZ04SaVoPWU9kFWLtE2sP4jARa2WACkI4VWffPC5v4llF-ekyPuqNEQsignaU_tdP-atbj_--M4YsD_itwEDqd2VPphwvwo2d40ZhZ4ySLCvow5LsAtMx_Zsu47_k2LtYS0rN_qkXWqBBFrl37l5IBKcXuVrErt7RcDy_eA2PdRpzAR4npAncTiGSeLXLGiKW7CFjomOGja1byjdsFWonOAVntae-h-2Bk2OAG5TnVkrNyHXCEDwiG66m7HsJkhhiKDJsMkXIAWlnK6QwJ1l7PiLSPPcxM7vUONXwZmHk_JrF0Dk';
+
+    Response response = await get(
+      Uri.parse(ApiPath.pesananBelumValid),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      var pesananBelumValidDataList = responseData['data'];
+
+      print(responseData);
+
+      for (final pesananBelumValid in pesananBelumValidDataList) {
+        Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
+        _pesananBelumValidList.add(pesanan);
+      }
+
+      _fetchPesananBelumValidStatus = RequestStatus.Fetched;
+      notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+        'data': pesnanBelumValidList,
+      };
+    } else {
+      _fetchPesananBelumValidStatus = RequestStatus.Failed;
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
+    }
+    return result;
   }
 
   void reset() {
