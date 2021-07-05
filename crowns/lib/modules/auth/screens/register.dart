@@ -2,6 +2,7 @@ import 'package:crowns/modules/auth/models/user_register.dart';
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -15,6 +16,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = new GlobalKey<FormState>();
 
+  String _currKelamin = 'l';
+
   UserRegister userRegister = UserRegister();
 
   @override
@@ -22,31 +25,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var padding = MediaQuery.of(context).padding;
     AuthProvider auth = Provider.of<AuthProvider>(context);
 
-    final usernameField = TextFormField(
-      onSaved: (value) => userRegister.username = value!,
-      validator: (value) => value == '' ? 'wajib diisi' : null,
+    final usernameField = Column(
+      children: [
+        buildFormLabel(context, 'Username'),
+        SizedBox(height: 9),
+        TextFormField(
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.username = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
     );
 
-    final passwordField = TextFormField(
-      // obscureText: true,
-      onSaved: (value) => userRegister.password = value!,
-      validator: (value) => value == '' ? 'wajib diisi' : null,
+    final passwordField = Column(
+      children: [
+        buildFormLabel(context, 'Email'),
+        SizedBox(height: 9),
+        TextFormField(
+          style: TextStyle(fontSize: 14),
+          obscureText: true,
+          onSaved: (value) => userRegister.password = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
     );
 
-    final confirmPasswordField = TextFormField(
-      // obscureText: true,
-      onSaved: (value) => userRegister.password = value!,
-      validator: (value) {
-        if (value == '') return 'wajib diisi';
-        // else if (value != userRegister.password) return 'password harus sama';
-        return null;
-      },
+    final confirmPasswordField = Column(
+      children: [
+        buildFormLabel(context, 'Konfirmasi Password'),
+        SizedBox(height: 9),
+        TextFormField(
+          style: TextStyle(fontSize: 14),
+          obscureText: true,
+          onSaved: (value) => userRegister.password = value!,
+          validator: (value) {
+            if (value == '') return 'wajib diisi';
+            // else if (value != userRegister.password) return 'password harus sama';
+            return null;
+          },
+        ),
+        SizedBox(height: 15),
+      ],
     );
+
     final emailField = Column(
       children: [
         buildFormLabel(context, 'Email'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.email = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
@@ -59,6 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Nama'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.nama = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
@@ -70,10 +100,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         buildFormLabel(context, 'Jenis Kelamin'),
         SizedBox(height: 9),
-        TextFormField(
-          onSaved: (value) => userRegister.jenis_kelamin = value!,
-          validator: (value) => value == '' ? 'Please enter username' : null,
-        ),
+        FormField(builder: (FormFieldState state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 15),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                // style: TextStyle(fontSize: 18 ),
+                value: _currKelamin,
+                isDense: true,
+                onChanged: (String? value) {
+                  setState(() {
+                    userRegister.jenis_kelamin = value!;
+                    _currKelamin = value;
+                    state.didChange(value);
+                  });
+                },
+                items: ['l', 'p'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        }),
         SizedBox(height: 15),
       ],
     );
@@ -83,6 +136,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'No HP'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
+          keyboardType: TextInputType.number,
           onSaved: (value) => userRegister.no_hp = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
@@ -94,9 +149,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         buildFormLabel(context, 'Tanggal Lahir'),
         SizedBox(height: 9),
-        TextFormField(
+        DateTimePicker(
+          type: DateTimePickerType.date,
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+          style: TextStyle(fontSize: 13),
           onSaved: (value) => userRegister.tanggal_lahir = value!,
-          validator: (value) => value == '' ? 'Please enter username' : null,
+          validator: (value) => value == '' ? 'harus diisi' : null,
         ),
         SizedBox(height: 15),
       ],
@@ -107,6 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Kode Pos'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
+          keyboardType: TextInputType.number,
           onSaved: (value) => userRegister.kodepos = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
@@ -119,6 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Kecamatan'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.kecamatan = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
@@ -131,6 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Kota'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.kota = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
@@ -143,6 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Provinsi'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.provinsi = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
@@ -155,6 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         buildFormLabel(context, 'Alamat'),
         SizedBox(height: 9),
         TextFormField(
+          style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.alamat = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
@@ -164,8 +229,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     final formInput = Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 28,
-        vertical: 24,
+        horizontal: appPadding,
+        vertical: appPadding,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
@@ -183,28 +248,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
         key: formKey,
         child: Column(
           children: [
-            buildFormLabel(context, 'Username'),
-            SizedBox(height: 9),
-            usernameField,
-            SizedBox(height: 15),
-            buildFormLabel(context, 'Password'),
-            SizedBox(height: 9),
-            passwordField,
-            SizedBox(height: 15),
-            buildFormLabel(context, 'Confirm Password'),
-            SizedBox(height: 9),
-            confirmPasswordField,
-            SizedBox(height: 15),
-            kelaminField,
-            nohpField,
-            lahirField,
-            emailField,
             namaField,
-            alamatField,
-            kecamatanField,
-            kotaField,
-            provinsiField,
-            kodeposField,
+            emailField,
+            usernameField,
+            passwordField,
+            confirmPasswordField,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: kelaminField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: lahirField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: alamatField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: kecamatanField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: kotaField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: provinsiField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: nohpField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: kodeposField),
+              ],
+            ),
           ],
         ),
       ),
@@ -260,7 +340,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: LayoutBuilder(builder: (context, constraint) {
             return SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.symmetric(horizontal: appPadding),
                 child: Column(
                   children: [
                     Align(
@@ -273,6 +353,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     formInput,
                     SizedBox(height: 20),
                     registerButton,
+                    SizedBox(height: 40),
                   ],
                 ),
               ),
