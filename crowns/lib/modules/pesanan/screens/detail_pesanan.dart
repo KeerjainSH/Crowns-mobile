@@ -2,6 +2,7 @@ import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'dart:io';
 
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
@@ -18,6 +19,8 @@ class DetailPesananPage extends StatefulWidget {
 class _DetailPesananPageState extends State<DetailPesananPage> {
   final formKey = new GlobalKey<FormState>();
   int _highlightedImageIndex = 0;
+  bool _kainSendiri = false;
+  bool _desainSendiri = false;
 
   PesananStatus _state = PesananStatus.PesananCreated;
 
@@ -98,12 +101,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
     final orderQuantity = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Jumlah',
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        buildFormLabel2(context, 'Jumlah'),
         Row(
           children: [
             InkWell(
@@ -236,64 +234,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       ),
     );
 
-    final question = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softBlue,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 23),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Flexible(
-            flex: 7,
-            child: buildBodyText2(
-                context, 'Apakah kamu ingin memakai desain sendiri?'),
-          ),
-          Flexible(
-            flex: 3,
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      pesananProvider
-                          .setStatus(PesananStatus.DesainSendiriSelected);
-                    },
-                    child: buildButtonText2(context, 'ya'),
-                    style: ElevatedButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _state = PesananStatus.DesainPenjahitSelected;
-                      });
-                    },
-                    child: buildButtonText2(context, 'tidak'),
-                    style: ElevatedButton.styleFrom(
-                      primary: ColorConstants.darkGrey,
-                      visualDensity: VisualDensity.compact,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
     Container _buildCatalogImage(File imageItem, int index) {
       return Container(
         margin: EdgeInsets.only(right: 15),
@@ -323,41 +263,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         },
       );
     }
-
-    final uploadDesain = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softBlue,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(horizontal: appPadding),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Flexible(
-            flex: 7,
-            child: buildBodyText2(context, 'Upload desain kamu di sini!'),
-          ),
-          Flexible(
-            flex: 4,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: showDesainDialog,
-                child: buildButtonText2(context, 'Pilih Gambar'),
-                style: ElevatedButton.styleFrom(
-                  visualDensity: VisualDensity.comfortable,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
 
     final catalogAddImage = Container(
       decoration: BoxDecoration(
@@ -420,6 +325,96 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       // },
     );
 
+    final questionDesain = Container(
+      decoration: BoxDecoration(
+        color: ColorConstants.softGrey,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: appPadding,
+        vertical: 4,
+      ),
+      padding: EdgeInsets.all(6),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 6,
+            child: buildBodyText2(
+                context, 'Apakah kamu ingin memakai desain sendiri?'),
+          ),
+          Flexible(
+            flex: 4,
+            child: ToggleSwitch(
+              minHeight: 30,
+              minWidth: MediaQuery.of(context).size.width * 0.15,
+              cornerRadius: 20.0,
+              activeBgColors: [
+                [ColorConstants.primaryColor],
+                [ColorConstants.primaryColor],
+              ],
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              initialLabelIndex: _desainSendiri ? 0 : 1,
+              totalSwitches: 2,
+              labels: ['Ya', 'Tidak'],
+              radiusStyle: true,
+              onToggle: (index) {
+                setState(() {
+                  _desainSendiri = index == 0 ? true : false;
+                });
+                print('desain sendiri: $_desainSendiri');
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+
+    final questionKain = Container(
+      decoration: BoxDecoration(
+        color: ColorConstants.softGrey,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: appPadding,
+        vertical: 4,
+      ),
+      padding: EdgeInsets.all(6),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 6,
+            child: buildBodyText2(
+                context, 'Apakah kamu ingin memakai kain sendiri?'),
+          ),
+          Flexible(
+            flex: 4,
+            child: ToggleSwitch(
+              minHeight: 30,
+              minWidth: MediaQuery.of(context).size.width * 0.15,
+              cornerRadius: 20.0,
+              activeBgColors: [
+                [ColorConstants.primaryColor],
+                [ColorConstants.primaryColor],
+              ],
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              initialLabelIndex: _kainSendiri ? 0 : 1,
+              totalSwitches: 2,
+              labels: ['Ya', 'Tidak'],
+              radiusStyle: true,
+              onToggle: (index) {
+                _kainSendiri = index == 0 ? true : false;
+                print('kain sendiri: $_kainSendiri');
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+
     return Provider(
       lazy: false,
       create: (context) {
@@ -440,17 +435,9 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   children: [
                     header,
                     SizedBox(height: 15),
-                    pesananProvider.pesananStatus ==
-                            PesananStatus.PesananCreated
-                        ? question
-                        : SizedBox.shrink(),
-                    pesananProvider.pesananStatus ==
-                            PesananStatus.DesainSendiriSelected
-                        ? uploadDesain
-                        : SizedBox.shrink(),
-                    pesananProvider.pesananStatus == PesananStatus.DesainAdded
-                        ? uploadedImages
-                        : SizedBox.shrink(),
+                    _desainSendiri ? uploadedImages : SizedBox.shrink(),
+                    questionDesain,
+                    questionKain,
                     SizedBox(height: 15),
                     form,
                     SizedBox(height: 25),
