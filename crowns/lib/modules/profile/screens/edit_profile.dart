@@ -1,7 +1,9 @@
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/auth/models/user_register.dart';
 import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +16,10 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final formKey = new GlobalKey<FormState>();
+
+  String _currKelamin = 'l';
+
+  UserRegister userRegister = UserRegister();
 
   @override
   Widget build(BuildContext context) {
@@ -56,63 +62,287 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       elevation: 0,
     );
 
-    Column buildFormItem(String label, String value) {
-      return Column(
-        children: [
-          buildFormLabel(context, label),
-          SizedBox(height: 9),
-          TextFormField(
-            style: Theme.of(context).textTheme.bodyText2,
-            initialValue: value,
-            enabled: false,
-            validator: (value) => value == '' ? 'required' : null,
-          ),
-          SizedBox(height: 15),
-        ],
-      );
-    }
+    final usernameField = Column(
+      children: [
+        buildFormLabel(context, 'Username'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.username,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.username = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final emailField = Column(
+      children: [
+        buildFormLabel(context, 'Email'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.email,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.email = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final namaField = Column(
+      children: [
+        buildFormLabel(context, 'Nama'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.nama,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.nama = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kelaminField = Column(
+      children: [
+        buildFormLabel(context, 'Jenis Kelamin'),
+        SizedBox(height: 9),
+        FormField(builder: (FormFieldState state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 15),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                value: _currKelamin,
+                isDense: true,
+                onChanged: (String? value) {
+                  setState(() {
+                    userRegister.jenis_kelamin = value!;
+                    _currKelamin = value;
+                    state.didChange(value);
+                  });
+                },
+                items: ['l', 'p'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        }),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final nohpField = Column(
+      children: [
+        buildFormLabel(context, 'No HP'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.no_hp,
+          style: TextStyle(fontSize: 14),
+          keyboardType: TextInputType.number,
+          onSaved: (value) => userRegister.no_hp = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final lahirField = Column(
+      children: [
+        buildFormLabel(context, 'Tanggal Lahir'),
+        SizedBox(height: 9),
+        DateTimePicker(
+          initialValue: profileProvider.profile.tanggal_lahir,
+          type: DateTimePickerType.date,
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+          style: TextStyle(fontSize: 13),
+          onSaved: (value) => userRegister.tanggal_lahir = value!,
+          validator: (value) => value == '' ? 'harus diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kodeposField = Column(
+      children: [
+        buildFormLabel(context, 'Kode Pos'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.kodepos,
+          style: TextStyle(fontSize: 14),
+          keyboardType: TextInputType.number,
+          onSaved: (value) => userRegister.kodepos = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kecamatanField = Column(
+      children: [
+        buildFormLabel(context, 'Kecamatan'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.kecamatan,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.kecamatan = value!,
+          validator: (value) => value == '' ? 'Please enter username' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final kotaField = Column(
+      children: [
+        buildFormLabel(context, 'Kota'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.kota,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.kota = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final provinsiField = Column(
+      children: [
+        buildFormLabel(context, 'Provinsi'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.provinsi,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.provinsi = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
+
+    final alamatField = Column(
+      children: [
+        buildFormLabel(context, 'Alamat'),
+        SizedBox(height: 9),
+        TextFormField(
+          initialValue: profileProvider.profile.alamat,
+          style: TextStyle(fontSize: 14),
+          onSaved: (value) => userRegister.alamat = value!,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
+        ),
+        SizedBox(height: 15),
+      ],
+    );
 
     final formInput = Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: appPadding,
+        vertical: appPadding,
+      ),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            spreadRadius: 2,
-            offset: Offset(-1, 2),
-            color: ColorConstants.softGrey,
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 0,
+            offset: Offset(0, 4),
+            blurRadius: 2,
           )
         ],
       ),
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(20),
       child: Form(
         key: formKey,
-        child: profileProvider.profileStatus == RequestStatus.Fetched
-            ? Column(
-                children: [
-                  buildFormItem('Username', profileProvider.profile.username),
-                  buildFormItem('Email', profileProvider.profile.email),
-                  buildFormItem('Nama', profileProvider.profile.nama),
-                  buildFormItem(
-                      'Jenis kelamin', profileProvider.profile.jenis_kelamin),
-                  buildFormItem('No HP', profileProvider.profile.no_hp),
-                  buildFormItem(
-                      'Tanggal Lahir', profileProvider.profile.tanggal_lahir),
-                  buildFormItem('Kode Pos', profileProvider.profile.kodepos),
-                  buildFormItem('Alamat', profileProvider.profile.alamat),
-                  buildFormItem('Kecamatan', profileProvider.profile.kecamatan),
-                  buildFormItem('Kota', profileProvider.profile.kota),
-                  buildFormItem('Provinsi', profileProvider.profile.provinsi),
-                ],
-              )
-            : Center(child: CircularProgressIndicator()),
+        child: Column(
+          children: [
+            namaField,
+            emailField,
+            usernameField,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: kelaminField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: lahirField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: alamatField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: kecamatanField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: kotaField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: provinsiField),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: nohpField),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Expanded(child: kodeposField),
+              ],
+            ),
+          ],
+        ),
       ),
     );
 
+    // final formInput = Container(
+    //   decoration: BoxDecoration(
+    //     color: Colors.white,
+    //     borderRadius: BorderRadius.circular(16),
+    //     boxShadow: [
+    //       BoxShadow(
+    //         spreadRadius: 2,
+    //         offset: Offset(-1, 2),
+    //         color: ColorConstants.softGrey,
+    //       )
+    //     ],
+    //   ),
+    //   margin: EdgeInsets.all(15),
+    //   padding: EdgeInsets.all(20),
+    //   child: Form(
+    //     key: formKey,
+    //     child: profileProvider.profileStatus == RequestStatus.Fetched
+    //         ? Column(
+    //             children: [
+    //               buildFormItem('Username', profileProvider.profile.username),
+    //               buildFormItem('Email', profileProvider.profile.email),
+    //               buildFormItem('Nama', profileProvider.profile.nama),
+    //               buildFormItem(
+    //                   'Jenis kelamin', profileProvider.profile.jenis_kelamin),
+    //               buildFormItem('No HP', profileProvider.profile.no_hp),
+    //               buildFormItem(
+    //                   'Tanggal Lahir', profileProvider.profile.tanggal_lahir),
+    //               buildFormItem('Kode Pos', profileProvider.profile.kodepos),
+    //               buildFormItem('Alamat', profileProvider.profile.alamat),
+    //               buildFormItem('Kecamatan', profileProvider.profile.kecamatan),
+    //               buildFormItem('Kota', profileProvider.profile.kota),
+    //               buildFormItem('Provinsi', profileProvider.profile.provinsi),
+    //             ],
+    //           )
+    //         : Center(child: CircularProgressIndicator()),
+    //   ),
+    // );
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorConstants.softGrey,
+        backgroundColor: ColorConstants.backgroundColor,
         appBar: appBar,
         body: profileProvider.profileStatus == RequestStatus.Fetched
             ? Container(

@@ -161,6 +161,7 @@ class _PesananScreenState extends State<PesananScreen> {
             ],
           ),
         ),
+        extendBody: true,
         bottomNavigationBar: navbar,
       ),
     );
