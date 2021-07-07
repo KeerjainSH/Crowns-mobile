@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -34,38 +35,46 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
 
     return Provider(
       lazy: false,
-      create: (context) => penjahitProvider.fetchPenjahitByCatalogId(2),
+      create: (context) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          penjahitProvider.fetchPenjahitByCatalogId(2);
+        });
+      },
+      dispose: (context, data) => penjahitProvider.reset(),
       child: SafeArea(
         child: Scaffold(
           body: Container(
             height: MediaQuery.of(context).size.height -
                 padding.top -
                 padding.bottom,
-            child: SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: Column(
-                children: [
-                  appHeader,
-                  SizedBox(height: 36),
-                  Container(
-                    width: 221,
-                    child: Image.asset(ImageConstants.progressBar1),
+            child: penjahitProvider.penjahitStatus == RequestStatus.Fetching
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    physics: ScrollPhysics(),
+                    child: Column(
+                      children: [
+                        appHeader,
+                        SizedBox(height: 36),
+                        Container(
+                          width: 221,
+                          child: Image.asset(ImageConstants.progressBar1),
+                        ),
+                        SizedBox(height: 36),
+                        Padding(
+                          padding: const EdgeInsets.only(left: appPadding),
+                          child: buildHeadline(context, 'Penjahit'),
+                        ),
+                        SizedBox(height: 6),
+                        Padding(
+                          padding: const EdgeInsets.only(left: appPadding),
+                          child: buildSubtitle(
+                              context, 'Pilih penjahit favoritmu'),
+                        ),
+                        SizedBox(height: 15),
+                        content,
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.only(left: appPadding),
-                    child: buildHeadline(context, 'Penjahit'),
-                  ),
-                  SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.only(left: appPadding),
-                    child: buildSubtitle(context, 'Pilih penjahit favoritmu'),
-                  ),
-                  SizedBox(height: 15),
-                  content,
-                ],
-              ),
-            ),
           ),
         ),
       ),

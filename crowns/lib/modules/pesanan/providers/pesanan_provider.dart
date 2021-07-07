@@ -79,7 +79,6 @@ class PesananProvider extends ChangeNotifier {
       _pesananStatus = PesananStatus.PesananCreated;
       notifyListeners();
     } else {
-      print(json.decode(response.body)['message']);
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
     }
@@ -224,8 +223,6 @@ class PesananProvider extends ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       var pesananBelumValidDataList = responseData['data'];
-
-      print(responseData);
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
         Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);

@@ -140,7 +140,8 @@ ItemBuilder _defaultItemBuilder({
                   children: <Widget>[
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, item.route!);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, item.route!, (route) => false);
                       },
                       child: Container(
                         height: 24,

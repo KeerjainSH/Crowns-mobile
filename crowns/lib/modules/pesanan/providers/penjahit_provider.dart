@@ -15,10 +15,13 @@ class PenjahitProvider extends ChangeNotifier {
 
   Future<void> fetchPenjahitByCatalogId(int id) async {
     _penjahitStatus = RequestStatus.Fetching;
+    notifyListeners();
+
     Response response = await get(
       Uri.parse(ApiPath.getPenjahitByCatalogId(id)),
       headers: {'Content-Type': 'application/json'},
     );
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
@@ -35,5 +38,9 @@ class PenjahitProvider extends ChangeNotifier {
       _penjahitStatus = RequestStatus.Failed;
       notifyListeners();
     }
+  }
+
+  void reset() {
+    _penjahitList.removeRange(0, _penjahitList.length);
   }
 }

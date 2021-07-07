@@ -7,7 +7,7 @@ import '../../modules/auth/screens/login.dart';
 import '../../modules/auth/screens/register.dart';
 import '../../modules/catalog/screens/catalog.dart';
 import '../../modules/catalog/screens/kreasi.dart';
-import '../../modules/home/screens/home.dart';
+import '../../modules/home.dart';
 import '../../modules/pembayaran/screens/detail_pembayaran.dart';
 import '../../modules/pembayaran/screens/menunggu_konfirmasi.dart';
 import '../../modules/pembayaran/screens/pembayaran.dart';

@@ -1,8 +1,7 @@
-import 'package:crowns/modules/home/models/category.dart';
-import 'package:crowns/modules/home/providers/home_provider.dart';
+import 'package:crowns/modules/catalog/models/category.dart';
+import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:crowns/widgets/floating_bottom_navigation_bar.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    HomeProvider homeProvider =
-        Provider.of<HomeProvider>(context, listen: false);
+    CatalogProvider catalogProvider =
+        Provider.of<CatalogProvider>(context, listen: false);
 
     var padding = MediaQuery.of(context).padding;
 
@@ -140,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(height: 8),
-          Consumer<HomeProvider>(builder: (context, model, child) {
+          Consumer<CatalogProvider>(builder: (context, model, child) {
             return Container(
               height: 125,
               child: ListView.builder(
@@ -157,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Provider(
-      create: (context) => homeProvider.fetchCategory(),
+      create: (context) => catalogProvider.fetchCategory(),
       lazy: false,
       child: SafeArea(
         child: Scaffold(

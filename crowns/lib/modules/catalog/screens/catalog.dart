@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,7 @@ class CatalogScreen extends StatefulWidget {
 class _CatalogScreenState extends State<CatalogScreen> {
   @override
   Widget build(BuildContext context) {
-    CatalogProvider catalogProvider =
-        Provider.of<CatalogProvider>(context, listen: false);
+    CatalogProvider catalogProvider = Provider.of<CatalogProvider>(context);
 
     final padding = MediaQuery.of(context).padding;
 
@@ -39,44 +39,49 @@ class _CatalogScreenState extends State<CatalogScreen> {
       );
     }
 
-    Column _buildCatalogPerCategory(String text) {
+    Column _buildCatalogPerCategory() {
       return Column(
-        children: [
-          SizedBox(height: 14),
-          Container(
-            padding: EdgeInsets.only(left: appPadding),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
+        children: catalogProvider.catalogAllByCategory.entries.map((entry) {
+          return Column(
+            children: [
+              SizedBox(height: 14),
+              Container(
+                padding: EdgeInsets.only(left: appPadding),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    entry.key,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 5),
-          Consumer<CatalogProvider>(
-            builder: (context, model, child) {
-              return Container(
+              SizedBox(height: 5),
+              Container(
                 height: 106,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: model.catalogAllList.length,
+                  itemCount: entry.value.length,
                   itemBuilder: (context, i) {
-                    return _buildCatalogImage(model.catalogAllList[i], i);
+                    return _buildCatalogImage(entry.value[i], i);
                   },
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            ],
+          );
+        }).toList(),
       );
     }
 
     return Provider(
-      create: (context) => catalogProvider.fetchCatalogAll(),
+      create: (context) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          catalogProvider.fetchCatalogAll();
+        });
+      },
+      dispose: (context, data) => catalogProvider.resetCatalog(),
       lazy: false,
       child: SafeArea(
         child: Scaffold(
@@ -84,54 +89,54 @@ class _CatalogScreenState extends State<CatalogScreen> {
             height: MediaQuery.of(context).size.height -
                 padding.top -
                 padding.bottom,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  appHeader,
-                  SizedBox(height: 36),
+            child: catalogProvider.catalogAllStatus == RequestStatus.Fetching
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        appHeader,
+                        SizedBox(height: 36),
 
-                  /// Show image progress bar
-                  Container(
-                    width: 221,
-                    child: Image.asset(ImageConstants.progressBar2),
-                  ),
-                  SizedBox(height: 36),
-                  Container(
-                    padding: EdgeInsets.only(left: appPadding),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Katalog',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22,
+                        /// Show image progress bar
+                        Container(
+                          width: 221,
+                          child: Image.asset(ImageConstants.progressBar2),
                         ),
-                      ),
+                        SizedBox(height: 36),
+                        Container(
+                          padding: EdgeInsets.only(left: appPadding),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Katalog',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          padding: EdgeInsets.only(left: appPadding),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Busana spesialis para penjahit kamu!',
+                              style: TextStyle(
+                                color: ColorConstants.darkGrey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                        _buildCatalogPerCategory(),
+                        SizedBox(height: 80),
+                      ],
                     ),
                   ),
-
-                  Container(
-                    padding: EdgeInsets.only(left: appPadding),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Busana spesialis para penjahit kamu!',
-                        style: TextStyle(
-                          color: ColorConstants.darkGrey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                  _buildCatalogPerCategory('Seragam Sekolah'),
-                  _buildCatalogPerCategory('Busana Pesta'),
-                  _buildCatalogPerCategory('Busana Formal'),
-                  SizedBox(height: 32),
-                ],
-              ),
-            ),
           ),
           extendBody: true,
           bottomNavigationBar: navbar,
