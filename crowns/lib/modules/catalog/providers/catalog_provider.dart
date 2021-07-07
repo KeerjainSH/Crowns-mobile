@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:crowns/constants/api_path.dart';
@@ -15,13 +16,21 @@ class CatalogProvider extends ChangeNotifier {
   RequestStatus _catalogAllStatus = RequestStatus.NotFetched;
   RequestStatus _categoryStatus = RequestStatus.NotFetched;
 
+  int _categoryId = 1;
+  String _category = '';
+
+  set categoryId(int id) => this._categoryId = id;
+  int get categoryId => this._categoryId;
+
   // List<Catalog> _catalogAllList = [];
   Map<String, dynamic> _catalogAllByCategory = Map<String, dynamic>();
   List<Catalog> _catalogByCategoryList = [];
   List<Category> _categoryList = [];
 
-  RequestStatus get catalogByIdStatus => _catalogByCategoryStatus;
+  RequestStatus get catalogByCategoryStatus => _catalogByCategoryStatus;
   RequestStatus get catalogAllStatus => _catalogAllStatus;
+
+  String get category => _category;
 
   // List<Catalog> get catalogAllList => _catalogAllList;
   Map<String, dynamic> get catalogAllByCategory => _catalogAllByCategory;
@@ -115,7 +124,7 @@ class CatalogProvider extends ChangeNotifier {
 
   void fetchCatalogByCategoryId(int id) async {
     _catalogByCategoryStatus = RequestStatus.Fetching;
-    // notifyListeners();
+    notifyListeners();
 
     Response response = await get(
       Uri.parse(ApiPath.getCatalogByCategoryId(id)),
@@ -126,6 +135,8 @@ class CatalogProvider extends ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       var catalogDataList = responseData['data']['katalog'];
+
+      _category = responseData['data']['kategori'];
 
       /// For dummy image
       /// Commnet soon
@@ -138,10 +149,10 @@ class CatalogProvider extends ChangeNotifier {
         _catalogByCategoryList.add(catalog);
       }
 
-      _catalogAllStatus = RequestStatus.Fetched;
+      _catalogByCategoryStatus = RequestStatus.Fetched;
       notifyListeners();
     } else {
-      _catalogAllStatus = RequestStatus.Failed;
+      _catalogByCategoryStatus = RequestStatus.Failed;
       notifyListeners();
     }
   }
@@ -152,5 +163,6 @@ class CatalogProvider extends ChangeNotifier {
 
   void resetKreasi() {
     _catalogByCategoryList.removeRange(0, _catalogByCategoryList.length);
+    _category = '';
   }
 }

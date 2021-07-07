@@ -11,6 +11,10 @@ import 'package:crowns/widgets/app_widgets.dart';
 import 'package:provider/provider.dart';
 
 class PilihPenjahitScreen extends StatefulWidget {
+  int id;
+
+  PilihPenjahitScreen({required this.id});
+
   @override
   _PilihPenjahitScreenState createState() => _PilihPenjahitScreenState();
 }
@@ -37,7 +41,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
       lazy: false,
       create: (context) {
         WidgetsBinding.instance!.addPostFrameCallback((_) {
-          penjahitProvider.fetchPenjahitByCatalogId(2);
+          penjahitProvider.fetchPenjahitByCatalogId(widget.id);
         });
       },
       dispose: (context, data) => penjahitProvider.reset(),

@@ -1,6 +1,7 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
+import 'package:crowns/modules/pesanan/screens/pilih_penjahit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/app_widgets.dart';
@@ -29,7 +30,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
           borderRadius: BorderRadius.circular(18),
           child: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, RouteConstants.pilihPenjahit);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PilihPenjahitScreen(id: catalog.id),
+                  ));
             },
             child: new Image.memory(catalog.foto),
             // child: Text(catalog.nama),

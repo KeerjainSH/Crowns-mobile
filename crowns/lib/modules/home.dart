@@ -60,7 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return Align(
         alignment: Alignment.topCenter,
         child: InkWell(
-          onTap: () => Navigator.pushNamed(context, RouteConstants.kreasi),
+          onTap: () {
+            catalogProvider.categoryId = category.id;
+            Navigator.pushNamed(context, RouteConstants.kreasi);
+          },
           child: Container(
             margin: index == 0
                 ? EdgeInsets.symmetric(horizontal: 29)
