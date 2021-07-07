@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/profile/models/profile.dart';
+import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 
@@ -36,5 +37,12 @@ class ProfileProvider extends ChangeNotifier {
       _profileStatus = RequestStatus.Failed;
       notifyListeners();
     }
+  }
+
+  Future<Map<String, dynamic>> logout() async {
+    var result;
+    UserPreferences().removeUser();
+    result = {'status': true};
+    return result;
   }
 }

@@ -145,8 +145,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 20),
                   CustomButton(
                     text: 'logout',
-                    callback: () =>
-                        Navigator.pushNamed(context, RouteConstants.profile),
+                    callback: () {
+                      Future<Map<String, dynamic>> result =
+                          profileProvider.logout();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RouteConstants.login, (route) => false);
+                    },
                   ),
                   SizedBox(height: 50),
                 ],

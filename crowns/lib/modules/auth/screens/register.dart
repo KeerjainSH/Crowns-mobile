@@ -1,11 +1,13 @@
+import 'package:crowns/modules/auth/models/user.dart';
 import 'package:crowns/modules/auth/models/user_register.dart';
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
-import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/modules/auth/providers/user_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -40,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     final passwordField = Column(
       children: [
-        buildFormLabel(context, 'Email'),
+        buildFormLabel(context, 'Password'),
         SizedBox(height: 9),
         TextFormField(
           style: TextStyle(fontSize: 14),
@@ -301,10 +303,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         successfulMessage.then((response) {
           if (response['status']) {
-            Navigator.pushNamed(context, RouteConstants.login);
+            User user = response['user'];
+            Provider.of<UserProvider>(context, listen: false).setUser(user);
+
+            final snackBar = SnackBar(
+              content: Text('Register berhasil'),
+              backgroundColor: ColorConstants.primaryColor,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteConstants.landingPage, (route) => false);
           } else {
-            print(response['message']);
-            print(response['data']);
+            final snackBar = SnackBar(
+              content: Text(response['data']),
+              backgroundColor: ColorConstants.black,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         });
       }
@@ -352,7 +367,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     formInput,
                     SizedBox(height: 20),
-                    registerButton,
+                    if (auth.registeredInStatus == AuthStatus.Registering)
+                      CircularProgressIndicator()
+                    else
+                      registerButton,
                     SizedBox(height: 40),
                   ],
                 ),

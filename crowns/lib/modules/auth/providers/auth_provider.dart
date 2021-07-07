@@ -52,17 +52,22 @@ class AuthProvider with ChangeNotifier {
       UserPreferences().saveUser(authUser);
 
       _loggedInStatus = AuthStatus.LoggedIn;
+      notifyListeners();
+
       result = {
         'status': true,
         'message': 'Successful',
         'user': authUser,
       };
     } else {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
       _loggedInStatus = AuthStatus.NotLoggedIn;
       notifyListeners();
+
       result = {
         'status': false,
-        'message': json.decode(response.body)['message'],
+        'message': responseData['message'],
       };
     }
     return result;
@@ -100,18 +105,33 @@ class AuthProvider with ChangeNotifier {
 
       var userData = responseData['data'];
 
-      /// comment soon
-      print(userData);
+      User authUser = User.fromJson(userData);
 
-      _registeredInStatus = AuthStatus.Registered;
+      UserPreferences().saveUser(authUser);
+
+      _registeredInStatus = AuthStatus.LoggedIn;
+      notifyListeners();
+
       result = {
         'status': true,
         'message': 'Successful',
+        'user': authUser,
       };
     } else {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      var userData = responseData['data'];
+      String data = '';
+      int counter = 0;
+
+      for (final val in responseData['data'].values) {
+        print(val[0]);
+
+        if (counter > 0) data += '\n';
+
+        data += val[0];
+
+        counter++;
+      }
 
       _registeredInStatus = AuthStatus.NotRegistered;
       notifyListeners();
@@ -119,7 +139,7 @@ class AuthProvider with ChangeNotifier {
       result = {
         'status': false,
         'message': json.decode(response.body)['message'],
-        'data': userData,
+        'data': data,
       };
     }
     return result;

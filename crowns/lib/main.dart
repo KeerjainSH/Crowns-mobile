@@ -1,5 +1,7 @@
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/modules/auth/screens/login.dart';
+import 'package:crowns/modules/home/screens/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/modules/home/providers/home_provider.dart';
 import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
@@ -14,12 +16,18 @@ import 'package:crowns/config/themes/app_theme.dart';
 
 import 'package:crowns/config/routes/routes.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  runApp(MyApp(token != null));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  bool isLogin;
+
+  MyApp(this.isLogin);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -39,7 +47,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         onGenerateRoute: CustomRouter.generateRoute,
         theme: appTheme,
-        home: LoginScreen(),
+        home: isLogin ? HomeScreen() : LoginScreen(),
       ),
     );
   }

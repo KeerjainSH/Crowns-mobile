@@ -302,44 +302,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
 
-    // final formInput = Container(
-    //   decoration: BoxDecoration(
-    //     color: Colors.white,
-    //     borderRadius: BorderRadius.circular(16),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         spreadRadius: 2,
-    //         offset: Offset(-1, 2),
-    //         color: ColorConstants.softGrey,
-    //       )
-    //     ],
-    //   ),
-    //   margin: EdgeInsets.all(15),
-    //   padding: EdgeInsets.all(20),
-    //   child: Form(
-    //     key: formKey,
-    //     child: profileProvider.profileStatus == RequestStatus.Fetched
-    //         ? Column(
-    //             children: [
-    //               buildFormItem('Username', profileProvider.profile.username),
-    //               buildFormItem('Email', profileProvider.profile.email),
-    //               buildFormItem('Nama', profileProvider.profile.nama),
-    //               buildFormItem(
-    //                   'Jenis kelamin', profileProvider.profile.jenis_kelamin),
-    //               buildFormItem('No HP', profileProvider.profile.no_hp),
-    //               buildFormItem(
-    //                   'Tanggal Lahir', profileProvider.profile.tanggal_lahir),
-    //               buildFormItem('Kode Pos', profileProvider.profile.kodepos),
-    //               buildFormItem('Alamat', profileProvider.profile.alamat),
-    //               buildFormItem('Kecamatan', profileProvider.profile.kecamatan),
-    //               buildFormItem('Kota', profileProvider.profile.kota),
-    //               buildFormItem('Provinsi', profileProvider.profile.provinsi),
-    //             ],
-    //           )
-    //         : Center(child: CircularProgressIndicator()),
-    //   ),
-    // );
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstants.backgroundColor,

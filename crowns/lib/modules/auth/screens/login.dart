@@ -108,9 +108,21 @@ class _LoginScreenState extends State<LoginScreen> {
           if (response['status']) {
             User user = response['user'];
             Provider.of<UserProvider>(context, listen: false).setUser(user);
-            Navigator.pushNamed(context, RouteConstants.landingPage);
+
+            final snackBar = SnackBar(
+              content: Text('Login berhasil'),
+              backgroundColor: ColorConstants.black,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, RouteConstants.landingPage, (route) => false);
           } else {
-            print('Login gagal');
+            final snackBar = SnackBar(
+              content: Text('Email atau password salah'),
+              backgroundColor: ColorConstants.black,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         });
       }
@@ -135,7 +147,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       Image.asset(ImageConstants.appLogo),
                       formInput,
                       haveAccountQuestion,
-                      CustomButton(text: 'masuk', callback: login),
+                      auth.loggedInStatus == AuthStatus.Authenticating
+                          ? CircularProgressIndicator()
+                          : CustomButton(text: 'masuk', callback: login),
                     ],
                   ),
                 ),
