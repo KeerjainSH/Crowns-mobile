@@ -101,6 +101,8 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
+      print('helo');
+
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       var userData = responseData['data'];
@@ -109,7 +111,7 @@ class AuthProvider with ChangeNotifier {
 
       UserPreferences().saveUser(authUser);
 
-      _registeredInStatus = AuthStatus.LoggedIn;
+      _registeredInStatus = AuthStatus.Registered;
       notifyListeners();
 
       result = {

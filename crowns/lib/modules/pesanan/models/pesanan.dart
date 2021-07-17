@@ -36,7 +36,8 @@ class Pesanan {
     required this.tawaran,
   });
 
-  factory Pesanan.fromJson(Map<String, dynamic> responseData) {
+  factory Pesanan.fromJson(
+      Map<String, dynamic> responseData, String base64Image) {
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];
 
@@ -49,7 +50,7 @@ class Pesanan {
     List<DesainCustom> desainCustomList = [];
 
     for (final desainCustomData in desainCustomDataList) {
-      var desainCustom = DesainCustom.fromJson(desainCustomData);
+      var desainCustom = DesainCustom.fromJson(desainCustomData, base64Image);
       desainCustomList.add(desainCustom);
     }
 
@@ -66,7 +67,7 @@ class Pesanan {
       id_penjahit: responseData['id_penjahit'],
       id_konsumen: responseData['id_konsumen'],
       id_baju: responseData['id_baju'],
-      biaya_total: responseData['biaya_total'] ?? '',
+      biaya_total: responseData['biaya_total'].toString(),
       designKustom: desainCustomList,
       detail_pesanan: detailPesananList,
       jumlah: responseData['jumlah'],

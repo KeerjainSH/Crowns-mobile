@@ -1,6 +1,8 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:crowns/constants/app_constants.dart';
+import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
+import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,7 @@ class _PesananScreenState extends State<PesananScreen> {
       backgroundColor: Colors.white,
     );
 
-    Align buildTileContent() {
+    Align tile(Pesanan pesanan) {
       return Align(
         alignment: Alignment.topCenter,
         child: Container(
@@ -48,6 +50,7 @@ class _PesananScreenState extends State<PesananScreen> {
               ),
             ],
           ),
+          margin: EdgeInsets.only(bottom: 10),
           width: MediaQuery.of(context).size.width * 0.9,
           height: 120,
           child: Row(
@@ -70,13 +73,15 @@ class _PesananScreenState extends State<PesananScreen> {
                     SizedBox(height: 2),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Perempuan - Lengan dan Rok Panjang',
-                        style: TextStyle(
-                          color: ColorConstants.darkGrey,
-                          fontSize: 12,
-                        ),
-                      ),
+                      child: pesanan.designKustom.length > 0
+                          ? Text(
+                              pesanan.designKustom[0].deskipsi,
+                              style: TextStyle(
+                                color: ColorConstants.darkGrey,
+                                fontSize: 12,
+                              ),
+                            )
+                          : SizedBox.shrink(),
                     ),
                     SizedBox(height: 6),
                     Align(
@@ -91,13 +96,44 @@ class _PesananScreenState extends State<PesananScreen> {
                           vertical: 3,
                         ),
                         child: Text(
-                          'Dikerjakan',
+                          'Menunggu pembayaran',
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPesananLookbackPage(
+                                    detailPesanan: pesanan.detail_pesanan),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Lihat data detail',
+                            style:
+                                TextStyle(color: ColorConstants.primaryColor),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Text(
+                            'Upload bukti bayar',
+                            style:
+                                TextStyle(color: ColorConstants.primaryColor),
+                          ),
+                        ),
+                        SizedBox.shrink(),
+                      ],
+                    ),
                   ],
                 ),
               )
@@ -107,13 +143,18 @@ class _PesananScreenState extends State<PesananScreen> {
       );
     }
 
-    final content = Container(
-      child: Column(
-        children: [
-          buildTileContent(),
-        ],
-      ),
-    );
+    MediaQuery buildTileContent(List<Pesanan> data) {
+      return MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: data.length,
+          itemBuilder: (context, i) => tile(data[i]),
+        ),
+      );
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -142,11 +183,13 @@ class _PesananScreenState extends State<PesananScreen> {
                     FutureBuilder(
                       future: pesananProvider.fetchAllPesananBelumValid(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        return snapshot.connectionState == ConnectionState.done
-                            ? buildTileContent()
-                            : Center(
-                                child: CircularProgressIndicator(),
-                              );
+                        if (snapshot.hasData)
+                          return SingleChildScrollView(
+                              child: buildTileContent(snapshot.data['data']));
+
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       },
                     ),
                     Center(

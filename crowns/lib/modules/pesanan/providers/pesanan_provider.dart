@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:crowns/constants/api_path.dart';
+import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
 enum PesananStatus {
@@ -34,7 +37,7 @@ class PesananProvider extends ChangeNotifier {
   RequestStatus _fetchPesananBelumValidStatus = RequestStatus.NotFetched;
   RequestStatus get fetchPesananBelumValidStatus =>
       _fetchPesananBelumValidStatus;
-  List<Pesanan> get pesnanBelumValidList => _pesananBelumValidList;
+  List<Pesanan> get pesananBelumValidList => _pesananBelumValidList;
 
   List<Pesanan> _pesananSelesaiList = [];
 
@@ -209,7 +212,7 @@ class PesananProvider extends ChangeNotifier {
     _fetchPesananBelumValidStatus = RequestStatus.Fetching;
 
     var token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6ImZiNTM5NmE3YmJjMWFlMGFiYjcyODBmOWJlZDAwMGE5OTNlMjkyM2U2OTY1Y2Q4OWJlYjYxNDZkZWI3YWM1NWNlOGYyMmQzOGYwMDAxMDk5IiwiaWF0IjoxNjI1MzcxOTk5LjM3NTY4LCJuYmYiOjE2MjUzNzE5OTkuMzc1NjgzLCJleHAiOjE2NTY5MDc5OTkuMzY0OTc0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AkKGUzMJ4l-2pFAN7GeJGdl0w9B8on9sye-YgKTTG4s3fXyujb0VqiSdjpqQbqGU2dJ9NIhxugc0Kk03t_G7_eq4O8MEsoFgC6J5F4SWhDL-Ksr3xeln4Bovub1Q1li_GlClRWbI2vFpci1Xgp7ixAR3txf43lmBd8ZQtoXI8FZQpr3CUQT5LYDXsJhJZ7ewkpw6CbWs6k5l5HinocjKVuCB5o8nXe7zK1WoStnT21p9UvICSEFSgvELNMvL54D-v9aCREhsmIeu2SZ-SrXEL3sCx9Z8iQ0JsHKp-PkS_1b2JOorzmm2cwBur1jzFfQNGYKuKBLAZKePv84oaZeS4QaaYh_f1UyrGxu6SB9ciq4fEOscoo_jmGX2sq7wZ04SaVoPWU9kFWLtE2sP4jARa2WACkI4VWffPC5v4llF-ekyPuqNEQsignaU_tdP-atbj_--M4YsD_itwEDqd2VPphwvwo2d40ZhZ4ySLCvow5LsAtMx_Zsu47_k2LtYS0rN_qkXWqBBFrl37l5IBKcXuVrErt7RcDy_eA2PdRpzAR4npAncTiGSeLXLGiKW7CFjomOGja1byjdsFWonOAVntae-h-2Bk2OAG5TnVkrNyHXCEDwiG66m7HsJkhhiKDJsMkXIAWlnK6QwJ1l7PiLSPPcxM7vUONXwZmHk_JrF0Dk';
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDAxOWEyY2U2ZWUyNzA3OGQ4NjFjY2I2Y2NlYjExZDY2NjM3ODFlYTI4YmVmYWNkMzljYWM5NWRkZWI0NTFmZmZlNzBlMjlhNzJkYjBkOWUiLCJpYXQiOjE2MjY1MjMwODYuNTIzNzQxLCJuYmYiOjE2MjY1MjMwODYuNTIzNzY2LCJleHAiOjE2NTgwNTkwODYuNDk0MDc5LCJzdWIiOiI1MiIsInNjb3BlcyI6W119.cgR5DDJ1Mwr8wKkgYmBILnX9JYEFOUkUF_OiIFzPaDRqREW0Zk2i5eVVQY8zz_mI3JsnaKikI4WBAA5SEYnmrfuvO1U5LSWORxM9W9gHa4dacRzT7F4UXsApGdULh194V5ekoDZEalAkBwO6Yn8xJ-KzjauGzCeMKivk7-uPfWCRLEYNdTcB5naTjxM_KWLjJ1JXSIl4632zEwcOVa-H815aCz-pXnSdpGjLSYUKI3ihMMt1GKIKUtp2cXj_8cAPx_hYzxCNmVLYBeaprfFhpVmPN8iG26eknCex5TbZbYIL5tIxJ8okjuINkyJqPPv_L7NUQdFNLlgWasAUVetfJPycU5FeWuU1koAlkqEv6oB4r_7d6WHzorS37Dw7iyHMSMjqO_f7FCiBM1IcIyyy8kfwug7NISCa1uirqFTZDBZiUxRd2kf1-0L4wSm8PLBndKT9tUxDMmxb6vOuiYhuJ6788s1SOf3F4tAWOUtyTDLNgBXDeqBs5B3D8s3ncqIwuVUZnu5C7kAgnzdnYzmTMuBtuVZR50AvG52olAZaT2ac6xbaECeMMACubk7rvju4rFyt4JrX5a9rGQ4mpf28YNVqITHbcNcAm0pGTra7Lyy5CW1g0UgdptoYM2B9eW0a0-63ji2l2GmnxX3ZcgtWI0VDIrwAxGLRb2usSe0V6Xo';
 
     Response response = await get(
       Uri.parse(ApiPath.pesananBelumValid),
@@ -224,17 +227,24 @@ class PesananProvider extends ChangeNotifier {
 
       var pesananBelumValidDataList = responseData['data'];
 
+      /// For dummy image
+      /// Commnet soon
+      ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
+      var buffer = bytes.buffer;
+      var base64Image = base64.encode(Uint8List.view(buffer));
+
       for (final pesananBelumValid in pesananBelumValidDataList) {
-        Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
+        Pesanan pesanan = Pesanan.fromJson(pesananBelumValid, base64Image);
         _pesananBelumValidList.add(pesanan);
       }
 
       _fetchPesananBelumValidStatus = RequestStatus.Fetched;
       notifyListeners();
+
       result = {
-        'status': false,
+        'status': true,
         'message': json.decode(response.body)['message'],
-        'data': pesnanBelumValidList,
+        'data': _pesananBelumValidList,
       };
     } else {
       _fetchPesananBelumValidStatus = RequestStatus.Failed;

@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 
 class DesainCustom {
   File foto;
@@ -6,9 +10,13 @@ class DesainCustom {
 
   DesainCustom({required this.foto, required this.deskipsi});
 
-  factory DesainCustom.fromJson(Map<String, dynamic> responseData) {
+  factory DesainCustom.fromJson(
+    Map<String, dynamic> responseData,
+    String base64Image,
+  ) {
+    Uint8List fotoTemp = base64.decode(base64Image);
     return DesainCustom(
-      foto: responseData['foto'],
+      foto: File.fromRawPath(fotoTemp),
       deskipsi: responseData['foto'],
     );
   }

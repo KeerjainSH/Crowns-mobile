@@ -2,15 +2,16 @@ import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
-class FormDetailPesanan extends StatefulWidget {
+class FormDetailPesananFilled extends StatefulWidget {
   DetailPesanan detailPesanan;
-  FormDetailPesanan({required this.detailPesanan});
+  FormDetailPesananFilled({required this.detailPesanan});
 
   @override
-  _FormDetailPesananState createState() => _FormDetailPesananState();
+  _FormDetailPesananFilledState createState() =>
+      _FormDetailPesananFilledState();
 }
 
-class _FormDetailPesananState extends State<FormDetailPesanan> {
+class _FormDetailPesananFilledState extends State<FormDetailPesananFilled> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,8 +20,7 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
         buildFormLabel2(context, 'Nama Lengkap'),
         SizedBox(height: 5),
         TextFormField(
-          validator: (value) => value == '' ? 'harus diisi' : null,
-          onSaved: (value) => widget.detailPesanan.nama_lengkap = value!,
+          initialValue: widget.detailPesanan.nama_lengkap,
         ),
         SizedBox(height: 8),
         buildFormLabel2(context, 'Ukuran Baju'),
@@ -61,9 +61,7 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
             keyboardType: TextInputType.multiline,
             minLines: 4,
             maxLines: null,
-            validator: (value) => value == '' ? 'harus diisi' : null,
-            onSaved: (value) =>
-                widget.detailPesanan.instruksi_pembuatan = value!,
+            initialValue: widget.detailPesanan.instruksi_pembuatan,
           ),
         ),
         SizedBox(height: 22),
@@ -74,6 +72,20 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
 
 Container buildUkuranBajuField(
     BuildContext context, DetailPesanan detailPesanan, String text) {
+  var value;
+
+  if (text == 'Lengan')
+    value = detailPesanan.lengan.toString();
+  else if (text == 'Pinggang')
+    value = detailPesanan.pinggang.toString();
+  else if (text == 'Dada')
+    value = detailPesanan.dada.toString();
+  else if (text == 'Leher')
+    value = detailPesanan.leher.toString();
+  else if (text == 'Tinggi tubuh')
+    value = detailPesanan.tinggi_tubuh.toString();
+  else if (text == 'Berat Badan') value = detailPesanan.berat_badan.toString();
+
   return Container(
     width: MediaQuery.of(context).size.width * 0.22,
     child: Column(
@@ -89,21 +101,7 @@ Container buildUkuranBajuField(
                 vertical: 3,
               ),
             ),
-            validator: (value) => value == '' ? 'harus diisi' : null,
-            onSaved: (value) {
-              if (text == 'Lengan')
-                detailPesanan.lengan = double.parse(value!);
-              else if (text == 'Pinggang')
-                detailPesanan.pinggang = double.parse(value!);
-              else if (text == 'Dada')
-                detailPesanan.dada = double.parse(value!);
-              else if (text == 'Leher')
-                detailPesanan.leher = double.parse(value!);
-              else if (text == 'Tinggi tubuh')
-                detailPesanan.tinggi_tubuh = double.parse(value!);
-              else if (text == 'Berat Badan')
-                detailPesanan.berat_badan = double.parse(value!);
-            },
+            initialValue: value,
           ),
         ),
       ],

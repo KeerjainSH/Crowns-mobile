@@ -1,11 +1,11 @@
 class DetailPesanan {
   String nama_lengkap;
-  int lengan;
-  int leher;
-  int pinggang;
-  int tinggi_tubuh;
-  int dada;
-  int berat_badan;
+  double lengan;
+  double leher;
+  double pinggang;
+  double tinggi_tubuh;
+  double dada;
+  double berat_badan;
   String instruksi_pembuatan;
 
   DetailPesanan({
@@ -20,14 +20,14 @@ class DetailPesanan {
   });
 
   factory DetailPesanan.fromJson(Map<String, dynamic> responseData) {
-    return DetailPesanan(
+    return new DetailPesanan(
       nama_lengkap: responseData['nama_lengkap'],
-      dada: responseData['dada'],
-      leher: responseData['leher'],
-      lengan: responseData['lengan'],
-      pinggang: responseData['pinggang'],
-      berat_badan: responseData['berat_badan'],
-      tinggi_tubuh: responseData['tinggi_tubuh'],
+      dada: responseData['dada'].toDouble(),
+      leher: responseData['leher'].toDouble(),
+      lengan: responseData['lengan'].toDouble(),
+      pinggang: responseData['pinggang'].toDouble(),
+      berat_badan: responseData['berat_badan'].toDouble(),
+      tinggi_tubuh: responseData['tinggi_tubuh'].toDouble(),
       instruksi_pembuatan: responseData['instruksi_pembuatan'],
     );
   }
