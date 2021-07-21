@@ -2,6 +2,7 @@ import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
 import 'package:crowns/modules/pembayaran/models/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
+import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -299,8 +300,19 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                       SizedBox(height: 30),
                       CustomButton(
                         text: 'bayar',
-                        callback: () =>
-                            Navigator.pushNamed(context, '/pembayaran'),
+                        callback: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PembayaranPage(
+                                pembayaran: widget.pembayaran,
+                                totalHarga: widget.totalHarga,
+                                idPesanan: widget.idPesanan,
+                                noRekening: '089089089089',
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       SizedBox(height: 40),
                     ],
