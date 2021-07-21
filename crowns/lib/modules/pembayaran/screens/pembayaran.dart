@@ -1,3 +1,4 @@
+import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -8,6 +9,10 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/widgets/custom_button.dart';
 
 class PembayaranPage extends StatefulWidget {
+  Pembayaran pembayaran;
+
+  PembayaranPage({required this.pembayaran});
+
   @override
   _PembayaranPageState createState() => _PembayaranPageState();
 }

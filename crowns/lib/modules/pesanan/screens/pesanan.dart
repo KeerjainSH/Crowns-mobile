@@ -1,5 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:crowns/constants/app_constants.dart';
+import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
+import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
@@ -71,18 +73,18 @@ class _PesananScreenState extends State<PesananScreen> {
                       ),
                     ),
                     SizedBox(height: 2),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: pesanan.designKustom.length > 0
-                          ? Text(
-                              pesanan.designKustom[0].deskipsi,
-                              style: TextStyle(
-                                color: ColorConstants.darkGrey,
-                                fontSize: 12,
-                              ),
-                            )
-                          : SizedBox.shrink(),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: pesanan.designKustom.length > 0
+                    //       ? Text(
+                    //           pesanan.designKustom[0].deskipsi,
+                    //           style: TextStyle(
+                    //             color: ColorConstants.darkGrey,
+                    //             fontSize: 12,
+                    //           ),
+                    //         )
+                    //       : SizedBox.shrink(),
+                    // ),
                     SizedBox(height: 6),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -95,12 +97,11 @@ class _PesananScreenState extends State<PesananScreen> {
                           horizontal: 15,
                           vertical: 3,
                         ),
-                        child: Text(
-                          'Menunggu pembayaran',
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
+                        child: pesanan.status_pesanan == 3
+                            ? pesanan.pembayaran.status_pembayaran == 1
+                                ? Text('Menunggu penjahit mengisi harga')
+                                : Text('Menunggu pembayaran')
+                            : Text('Menunggu pembayaran diterima'),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -123,14 +124,30 @@ class _PesananScreenState extends State<PesananScreen> {
                                 TextStyle(color: ColorConstants.primaryColor),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            'Upload bukti bayar',
-                            style:
-                                TextStyle(color: ColorConstants.primaryColor),
-                          ),
-                        ),
+                        pesanan.status_pesanan == 3
+                            ? pesanan.pembayaran.status_pembayaran == 1
+                                ? SizedBox.shrink()
+                                : InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailPembayaranPage(
+                                            pembayaran: pesanan.pembayaran,
+                                            totalHarga: pesanan.biaya_total,
+                                            idPesanan: pesanan.id,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Menuju pembayaran',
+                                      style: TextStyle(
+                                          color: ColorConstants.primaryColor),
+                                    ),
+                                  )
+                            : SizedBox.shrink(),
                         SizedBox.shrink(),
                       ],
                     ),
@@ -156,56 +173,64 @@ class _PesananScreenState extends State<PesananScreen> {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar,
-        backgroundColor: Colors.white,
-        body: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: <Widget>[
-              ButtonsTabBar(
-                backgroundColor: ColorConstants.primaryColor,
-                unselectedBackgroundColor: ColorConstants.grey,
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                labelStyle:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                tabs: [
-                  Tab(text: "Pesanan Baru"),
-                  Tab(text: "Dikerjakan"),
-                  Tab(text: "Selesai"),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: <Widget>[
-                    FutureBuilder(
-                      future: pesananProvider.fetchAllPesananBelumValid(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData)
-                          return SingleChildScrollView(
-                              child: buildTileContent(snapshot.data['data']));
-
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                    Center(
-                      child: Icon(Icons.directions_transit),
-                    ),
-                    Center(
-                      child: Icon(Icons.directions_bike),
-                    ),
+    return Provider(
+      lazy: false,
+      create: (context) {},
+      dispose: (context, data) => pesananProvider.resetPesananBelumValid(),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: appBar,
+          backgroundColor: Colors.white,
+          body: DefaultTabController(
+            length: 3,
+            child: Column(
+              children: <Widget>[
+                ButtonsTabBar(
+                  backgroundColor: ColorConstants.primaryColor,
+                  unselectedBackgroundColor: ColorConstants.grey,
+                  unselectedLabelStyle: TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  tabs: [
+                    Tab(text: "Pesanan Baru"),
+                    Tab(text: "Dikerjakan"),
+                    Tab(text: "Selesai"),
                   ],
                 ),
-              ),
-            ],
+                Expanded(
+                  child: TabBarView(
+                    children: <Widget>[
+                      FutureBuilder(
+                        future: pesananProvider.fetchAllPesananBelumValid(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData)
+                            return SingleChildScrollView(
+                                child: buildTileContent(snapshot.data['data']));
+                          else if (snapshot.hasError)
+                            return Center(child: Text('Eror'));
+
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
+                      Center(
+                        child: Icon(Icons.directions_transit),
+                      ),
+                      Center(
+                        child: Icon(Icons.directions_bike),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          extendBody: true,
+          bottomNavigationBar: navbar,
         ),
-        extendBody: true,
-        bottomNavigationBar: navbar,
       ),
     );
   }

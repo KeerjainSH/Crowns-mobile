@@ -33,10 +33,6 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => DetailPesananPage());
       case RouteConstants.isiAlamat:
         return MaterialPageRoute(builder: (_) => UpdateAlamatScreen());
-      case RouteConstants.detilPembayaran:
-        return MaterialPageRoute(builder: (_) => DetailPembayaranPage());
-      case RouteConstants.pembayarn:
-        return MaterialPageRoute(builder: (_) => PembayaranPage());
       case RouteConstants.menungguKonfirmasi:
         return MaterialPageRoute(builder: (_) => MenungguKonfirmasiScreen());
       case RouteConstants.profile:

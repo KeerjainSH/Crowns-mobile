@@ -82,7 +82,7 @@ Container buildUkuranBajuField(
     value = detailPesanan.dada.toString();
   else if (text == 'Leher')
     value = detailPesanan.leher.toString();
-  else if (text == 'Tinggi tubuh')
+  else if (text == 'Tinggi Tubuh')
     value = detailPesanan.tinggi_tubuh.toString();
   else if (text == 'Berat Badan') value = detailPesanan.berat_badan.toString();
 
@@ -94,6 +94,7 @@ Container buildUkuranBajuField(
         Align(
           alignment: Alignment.centerLeft,
           child: TextFormField(
+            enabled: false,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(

@@ -5,13 +5,16 @@ import 'dart:typed_data';
 import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
+import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum PesananStatus {
   PesananNotCreated,
@@ -61,9 +64,9 @@ class PesananProvider extends ChangeNotifier {
     String token =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6IjgxY2UyODI5NzNiYjJlMTZkZGEyODM1M2ViYTdiNzMyMmI3MTdhYWNhZmE2YTRlMGVlNmUwNTQzOWE1MzcxMmI2OGU4NmFmMzFiMDlhMTc0IiwiaWF0IjoxNjI1NDkzMTMwLjUyOTQ5NywibmJmIjoxNjI1NDkzMTMwLjUyOTUwNiwiZXhwIjoxNjU3MDI5MTMwLjUxODQ1Nywic3ViIjoiMSIsInNjb3BlcyI6W119.oFlyY_Z8400Kp3kmBYkZEfAzZENfqdcAnPaSdhOyXB13Ph0u-EMYGk9kRxIQ70dAiw7WRSYroqm_jZDDnlw4S5rBlSSMx4SUlfAc5TdKWTFjhUOSVZI2pnoTpovEwvKw_bRRtm6iyVmx2zd337qJ-8t28M3wMiodcmlUXz9CcPuSCDeNacpbz5zFhXihC_1SK91NpCNwZVxe-8-Sh_teR63D424OMnUrtsqmOvfeGsKxIYC7RaNTAwZZbOEx55Xia0w04J2zDFYGkkLK57mBx19V4p_hB2ClZav91HfC5BIR0s4QbRmqi1Hb_gffPZRFo-EZCT7w71venAyXl8yaJLPcJOnTfOro51t7UeunhQwW-KDhZK1GS_MPseONKZwTjMxeLppYg_e25epnOs1ogA94v3gAuofJ7YmYsHI8jPJ4iZYas6E9bNUtAqjQk7GJd2m5yuYfNgGsfXwAawTKzAjChajeglaRvTAtbJgBn8bzPzNjk3yan_vr4baaZaZ-53o2UdPpm4Fp1llbDjNwJ02uvDNqz7Q1Enm2XDqWpdjsBvx1apu904XwjSUT2E332VHoz42PkihhGSaAFDq7zPK6ssVx7kwh9QmDFCIP4fe_ofI3N4pDgPxa9XcsmU48se1lVZScDU9MDgndELCkT4qn2_yqkpZvZSjh1lssrGM';
 
-    Response response = await post(
+    final response = await post(
       Uri.parse(ApiPath.createPesanan),
-      body: json.encode(pesananData),
+      body: pesananData,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -211,30 +214,34 @@ class PesananProvider extends ChangeNotifier {
     var result;
     _fetchPesananBelumValidStatus = RequestStatus.Fetching;
 
-    var token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDAxOWEyY2U2ZWUyNzA3OGQ4NjFjY2I2Y2NlYjExZDY2NjM3ODFlYTI4YmVmYWNkMzljYWM5NWRkZWI0NTFmZmZlNzBlMjlhNzJkYjBkOWUiLCJpYXQiOjE2MjY1MjMwODYuNTIzNzQxLCJuYmYiOjE2MjY1MjMwODYuNTIzNzY2LCJleHAiOjE2NTgwNTkwODYuNDk0MDc5LCJzdWIiOiI1MiIsInNjb3BlcyI6W119.cgR5DDJ1Mwr8wKkgYmBILnX9JYEFOUkUF_OiIFzPaDRqREW0Zk2i5eVVQY8zz_mI3JsnaKikI4WBAA5SEYnmrfuvO1U5LSWORxM9W9gHa4dacRzT7F4UXsApGdULh194V5ekoDZEalAkBwO6Yn8xJ-KzjauGzCeMKivk7-uPfWCRLEYNdTcB5naTjxM_KWLjJ1JXSIl4632zEwcOVa-H815aCz-pXnSdpGjLSYUKI3ihMMt1GKIKUtp2cXj_8cAPx_hYzxCNmVLYBeaprfFhpVmPN8iG26eknCex5TbZbYIL5tIxJ8okjuINkyJqPPv_L7NUQdFNLlgWasAUVetfJPycU5FeWuU1koAlkqEv6oB4r_7d6WHzorS37Dw7iyHMSMjqO_f7FCiBM1IcIyyy8kfwug7NISCa1uirqFTZDBZiUxRd2kf1-0L4wSm8PLBndKT9tUxDMmxb6vOuiYhuJ6788s1SOf3F4tAWOUtyTDLNgBXDeqBs5B3D8s3ncqIwuVUZnu5C7kAgnzdnYzmTMuBtuVZR50AvG52olAZaT2ac6xbaECeMMACubk7rvju4rFyt4JrX5a9rGQ4mpf28YNVqITHbcNcAm0pGTra7Lyy5CW1g0UgdptoYM2B9eW0a0-63ji2l2GmnxX3ZcgtWI0VDIrwAxGLRb2usSe0V6Xo';
+    var token = await UserPreferences().getToken();
+    print(token);
 
     Response response = await get(
       Uri.parse(ApiPath.pesananBelumValid),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
     );
 
     if (response.statusCode == 200) {
+      // String fixed = response.body.replaceAll(r"\", "");
+
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       var pesananBelumValidDataList = responseData['data'];
 
       /// For dummy image
       /// Commnet soon
-      ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
-      var buffer = bytes.buffer;
-      var base64Image = base64.encode(Uint8List.view(buffer));
+      // ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
+      // var buffer = bytes.buffer;
+      // var base64Image = base64.encode(Uint8List.view(buffer));
+
+      // print(base64Image);
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
-        Pesanan pesanan = Pesanan.fromJson(pesananBelumValid, base64Image);
+        Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
         _pesananBelumValidList.add(pesanan);
       }
 
@@ -243,7 +250,7 @@ class PesananProvider extends ChangeNotifier {
 
       result = {
         'status': true,
-        'message': json.decode(response.body)['message'],
+        'message': responseData['message'],
         'data': _pesananBelumValidList,
       };
     } else {
@@ -253,6 +260,7 @@ class PesananProvider extends ChangeNotifier {
         'message': json.decode(response.body)['message'],
       };
     }
+    print(result);
     return result;
   }
 
@@ -260,5 +268,9 @@ class PesananProvider extends ChangeNotifier {
     _pesananStatus = PesananStatus.PesananCreated;
     _detailPesananList.removeRange(0, _detailPesananList.length);
     _desainCustomList.removeRange(0, _desainCustomList.length);
+  }
+
+  void resetPesananBelumValid() {
+    _pesananBelumValidList.removeRange(0, _pesananBelumValidList.length);
   }
 }

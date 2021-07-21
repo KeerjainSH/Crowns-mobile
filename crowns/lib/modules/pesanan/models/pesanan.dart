@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
@@ -14,11 +17,9 @@ class Pesanan {
   int status_pesanan;
   int rating;
   List<DetailPesanan> detail_pesanan;
-  List<DesainCustom> designKustom;
+  // List<DesainCustom> designKustom;
   List<Alamat> lokasi_penjemputan;
-
-  /// not implemented class
-  // Pembayaran pembayaran;
+  Pembayaran pembayaran;
   Tawaran tawaran;
 
   Pesanan({
@@ -31,13 +32,13 @@ class Pesanan {
     required this.status_pesanan,
     required this.rating,
     required this.detail_pesanan,
-    required this.designKustom,
+    // required this.designKustom,
     required this.lokasi_penjemputan,
     required this.tawaran,
+    required this.pembayaran,
   });
 
-  factory Pesanan.fromJson(
-      Map<String, dynamic> responseData, String base64Image) {
+  factory Pesanan.fromJson(Map<String, dynamic> responseData) {
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];
 
@@ -46,13 +47,13 @@ class Pesanan {
       detailPesananList.add(detailPesanan);
     }
 
-    final desainCustomDataList = responseData['designKustom'];
-    List<DesainCustom> desainCustomList = [];
-
-    for (final desainCustomData in desainCustomDataList) {
-      var desainCustom = DesainCustom.fromJson(desainCustomData, base64Image);
-      desainCustomList.add(desainCustom);
-    }
+    // final desainCustomDataList = responseData['designKustom'];
+    // List<DesainCustom> desainCustomList = [];
+    //
+    // for (final desainCustomData in desainCustomDataList) {
+    //   var desainCustom = DesainCustom.fromJson(desainCustomData);
+    //   desainCustomList.add(desainCustom);
+    // }
 
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
@@ -62,13 +63,17 @@ class Pesanan {
       lokasiList.add(lokasi);
     }
 
+    var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
+
+    inspect(pembayaran);
+
     return Pesanan(
       id: responseData['id'],
       id_penjahit: responseData['id_penjahit'],
       id_konsumen: responseData['id_konsumen'],
       id_baju: responseData['id_baju'],
       biaya_total: responseData['biaya_total'].toString(),
-      designKustom: desainCustomList,
+      // designKustom: desainCustomList,
       detail_pesanan: detailPesananList,
       jumlah: responseData['jumlah'],
       lokasi_penjemputan: lokasiList,
@@ -83,6 +88,7 @@ class Pesanan {
           : Tawaran.fromJson(
               responseData['tawaran'],
             ),
+      pembayaran: pembayaran,
     );
   }
 }

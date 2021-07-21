@@ -1,13 +1,26 @@
 import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
 import 'package:crowns/modules/pembayaran/models/metode_bayar.dart';
+import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
+import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
+import 'package:provider/provider.dart';
 
 class DetailPembayaranPage extends StatefulWidget {
+  Pembayaran pembayaran;
+  String totalHarga;
+  int idPesanan;
+
+  DetailPembayaranPage({
+    required this.pembayaran,
+    required this.totalHarga,
+    required this.idPesanan,
+  });
+
   @override
   _DetailPembayaranPageState createState() => _DetailPembayaranPageState();
 }
@@ -17,6 +30,9 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
 
   @override
   Widget build(BuildContext context) {
+    // PembayaranProvider pembayaranProvider =
+    //     Provider.of<PembayaranProvider>(context, listen: false);
+
     final padding = MediaQuery.of(context).padding;
 
     final detilPembayaranInfo = Row(
@@ -48,6 +64,14 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                   style: TextStyle(fontSize: 13),
                 ),
               ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Biaya Jemput',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ),
             ],
           ),
         ),
@@ -57,7 +81,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp 120.000',
+                  'Rp. ${widget.pembayaran.biaya_jahit}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -65,7 +89,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp 300.000',
+                  'Rp. ${widget.pembayaran.biaya_material}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -73,7 +97,15 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp 20.000',
+                  'Rp. ${widget.pembayaran.biaya_kirim}',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ),
+              SizedBox(height: 6),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Rp. ${widget.pembayaran.biaya_kirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -91,7 +123,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
           style: TextStyle(fontSize: 13),
         ),
         Text(
-          'Rp 440.000',
+          'Rp ${widget.totalHarga}',
           style: TextStyle(fontSize: 13),
         ),
       ],
@@ -196,73 +228,84 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          height:
-              MediaQuery.of(context).size.height - padding.top - padding.bottom,
-          child: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children: [
-                  appHeader,
-                  SizedBox(height: 36),
+    return ChangeNotifierProvider<PembayaranProvider>(
+      create: (context) => PembayaranProvider(),
+      child: Consumer<PembayaranProvider>(
+        builder: (context, provider, child) => SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Container(
+              height: MediaQuery.of(context).size.height -
+                  padding.top -
+                  padding.bottom,
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: [
+                      appHeader,
+                      SizedBox(height: 36),
 
-                  /// Show image progress bar
-                  Container(
-                    width: 221,
-                    child: Image.asset(ImageConstants.progressBar4),
-                  ),
-                  SizedBox(height: 24),
+                      /// Show image progress bar
+                      Container(
+                        width: 221,
+                        child: Image.asset(ImageConstants.progressBar4),
+                      ),
+                      SizedBox(height: 24),
 
-                  Padding(
-                    padding: EdgeInsets.only(left: appPadding),
-                    child: buildHeadline(context, 'Pembayaran'),
-                  ),
-                  SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.only(left: appPadding),
-                    child: buildSubtitle(
-                        context, 'Estimasi harga yang harus dibayar'),
-                  ),
-                  SizedBox(height: 20),
+                      Padding(
+                        padding: EdgeInsets.only(left: appPadding),
+                        child: buildHeadline(context, 'Pembayaran'),
+                      ),
+                      SizedBox(height: 6),
+                      Padding(
+                        padding: const EdgeInsets.only(left: appPadding),
+                        child: buildSubtitle(
+                            context, 'Estimasi harga yang harus dibayar'),
+                      ),
+                      SizedBox(height: 20),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: appPadding),
-                    child: detilPembayaran,
-                  ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: appPadding),
+                        child: detilPembayaran,
+                      ),
 
-                  SizedBox(height: 47),
-                  CustomButton(
-                    text: 'tawar',
-                    callback: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return TawarDialog();
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.only(left: appPadding),
-                    child: buildHeadline(context, 'Metode'),
-                  ),
-                  SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.only(left: appPadding),
-                    child: buildSubtitle(context, 'Mau membayar dimana?'),
-                  ),
+                      SizedBox(height: 47),
+                      CustomButton(
+                        text: 'tawar',
+                        callback: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TawarDialog(
+                              totalHarga: widget.totalHarga,
+                              idPesanan: widget.idPesanan,
+                              pembayaranProvider: provider,
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 36),
+                      Padding(
+                        padding: const EdgeInsets.only(left: appPadding),
+                        child: buildHeadline(context, 'Metode'),
+                      ),
+                      SizedBox(height: 6),
+                      Padding(
+                        padding: const EdgeInsets.only(left: appPadding),
+                        child: buildSubtitle(context, 'Mau membayar dimana?'),
+                      ),
 
-                  _buildPanel(),
+                      _buildPanel(),
 
-                  SizedBox(height: 30),
-                  CustomButton(
-                    text: 'bayar',
-                    callback: () => Navigator.pushNamed(context, '/pembayaran'),
+                      SizedBox(height: 30),
+                      CustomButton(
+                        text: 'bayar',
+                        callback: () =>
+                            Navigator.pushNamed(context, '/pembayaran'),
+                      ),
+                      SizedBox(height: 40),
+                    ],
                   ),
-                  SizedBox(height: 40),
-                ],
+                ),
               ),
             ),
           ),
