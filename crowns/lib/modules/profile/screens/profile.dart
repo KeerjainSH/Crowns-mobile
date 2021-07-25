@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
-    ProfileProvider profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+    ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
 
     Container buildProfileHeader() {
       return Container(
@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Michael Ricky',
+                    profileProvider.profile.nama,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Mendaftar sejak 4 Juli 2021',
+                    profileProvider.profile.username,
                     style: TextStyle(
                       fontSize: 12,
                       color: ColorConstants.darkGrey,
@@ -129,34 +129,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Provider(
       lazy: false,
-      create: (context) => profileProvider.fetchProfile(1),
+      create: (context) => profileProvider.fetchProfile(),
+      // create: (context) {
+      //   Future<Map<String, dynamic>> result = profileProvider.logout();
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, RouteConstants.login, (route) => false);
+      // },
+      dispose: (context, data) {},
       child: SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height -
-                  padding.top -
-                  padding.bottom,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  buildProfileHeader(),
-                  aturProfile,
-                  SizedBox(height: 20),
-                  CustomButton(
-                    text: 'logout',
-                    callback: () {
-                      Future<Map<String, dynamic>> result =
-                          profileProvider.logout();
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RouteConstants.login, (route) => false);
-                    },
+          body: profileProvider.profileStatus == RequestStatus.Fetched
+              ? SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height -
+                        padding.top -
+                        padding.bottom,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        buildProfileHeader(),
+                        aturProfile,
+                        SizedBox(height: 20),
+                        CustomButton(
+                          text: 'logout',
+                          callback: () {
+                            Future<Map<String, dynamic>> result =
+                                profileProvider.logout();
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                RouteConstants.login, (route) => false);
+                          },
+                        ),
+                        SizedBox(height: 50),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 50),
-                ],
-              ),
-            ),
-          ),
+                )
+              : profileProvider.profileStatus == RequestStatus.Failed
+                  ? Center(child: Text('Terjadi kesalahan'))
+                  : Center(child: CircularProgressIndicator()),
           bottomNavigationBar: navbar,
         ),
       ),

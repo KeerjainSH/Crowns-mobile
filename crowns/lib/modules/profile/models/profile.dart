@@ -40,8 +40,9 @@ class Profile {
       kodepos: responseData['kodepos'],
       kecamatan: responseData['kecamatan'],
       kota: responseData['kota'],
-      provinsi: responseData['provinsi'],
-      alamat: responseData['alamat'],
+      provinsi:
+          responseData['provinsi'] == null ? '' : responseData['provinsi'],
+      alamat: responseData['alamat'] == null ? '' : responseData['alamat'],
       username: responseData['username'],
       email: responseData['email'],
     );

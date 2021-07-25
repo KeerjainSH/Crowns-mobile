@@ -14,32 +14,39 @@ class ProfileProvider extends ChangeNotifier {
   Profile get profile => _profile!;
   RequestStatus get profileStatus => _profileStatus;
 
-  void fetchProfile(int id) async {
+  void fetchProfile() async {
     print('fetchProfile');
     _profileStatus = RequestStatus.Fetching;
-    // notifyListeners();
+
+    final user = await UserPreferences().getUser();
+    final userId = user.id;
+
     print('here');
     Response response = await get(
-      Uri.parse(ApiPath.getProfileById(id)),
+      Uri.parse(ApiPath.getProfileById(userId)),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      print(responseData);
 
       var penjahitData = responseData['data'];
 
       _profile = Profile.fromJson(penjahitData);
-      _profileStatus = RequestStatus.Fetched;
 
+      _profileStatus = RequestStatus.Fetched;
       notifyListeners();
     } else {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print(responseData);
       _profileStatus = RequestStatus.Failed;
       notifyListeners();
     }
   }
 
   Future<Map<String, dynamic>> logout() async {
+    print('logout');
     var result;
     UserPreferences().removeUser();
     result = {'status': true};
