@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
+import 'package:crowns/modules/pesanan/models/baju.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class Pesanan {
   int id;
   int id_penjahit;
   int id_konsumen;
-  int id_baju;
+  Baju baju;
   int jumlah;
   String biaya_total;
   int status_pesanan;
@@ -26,7 +27,7 @@ class Pesanan {
     required this.id,
     required this.id_penjahit,
     required this.id_konsumen,
-    required this.id_baju,
+    required this.baju,
     required this.jumlah,
     required this.biaya_total,
     required this.status_pesanan,
@@ -39,6 +40,10 @@ class Pesanan {
   });
 
   factory Pesanan.fromJson(Map<String, dynamic> responseData) {
+    final bajuData = responseData['baju'];
+
+    Baju baju = Baju.fromJson(bajuData);
+
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];
 
@@ -63,15 +68,19 @@ class Pesanan {
       lokasiList.add(lokasi);
     }
 
+    print('in pembayaran');
+
     var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
 
     inspect(pembayaran);
+
+    print('out pembayaran');
 
     return Pesanan(
       id: responseData['id'],
       id_penjahit: responseData['id_penjahit'],
       id_konsumen: responseData['id_konsumen'],
-      id_baju: responseData['id_baju'],
+      baju: baju,
       biaya_total: responseData['biaya_total'].toString(),
       // designKustom: desainCustomList,
       detail_pesanan: detailPesananList,

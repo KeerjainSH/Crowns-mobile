@@ -21,7 +21,7 @@ class MenungguKonfirmasiScreen extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          'Silakan menunggu admin untuk mengkonfirmasi pesanan kamu',
+          'Silakan menunggu penjahit untuk mengisi harga pesanan kamu',
           style: TextStyle(color: ColorConstants.darkGrey),
           textAlign: TextAlign.center,
         ),
@@ -51,14 +51,14 @@ class MenungguKonfirmasiScreen extends StatelessWidget {
                   children: [
                     CustomButton(
                       text: 'Home',
-                      callback: () => Navigator.pushNamed(
-                          context, RouteConstants.landingPage),
+                      callback: () => Navigator.pushNamedAndRemoveUntil(context,
+                          RouteConstants.landingPage, (route) => false),
                     ),
                     SizedBox(width: 20),
                     CustomButton(
-                      text: 'Cart',
-                      callback: () =>
-                          Navigator.pushNamed(context, RouteConstants.pesanan),
+                      text: 'Pesanan',
+                      callback: () => Navigator.pushNamedAndRemoveUntil(
+                          context, RouteConstants.pesanan, (route) => false),
                     ),
                   ],
                 ),

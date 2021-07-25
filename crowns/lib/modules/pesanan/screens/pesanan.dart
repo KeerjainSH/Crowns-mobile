@@ -1,7 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
-import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
@@ -19,6 +19,8 @@ class PesananScreen extends StatefulWidget {
 
 class _PesananScreenState extends State<PesananScreen> {
   String _currState = 'Semua';
+
+  Future<List<Map<String, dynamic>>>? pesanan;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class _PesananScreenState extends State<PesananScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Seragam SMP',
+                        pesanan.baju.nama,
                       ),
                     ),
                     SizedBox(height: 2),
@@ -97,11 +99,15 @@ class _PesananScreenState extends State<PesananScreen> {
                           horizontal: 15,
                           vertical: 3,
                         ),
-                        child: pesanan.status_pesanan == 3
+                        child: pesanan.status_pesanan == 3 // pesanan baru
                             ? pesanan.pembayaran.status_pembayaran == 1
                                 ? Text('Menunggu penjahit mengisi harga')
                                 : Text('Menunggu pembayaran')
-                            : Text('Menunggu pembayaran diterima'),
+                            : pesanan.status_pesanan == 4
+                                ? pesanan.pembayaran.status_pembayaran == 4
+                                    ? Text('Baju sedang dikerjakan')
+                                    : Text('Menunggu pembayaran diterima')
+                                : Text('Pesanan Selesai'),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -160,22 +166,32 @@ class _PesananScreenState extends State<PesananScreen> {
       );
     }
 
-    MediaQuery buildTileContent(List<Pesanan> data) {
-      return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: data.length,
-          itemBuilder: (context, i) => tile(data[i]),
+    Container buildTileContent(List<Pesanan> data) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 80),
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: data.length,
+            itemBuilder: (context, i) => tile(data[i]),
+          ),
         ),
       );
     }
 
     return Provider(
       lazy: false,
-      create: (context) {},
+      create: (context) {
+        print('provider not lazy');
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          pesanan = pesananProvider.fetchAllPesanan();
+
+          setState(() {});
+        });
+      },
       dispose: (context, data) => pesananProvider.resetPesananBelumValid(),
       child: SafeArea(
         child: Scaffold(
@@ -202,12 +218,13 @@ class _PesananScreenState extends State<PesananScreen> {
                   child: TabBarView(
                     children: <Widget>[
                       FutureBuilder(
-                        future: pesananProvider.fetchAllPesananBelumValid(),
+                        future: pesanan,
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.hasData)
                             return SingleChildScrollView(
-                                child: buildTileContent(snapshot.data['data']));
+                                child:
+                                    buildTileContent(snapshot.data[0]['data']));
                           else if (snapshot.hasError)
                             return Center(child: Text('Eror'));
 
@@ -216,11 +233,37 @@ class _PesananScreenState extends State<PesananScreen> {
                           );
                         },
                       ),
-                      Center(
-                        child: Icon(Icons.directions_transit),
+                      FutureBuilder(
+                        future: pesanan,
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData)
+                            return SingleChildScrollView(
+                                child:
+                                    buildTileContent(snapshot.data[1]['data']));
+                          else if (snapshot.hasError)
+                            return Center(child: Text('Eror'));
+
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
-                      Center(
-                        child: Icon(Icons.directions_bike),
+                      FutureBuilder(
+                        future: pesanan,
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData)
+                            return SingleChildScrollView(
+                                child:
+                                    buildTileContent(snapshot.data[2]['data']));
+                          else if (snapshot.hasError)
+                            return Center(child: Text('Eror'));
+
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
                     ],
                   ),

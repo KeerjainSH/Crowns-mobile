@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -32,15 +33,22 @@ enum PesananStatus {
 
 class PesananProvider extends ChangeNotifier {
   PesananStatus _pesananStatus = PesananStatus.PesananNotCreated;
+
+  RequestStatus _allPesananStatus = RequestStatus.NotFetched;
+
   PesananBaru? _pesanan;
   List<DetailPesanan> _detailPesananList = [];
   List<DesainCustom> _desainCustomList = [];
 
-  List<Pesanan> _pesananBelumValidList = [];
+  RequestStatus get allPesananStatus => _allPesananStatus;
+
+  // List<Pesanan> _pesananBelumValidList = [];
+
   RequestStatus _fetchPesananBelumValidStatus = RequestStatus.NotFetched;
+
   RequestStatus get fetchPesananBelumValidStatus =>
       _fetchPesananBelumValidStatus;
-  List<Pesanan> get pesananBelumValidList => _pesananBelumValidList;
+  // List<Pesanan> get pesananBelumValidList => _pesananBelumValidList;
 
   List<Pesanan> _pesananSelesaiList = [];
 
@@ -54,24 +62,23 @@ class PesananProvider extends ChangeNotifier {
   void createPesanan(int id_penjahit, int id_baju) async {
     final Map<String, dynamic> pesananData = {
       'id_penjahit': id_penjahit,
-      'id_baju': id_baju,
+      'id_baju': id_baju
     };
 
     _pesananStatus = PesananStatus.PesananCreating;
     notifyListeners();
 
-    // String token = await UserPreferences().getToken();
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNCIsImp0aSI6IjgxY2UyODI5NzNiYjJlMTZkZGEyODM1M2ViYTdiNzMyMmI3MTdhYWNhZmE2YTRlMGVlNmUwNTQzOWE1MzcxMmI2OGU4NmFmMzFiMDlhMTc0IiwiaWF0IjoxNjI1NDkzMTMwLjUyOTQ5NywibmJmIjoxNjI1NDkzMTMwLjUyOTUwNiwiZXhwIjoxNjU3MDI5MTMwLjUxODQ1Nywic3ViIjoiMSIsInNjb3BlcyI6W119.oFlyY_Z8400Kp3kmBYkZEfAzZENfqdcAnPaSdhOyXB13Ph0u-EMYGk9kRxIQ70dAiw7WRSYroqm_jZDDnlw4S5rBlSSMx4SUlfAc5TdKWTFjhUOSVZI2pnoTpovEwvKw_bRRtm6iyVmx2zd337qJ-8t28M3wMiodcmlUXz9CcPuSCDeNacpbz5zFhXihC_1SK91NpCNwZVxe-8-Sh_teR63D424OMnUrtsqmOvfeGsKxIYC7RaNTAwZZbOEx55Xia0w04J2zDFYGkkLK57mBx19V4p_hB2ClZav91HfC5BIR0s4QbRmqi1Hb_gffPZRFo-EZCT7w71venAyXl8yaJLPcJOnTfOro51t7UeunhQwW-KDhZK1GS_MPseONKZwTjMxeLppYg_e25epnOs1ogA94v3gAuofJ7YmYsHI8jPJ4iZYas6E9bNUtAqjQk7GJd2m5yuYfNgGsfXwAawTKzAjChajeglaRvTAtbJgBn8bzPzNjk3yan_vr4baaZaZ-53o2UdPpm4Fp1llbDjNwJ02uvDNqz7Q1Enm2XDqWpdjsBvx1apu904XwjSUT2E332VHoz42PkihhGSaAFDq7zPK6ssVx7kwh9QmDFCIP4fe_ofI3N4pDgPxa9XcsmU48se1lVZScDU9MDgndELCkT4qn2_yqkpZvZSjh1lssrGM';
+    String token = await UserPreferences().getToken();
+
+    final Map<String, String> header = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
 
     final response = await post(
       Uri.parse(ApiPath.createPesanan),
-      body: pesananData,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
+      headers: header,
+      body: jsonEncode(pesananData),
     );
 
     if (response.statusCode == 200) {
@@ -80,13 +87,17 @@ class PesananProvider extends ChangeNotifier {
 
       _pesanan = new PesananBaru.fromJson(pesananData);
 
+      inspect(_pesanan);
+
       addDetailPesanan();
 
       _pesananStatus = PesananStatus.PesananCreated;
       notifyListeners();
+      print('berhasil');
     } else {
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
+      print('gagal');
     }
   }
 
@@ -126,8 +137,10 @@ class PesananProvider extends ChangeNotifier {
       'list_foto': desainCustomDataList,
     };
 
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5IiwianRpIjoiNjEwYjY3MjA1YjIxZjU2NjVkNDhmOGVkNTVhMjQyZDU0MzIyZTg4YzlhYzRhNzUyZWY2ZGIxYjhiNDE1MWNkMzliOTQ5NDg4OTJiOTk1YTYiLCJpYXQiOjE2MjQ5NDI4MzMuNjMxNzE3LCJuYmYiOjE2MjQ5NDI4MzMuNjMxNzI0LCJleHAiOjE2NTY0Nzg4MzMuNjA1NTkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.S7lueOFzs1hXCzDaKutAAITsn-RB1aENHjF1zqWuaaa80XvtLAsoh7dPi65vHze3zWz7wkomgouDO8teSRBc32QEXFnrQhIAEyV5B5_s9XSrl24kPgn2gO8z9zM6a8yypI_EKliH0QpsjYCgBFMCZQKOestVHiuwuLO0c8lNzzkPlylmeb3upagRFWynS2DiaazjQjNZ3wW0VvGeTXeBFAfy8bHA6U74QAxiQrXsjBAe4aMJTlk1VQSxM2WSChI6EJUGJfLnO3UoSGdXfaNrkXBxbZtj8VnKgktZPIBCik_O_h_V61U0uDupZkoj32G1609dGpZWq7z9mqThnRXbPWYALA2U2H9XiswlSQ7XJzt3ndg9CLFGg-L7uCSvkgSJbCxgkzN3VXU8orKuJV9tLWmZJgmUPkyzS0IDMAcfnlTLeC0DkvPaYtPYkWzGfiZ82mzVYlMj_Ctc3vqAyxUqVH34ioRomxD0seU2LBb8gLKRAApzm91vjepeaa03zV2F0uMkiAsObsp1cbuJu3jZLjNdIStnHFhIpobqtL9t5wW1r83uKAdJvZ1KBITMZYxqlqp6rUD6oIKLd7eIbrRlidKvpLO3uzqrfvVXAEAQM8_l2zh0EET1_xWukcqM_yVAtvWoSAvTPpEzmaLDEJlEqYDJp4xBoqhyn8gRAytfO3Y';
+    print(requestBody);
+
+    var token = await UserPreferences().getToken();
+    print(token);
 
     Response response = await post(
       Uri.parse(ApiPath.uploadDesain),
@@ -139,19 +152,24 @@ class PesananProvider extends ChangeNotifier {
       },
     );
 
+    // inspect(response);
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       var desainCustomData = responseData['data'];
 
       _pesananStatus = PesananStatus.DesainUploaded;
       notifyListeners();
+      print('berhasil');
     } else {
+      final Map<String, dynamic> responseData = json.decode(response.body);
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
+      print(responseData['message']);
     }
   }
 
-  void updateDetailPesanan(
+  Future<Map<String, dynamic>> updateDetailPesanan(
     List<DetailPesanan> detailPesananList,
     PesananBaru pesananBaru,
     bool kainSendiri,
@@ -172,14 +190,16 @@ class PesananProvider extends ChangeNotifier {
       detailPesananDataList.add(detailPesananData);
     }
 
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5IiwianRpIjoiNzgzMzRjMzYzY2ViNDA5NjUxMmNjNTUwNWNjNjZkNTBkYmJiNzUwOTQ2YjQ2NGE1NmI5NzQxN2I4NGMzMDUwZjJjOTVkNDQ3NmJhZDVlOWUiLCJpYXQiOjE2MjQ5NDMzNDkuNzcwODc1LCJuYmYiOjE2MjQ5NDMzNDkuNzcwODg1LCJleHAiOjE2NTY0NzkzNDkuNzYyNTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.nXhC5MrFgGFD-L0sRfUGppY_W7JGmF9jwWlhXjAcTEJs4u3A8JXJY3ENL4hufl7gfcQ_E0pKHxh4-sxdMo5ajKVAYAfbMeN0l-jTtVD5UNW3qmO12LoMY2-y6KgKt26nXGICugjyPj1Jb5qwHjvI_h96XXQIVw1fa0c88TwC-BakI-mKu7aRtUUVINchWNP3UNaAHqZoeEiTZv53sLW1IDqGhsOT6ecd2g0k3CHfrzTQle1oc2nzjiHn7fDY58LnRdliSzo4WctdnUegk0gDsAffE6_ctA03Lw6ov3xMawD7Rezx4DTgRkLt5i6NUwFkMkpCdVTzZyWm6VwTGeZiT28a5kBnUp4q6gc7OXcxMVsut-PWSmGIqn5dfTpGl_yFG2puHurA15EK2QltVJ_pQPUJsPQhpxP5K-I3JgTzf21d6Epb7qL-yiA7qQJSngOsoo__L1gWTokvPVSSRNntNBs-m94IBU5mx7epXVMlty-SXE_-jrkS-y-xIOWvXEivFltXyRRvUA5rrIkAUsIZUunjsmij6j3zJ1vHAZWhCjTv6oGzy9oEOgPTOBfS03mWEg4EZ2eTbev4x7YsDCHjzMYjsdUp00hxOPmHiF0dKviAszdLmwDDhABG4s8blC5kYQmNRxRkkfDrRNuOJcqPsHcCMKMc1LlXUGJ-eroIljA';
+    var token = await UserPreferences().getToken();
 
     Map<String, dynamic> requestBody = {
       'jumlah': detailPesananList.length,
       'id_pesanan': pesananBaru.id,
       'list_detail': detailPesananDataList,
+      'kain_sendiri': kainSendiri,
     };
+
+    print(requestBody);
 
     Response response = await post(
       Uri.parse(ApiPath.updateDetail),
@@ -190,6 +210,23 @@ class PesananProvider extends ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
+
+    var result;
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
+    } else {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
+    }
+    return result;
   }
 
   void setStatus(PesananStatus status) {
@@ -210,7 +247,24 @@ class PesananProvider extends ChangeNotifier {
     );
   }
 
-  Future<Map<String, dynamic>> fetchAllPesananBelumValid() async {
+  Future<List<Map<String, dynamic>>> fetchAllPesanan() async {
+    print('in');
+    List<Map<String, dynamic>> result = [];
+
+    // _allPesananStatus = RequestStatus.Fetching;
+    // notifyListeners();
+
+    result.add(await fetchPesanan(ApiPath.pesananBelumValid));
+    result.add(await fetchPesanan(ApiPath.pesananValid));
+    result.add(await fetchPesanan(ApiPath.getHistoryPesananbyId(3)));
+
+    // _allPesananStatus = RequestStatus.Fetched;
+    // notifyListeners();
+
+    return result;
+  }
+
+  Future<Map<String, dynamic>> fetchPesanan(url) async {
     var result;
     _fetchPesananBelumValidStatus = RequestStatus.Fetching;
 
@@ -218,7 +272,7 @@ class PesananProvider extends ChangeNotifier {
     print(token);
 
     Response response = await get(
-      Uri.parse(ApiPath.pesananBelumValid),
+      Uri.parse(url),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
@@ -239,10 +293,12 @@ class PesananProvider extends ChangeNotifier {
       // var base64Image = base64.encode(Uint8List.view(buffer));
 
       // print(base64Image);
+      List<Pesanan> pesananList = [];
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
+        print('here');
         Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
-        _pesananBelumValidList.add(pesanan);
+        pesananList.add(pesanan);
       }
 
       _fetchPesananBelumValidStatus = RequestStatus.Fetched;
@@ -251,7 +307,7 @@ class PesananProvider extends ChangeNotifier {
       result = {
         'status': true,
         'message': responseData['message'],
-        'data': _pesananBelumValidList,
+        'data': pesananList,
       };
     } else {
       _fetchPesananBelumValidStatus = RequestStatus.Failed;
@@ -260,7 +316,9 @@ class PesananProvider extends ChangeNotifier {
         'message': json.decode(response.body)['message'],
       };
     }
+
     print(result);
+
     return result;
   }
 
@@ -271,6 +329,6 @@ class PesananProvider extends ChangeNotifier {
   }
 
   void resetPesananBelumValid() {
-    _pesananBelumValidList.removeRange(0, _pesananBelumValidList.length);
+    // _pesananBelumValidList.removeRange(0, _pesananBelumValidList.length);
   }
 }

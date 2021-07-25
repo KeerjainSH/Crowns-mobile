@@ -1,3 +1,4 @@
+import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/app_widgets.dart';
@@ -15,6 +16,17 @@ class UpdateAlamatScreen extends StatefulWidget {
 }
 
 class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
+  Alamat _alamat = Alamat(
+    alamat: '',
+    kota: '',
+    kecamatan: '',
+    dijemput: 1,
+    id_pesanan: 0,
+    instruksi: '',
+    kode_pos: 0,
+    waktu: '',
+  );
+
   final formKey = new GlobalKey<FormState>();
   DateTime? selectedDate = DateTime.now();
   TimeOfDay? selectedTime = TimeOfDay.now();
@@ -27,7 +39,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     final buttonChoice = Center(
       child: Container(
         width: 227,
-        child: alamatProvider.alamat.dijemput == 1
+        child: _alamat.dijemput == 1
             ? Stack(
                 children: [
                   Align(
@@ -45,7 +57,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            alamatProvider.alamat.dijemput = 0;
+                            _alamat.dijemput = 0;
                           });
                         },
                         child: Align(
@@ -89,7 +101,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            alamatProvider.alamat.dijemput = 1;
+                            _alamat.dijemput = 1;
                           });
                         },
                         child: Center(
@@ -129,29 +141,28 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           buildFormLabel(context, 'Alamat'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) => alamatProvider.alamat.alamat = value!,
+            onSaved: (value) => _alamat.alamat = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
           buildFormLabel(context, 'Kecamatan'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) => alamatProvider.alamat.kecamatan = value!,
+            onSaved: (value) => _alamat.kecamatan = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
           buildFormLabel(context, 'Kota'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) => alamatProvider.alamat.kota = value!,
+            onSaved: (value) => _alamat.kota = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
           buildFormLabel(context, 'Kode Pos'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) =>
-                alamatProvider.alamat.kode_pos = int.parse(value!),
+            onSaved: (value) => _alamat.kode_pos = int.parse(value!),
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
@@ -160,7 +171,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           TextFormField(
             minLines: 3,
             maxLines: null,
-            onSaved: (value) => alamatProvider.alamat.instruksi = value!,
+            onSaved: (value) => _alamat.instruksi = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
@@ -174,7 +185,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
               Icons.event,
               color: ColorConstants.black,
             ),
-            onSaved: (value) => alamatProvider.alamat.waktu = value!,
+            onSaved: (value) => _alamat.waktu = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
         ],
@@ -209,17 +220,22 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     final submitButton = CustomButton(
       text: 'berikutnya',
       callback: () {
-        // final FormState? formState = formKey.currentState;
-        //
-        // if (formState!.validate()) {
-        //   formState.save();
-        //
-        //   alamatProvider.updateAlamat(alamatProvider.alamat);
-        // }
-        Navigator.pushNamed(
-          context,
-          RouteConstants.detilPembayaran,
-        );
+        final FormState? formState = formKey.currentState;
+
+        if (formState!.validate()) {
+          formState.save();
+
+          final Future<Map<String, dynamic>> successfulMessage =
+              alamatProvider.updateAlamat(_alamat);
+
+          successfulMessage.then((response) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RouteConstants.menungguKonfirmasi,
+              (route) => false,
+            );
+          });
+        }
       },
     );
 
@@ -243,7 +259,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
               SizedBox(height: 22),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32),
-                child: alamatProvider.alamat.dijemput == 1
+                child: _alamat.dijemput == 1
                     ? diambilContent
                     : antarSendiriContent,
               ),

@@ -12,7 +12,7 @@ class ApiPath {
   static const String tawar = baseUrl + '/pesanan/ajukanTawar';
   static const String pesananBelumValid =
       baseUrl + '/pesanan/pembayaranBelumValid';
-  static const String pesananValid = baseUrl + '/pesanan/pembayaranBelumValid';
+  static const String pesananValid = baseUrl + '/pesanan/pembayaranValid';
 
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';
@@ -24,5 +24,9 @@ class ApiPath {
 
   static String getPenjahitByCatalogId(int id) {
     return baseUrl + '/katalog/' + id.toString() + '/penjahit';
+  }
+
+  static String getHistoryPesananbyId(int id) {
+    return baseUrl + '/pembeli/' + id.toString() + '/pesanan';
   }
 }

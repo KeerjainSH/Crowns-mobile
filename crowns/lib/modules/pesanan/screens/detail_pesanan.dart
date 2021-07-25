@@ -1,5 +1,6 @@
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -310,19 +311,31 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
     final submitButton = CustomButton(
       text: 'pesan',
-      callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
+      // callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
       // callback: () => formKey.currentState!.validate(),
-      // callback: () {
-      //   final FormState? formState = formKey.currentState;
-      //
-      //   if (formState!.validate()) {
-      //     formState.save();
-      //
-      //     pesananProvider.uploadDesain();
-      //     pesananProvider.updateDetailPesanan(
-      //         pesananProvider.detailPesananList, pesananProvider.pesanan);
-      //   }
-      // },
+      callback: () {
+        final FormState? formState = formKey.currentState;
+
+        if (formState!.validate()) {
+          formState.save();
+
+          final Future<Map<String, dynamic>> successfulMessage;
+
+          if (_desainSendiri) pesananProvider.uploadDesain();
+
+          successfulMessage = pesananProvider.updateDetailPesanan(
+            pesananProvider.detailPesananList,
+            pesananProvider.pesanan,
+            _kainSendiri,
+          );
+
+          successfulMessage.then((response) {
+            if (response['status']) {
+              Navigator.pushNamed(context, RouteConstants.isiAlamat);
+            }
+          });
+        }
+      },
     );
 
     final questionDesain = Container(
@@ -419,7 +432,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       lazy: false,
       create: (context) {
         WidgetsBinding.instance!.addPostFrameCallback((_) {
-          pesananProvider.createPesanan(1, 1);
+          pesananProvider.createPesanan(1, 3);
         });
       },
       dispose: (context, data) => pesananProvider.reset(),
