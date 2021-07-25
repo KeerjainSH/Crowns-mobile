@@ -1,5 +1,6 @@
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/screens/update_alamat.dart';
 import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -331,7 +332,13 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
           successfulMessage.then((response) {
             if (response['status']) {
-              Navigator.pushNamed(context, RouteConstants.isiAlamat);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      UpdateAlamatScreen(pesanan: pesananProvider.pesanan),
+                ),
+              );
             }
           });
         }

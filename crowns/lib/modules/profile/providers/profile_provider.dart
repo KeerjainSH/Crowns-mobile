@@ -14,14 +14,13 @@ class ProfileProvider extends ChangeNotifier {
   Profile get profile => _profile!;
   RequestStatus get profileStatus => _profileStatus;
 
-  void fetchProfile() async {
-    print('fetchProfile');
+  Future<Map<String, dynamic>> fetchProfile() async {
+    var result;
     _profileStatus = RequestStatus.Fetching;
 
     final user = await UserPreferences().getUser();
     final userId = user.id;
 
-    print('here');
     Response response = await get(
       Uri.parse(ApiPath.getProfileById(userId)),
       headers: {'Content-Type': 'application/json'},
@@ -29,7 +28,6 @@ class ProfileProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      print(responseData);
 
       var penjahitData = responseData['data'];
 
@@ -37,19 +35,31 @@ class ProfileProvider extends ChangeNotifier {
 
       _profileStatus = RequestStatus.Fetched;
       notifyListeners();
+      result = {
+        'status': false,
+        'message': responseData['message'],
+      };
     } else {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      print(responseData);
       _profileStatus = RequestStatus.Failed;
       notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+
+    print(result);
+    return result;
   }
 
   Future<Map<String, dynamic>> logout() async {
-    print('logout');
     var result;
     UserPreferences().removeUser();
+
     result = {'status': true};
+    print(result);
+
     return result;
   }
 }

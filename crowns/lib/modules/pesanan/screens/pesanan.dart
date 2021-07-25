@@ -185,7 +185,6 @@ class _PesananScreenState extends State<PesananScreen> {
     return Provider(
       lazy: false,
       create: (context) {
-        print('provider not lazy');
         WidgetsBinding.instance!.addPostFrameCallback((_) {
           pesanan = pesananProvider.fetchAllPesanan();
 

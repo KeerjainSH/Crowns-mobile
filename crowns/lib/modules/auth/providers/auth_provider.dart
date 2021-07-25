@@ -70,6 +70,8 @@ class AuthProvider with ChangeNotifier {
         'message': responseData['message'],
       };
     }
+
+    print(result);
     return result;
   }
 
@@ -144,6 +146,7 @@ class AuthProvider with ChangeNotifier {
         'data': data,
       };
     }
+    print(result);
     return result;
   }
 }

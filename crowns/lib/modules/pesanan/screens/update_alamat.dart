@@ -1,5 +1,7 @@
 import 'package:crowns/modules/pesanan/models/alamat.dart';
+import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
+import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -11,6 +13,10 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class UpdateAlamatScreen extends StatefulWidget {
+  PesananBaru pesanan;
+
+  UpdateAlamatScreen({required this.pesanan});
+
   @override
   _UpdateAlamatScreenState createState() => _UpdateAlamatScreenState();
 }
@@ -226,14 +232,16 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           formState.save();
 
           final Future<Map<String, dynamic>> successfulMessage =
-              alamatProvider.updateAlamat(_alamat);
+              alamatProvider.updateAlamat(_alamat, widget.pesanan);
 
           successfulMessage.then((response) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              RouteConstants.menungguKonfirmasi,
-              (route) => false,
-            );
+            if (response['status']) {
+              Navigator.pushNamed(
+                context,
+                RouteConstants.menungguKonfirmasi,
+                // (route) => false,
+              );
+            }
           });
         }
       },

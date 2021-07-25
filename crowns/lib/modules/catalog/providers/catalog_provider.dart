@@ -64,7 +64,6 @@ class CatalogProvider extends ChangeNotifier {
       result = {
         'status': true,
         'message': 'Successful',
-        'category': _categoryList,
       };
     } else {
       _categoryStatus = RequestStatus.Failed;
@@ -75,10 +74,12 @@ class CatalogProvider extends ChangeNotifier {
         'message': json.decode(response.body)['message'],
       };
     }
+    print(result);
     return result;
   }
 
-  void fetchCatalogAll() async {
+  Future<Map<String, dynamic>> fetchCatalogAll() async {
+    var result;
     _catalogAllStatus = RequestStatus.Fetching;
     notifyListeners();
 
@@ -116,13 +117,24 @@ class CatalogProvider extends ChangeNotifier {
 
       _catalogAllStatus = RequestStatus.Fetched;
       notifyListeners();
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
     } else {
       _catalogAllStatus = RequestStatus.Failed;
       notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+    print(result);
+    return result;
   }
 
-  void fetchCatalogByCategoryId(int id) async {
+  Future<Map<String, dynamic>> fetchCatalogByCategoryId(int id) async {
+    var result;
     _catalogByCategoryStatus = RequestStatus.Fetching;
     notifyListeners();
 
@@ -151,10 +163,20 @@ class CatalogProvider extends ChangeNotifier {
 
       _catalogByCategoryStatus = RequestStatus.Fetched;
       notifyListeners();
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
     } else {
       _catalogByCategoryStatus = RequestStatus.Failed;
       notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+    print(result);
+    return result;
   }
 
   void resetCatalog() {

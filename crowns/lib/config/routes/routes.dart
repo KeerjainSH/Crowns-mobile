@@ -31,8 +31,6 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => CatalogScreen());
       case RouteConstants.detilPesanan:
         return MaterialPageRoute(builder: (_) => DetailPesananPage());
-      case RouteConstants.isiAlamat:
-        return MaterialPageRoute(builder: (_) => UpdateAlamatScreen());
       case RouteConstants.menungguKonfirmasi:
         return MaterialPageRoute(builder: (_) => MenungguKonfirmasiScreen());
       case RouteConstants.profile:

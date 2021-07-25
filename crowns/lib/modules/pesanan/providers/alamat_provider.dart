@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
+import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
@@ -12,12 +13,12 @@ class AlamatProvider extends ChangeNotifier {
 
   RequestStatus get alamatStatus => _alamatStatus;
 
-  Future<Map<String, dynamic>> updateAlamat(Alamat alamat) async {
-    print('start');
+  Future<Map<String, dynamic>> updateAlamat(
+      Alamat alamat, PesananBaru pesanan) async {
     _alamatStatus = RequestStatus.Fetching;
 
     final Map<String, dynamic> alamatData = {
-      'id_pesanan': 22,
+      'id_pesanan': pesanan.id,
       'dijemput': 1,
       'alamat': alamat.alamat,
       'kecamatan': alamat.kecamatan,
@@ -70,6 +71,7 @@ class AlamatProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     }
+    print(result);
     return result;
   }
 }

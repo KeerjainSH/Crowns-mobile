@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
-                        'Batik',
+                        category.nama,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,

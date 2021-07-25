@@ -68,13 +68,7 @@ class Pesanan {
       lokasiList.add(lokasi);
     }
 
-    print('in pembayaran');
-
     var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
-
-    inspect(pembayaran);
-
-    print('out pembayaran');
 
     return Pesanan(
       id: responseData['id'],

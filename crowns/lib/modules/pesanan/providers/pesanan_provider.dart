@@ -59,7 +59,10 @@ class PesananProvider extends ChangeNotifier {
   List<DesainCustom> get desainCustomList => _desainCustomList;
   List<DetailPesanan> get detailPesananList => _detailPesananList;
 
-  void createPesanan(int id_penjahit, int id_baju) async {
+  Future<Map<String, dynamic>> createPesanan(
+      int id_penjahit, int id_baju) async {
+    var result;
+
     final Map<String, dynamic> pesananData = {
       'id_penjahit': id_penjahit,
       'id_baju': id_baju
@@ -93,12 +96,20 @@ class PesananProvider extends ChangeNotifier {
 
       _pesananStatus = PesananStatus.PesananCreated;
       notifyListeners();
-      print('berhasil');
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
     } else {
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
-      print('gagal');
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+    print(result);
+    return result;
   }
 
   void addDesain(File image, String description) {
@@ -119,7 +130,9 @@ class PesananProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadDesain() async {
+  Future<Map<String, dynamic>> uploadDesain() async {
+    var result;
+
     List<Map<String, dynamic>> desainCustomDataList = [];
 
     for (final desainCustom in desainCustomList) {
@@ -137,10 +150,7 @@ class PesananProvider extends ChangeNotifier {
       'list_foto': desainCustomDataList,
     };
 
-    print(requestBody);
-
     var token = await UserPreferences().getToken();
-    print(token);
 
     Response response = await post(
       Uri.parse(ApiPath.uploadDesain),
@@ -152,21 +162,27 @@ class PesananProvider extends ChangeNotifier {
       },
     );
 
-    // inspect(response);
-
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       var desainCustomData = responseData['data'];
 
       _pesananStatus = PesananStatus.DesainUploaded;
       notifyListeners();
-      print('berhasil');
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
     } else {
       final Map<String, dynamic> responseData = json.decode(response.body);
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
-      print(responseData['message']);
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+    print(result);
+    return result;
   }
 
   Future<Map<String, dynamic>> updateDetailPesanan(
@@ -199,8 +215,6 @@ class PesananProvider extends ChangeNotifier {
       'kain_sendiri': kainSendiri,
     };
 
-    print(requestBody);
-
     Response response = await post(
       Uri.parse(ApiPath.updateDetail),
       body: json.encode(requestBody),
@@ -222,10 +236,11 @@ class PesananProvider extends ChangeNotifier {
     } else {
       final Map<String, dynamic> responseData = json.decode(response.body);
       result = {
-        'status': true,
+        'status': false,
         'message': responseData['message'],
       };
     }
+    print(result);
     return result;
   }
 
@@ -248,11 +263,13 @@ class PesananProvider extends ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> fetchAllPesanan() async {
-    print('in');
     List<Map<String, dynamic>> result = [];
 
     // _allPesananStatus = RequestStatus.Fetching;
     // notifyListeners();
+
+    var token = await UserPreferences().getToken();
+    print(token);
 
     result.add(await fetchPesanan(ApiPath.pesananBelumValid));
     result.add(await fetchPesanan(ApiPath.pesananValid));
@@ -269,7 +286,6 @@ class PesananProvider extends ChangeNotifier {
     _fetchPesananBelumValidStatus = RequestStatus.Fetching;
 
     var token = await UserPreferences().getToken();
-    print(token);
 
     Response response = await get(
       Uri.parse(url),
@@ -296,7 +312,6 @@ class PesananProvider extends ChangeNotifier {
       List<Pesanan> pesananList = [];
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
-        print('here');
         Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
         pesananList.add(pesanan);
       }
@@ -318,7 +333,6 @@ class PesananProvider extends ChangeNotifier {
     }
 
     print(result);
-
     return result;
   }
 

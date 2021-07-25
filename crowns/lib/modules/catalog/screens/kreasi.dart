@@ -89,7 +89,7 @@ class _KreasiScreenState extends State<KreasiScreen> {
                         /// Show image progress bar
                         Container(
                           width: 221,
-                          child: Image.asset(ImageConstants.progressBar2),
+                          child: Image.asset(ImageConstants.progressBar1),
                         ),
                         SizedBox(height: 36),
                         Container(

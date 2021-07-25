@@ -61,7 +61,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
                         SizedBox(height: 36),
                         Container(
                           width: 221,
-                          child: Image.asset(ImageConstants.progressBar1),
+                          child: Image.asset(ImageConstants.progressBar2),
                         ),
                         SizedBox(height: 36),
                         Padding(

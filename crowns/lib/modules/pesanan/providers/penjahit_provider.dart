@@ -13,7 +13,9 @@ class PenjahitProvider extends ChangeNotifier {
   RequestStatus get penjahitStatus => _penjahitStatus;
   List<Penjahit> get penjahitList => _penjahitList;
 
-  Future<void> fetchPenjahitByCatalogId(int id) async {
+  Future<Map<String, dynamic>> fetchPenjahitByCatalogId(int id) async {
+    var result;
+
     _penjahitStatus = RequestStatus.Fetching;
     notifyListeners();
 
@@ -34,10 +36,20 @@ class PenjahitProvider extends ChangeNotifier {
 
       _penjahitStatus = RequestStatus.Fetched;
       notifyListeners();
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
     } else {
       _penjahitStatus = RequestStatus.Failed;
       notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
     }
+    print(result);
+    return result;
   }
 
   void reset() {
