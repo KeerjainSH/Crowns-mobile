@@ -1,5 +1,6 @@
 class ApiPath {
   static const String baseUrl = 'http://10.0.2.2:8000/api';
+  // static const String baseUrl = 'http://crowns.keerjain.com/api';
   static const String login = baseUrl + '/pembeli/login';
   static const String register = baseUrl + '/pembeli/register';
 
@@ -13,6 +14,7 @@ class ApiPath {
   static const String pesananBelumValid =
       baseUrl + '/pesanan/pembayaranBelumValid';
   static const String pesananValid = baseUrl + '/pesanan/pembayaranValid';
+  static const String beriRating = baseUrl + '/pesanan/rate';
 
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';

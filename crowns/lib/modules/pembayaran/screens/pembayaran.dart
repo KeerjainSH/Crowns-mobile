@@ -1,5 +1,7 @@
+import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
+import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -11,16 +13,12 @@ import 'package:crowns/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 class PembayaranPage extends StatefulWidget {
-  Pembayaran pembayaran;
-  String totalHarga;
-  int idPesanan;
-  String noRekening;
+  Pesanan pesanan;
+  int method;
 
   PembayaranPage({
-    required this.pembayaran,
-    required this.totalHarga,
-    required this.idPesanan,
-    required this.noRekening,
+    required this.pesanan,
+    required this.method,
   });
 
   @override
@@ -118,7 +116,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pembayaran.biaya_jahit}',
+                          'Rp. ${widget.pesanan.pembayaran.biaya_jahit}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -126,7 +124,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pembayaran.biaya_material}',
+                          'Rp. ${widget.pesanan.pembayaran.biaya_material}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -134,7 +132,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pembayaran.biaya_kirim}',
+                          'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -142,7 +140,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pembayaran.biaya_kirim}',
+                          'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -168,7 +166,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                   style: TextStyle(fontSize: 13),
                 ),
                 Text(
-                  'Rp ${widget.totalHarga}',
+                  'Rp ${widget.pesanan.biaya_total}',
                   style: TextStyle(fontSize: 13),
                 ),
               ],
@@ -177,7 +175,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Nomor Rekening Bank BRI',
+                'Nomor Rekening ' + metodeBayarList[widget.method].title,
                 style: TextStyle(
                   color: ColorConstants.darkGrey,
                   fontWeight: FontWeight.w700,
@@ -186,7 +184,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
             ),
             SizedBox(height: 10),
             Text(
-              widget.noRekening,
+              metodeBayarList[widget.method].number,
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
@@ -296,20 +294,19 @@ class _PembayaranPageState extends State<PembayaranPage> {
                         callback: () {
                           final Future<Map<String, dynamic>> successfulMessage =
                               provider.uploadButki(
-                            widget.idPesanan,
-                            'BRI',
+                            widget.pesanan.id,
+                            metodeBayarList[widget.method].title,
                             _image!,
                           );
 
                           successfulMessage.then((response) {
                             if (response['status']) {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  RouteConstants.menungguKonfirmasi,
-                                  (route) => false);
+                              Navigator.pushNamed(
+                                  context, RouteConstants.menungguKonfirmasi);
                             } else {
                               final snackBar = SnackBar(
-                                content: Text('Email atau password salah'),
+                                content: Text(
+                                    'Terjadi kesalahan saat mengupload bukti pembayaran'),
                                 backgroundColor: ColorConstants.black,
                               );
                               ScaffoldMessenger.of(context)

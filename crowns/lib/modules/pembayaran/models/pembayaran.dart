@@ -23,14 +23,6 @@ class Pembayaran {
 
   factory Pembayaran.fromJson(Map<String, dynamic> responseData) {
     return Pembayaran(
-      // id: 1,
-      // id_pesanan: 1,
-      // biaya_jahit: 'asdf',
-      // biaya_material: 'sdfa',
-      // biaya_jemput: 'fdas',
-      // biaya_kirim: 'dfasj',
-      // status_pembayaran: 2,
-      // metode_pembayaran: 'das',
       id: responseData['id'],
       id_pesanan: responseData['id_pesanan'],
       biaya_jahit: responseData['biaya_jahit'].toString(),

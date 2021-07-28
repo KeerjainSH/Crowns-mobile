@@ -13,11 +13,13 @@ class PembayaranProvider extends ChangeNotifier {
   RequestStatus _tawarStatus = RequestStatus.NotFetched;
 
   RequestStatus get detailPembayaranStatus => _detailPembayaranStatus;
+  RequestStatus get tawarStatus => _tawarStatus;
 
   void fetchDetailPembayaran(int id) {}
 
   Future<Map<String, dynamic>> postTawar(Tawaran tawaran, int idPesanan) async {
     _tawarStatus = RequestStatus.Fetching;
+    notifyListeners();
 
     var result;
 
@@ -61,7 +63,7 @@ class PembayaranProvider extends ChangeNotifier {
 
       notifyListeners();
       result = {
-        'status': true,
+        'status': false,
         'message': responseData['message'],
       };
     }
@@ -96,6 +98,8 @@ class PembayaranProvider extends ChangeNotifier {
 
     var token = await UserPreferences().getToken();
 
+    print(json.encode(tawaranData));
+
     Response response = await post(
       Uri.parse(ApiPath.tawar),
       body: json.encode(tawaranData),
@@ -128,7 +132,7 @@ class PembayaranProvider extends ChangeNotifier {
 
       notifyListeners();
       result = {
-        'status': true,
+        'status': false,
         'message': responseData['message'],
       };
     }

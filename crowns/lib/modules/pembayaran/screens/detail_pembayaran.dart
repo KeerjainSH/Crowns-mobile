@@ -1,8 +1,10 @@
+import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
 import 'package:crowns/modules/pembayaran/models/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
+import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -12,15 +14,9 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPembayaranPage extends StatefulWidget {
-  Pembayaran pembayaran;
-  String totalHarga;
-  int idPesanan;
+  Pesanan pesanan;
 
-  DetailPembayaranPage({
-    required this.pembayaran,
-    required this.totalHarga,
-    required this.idPesanan,
-  });
+  DetailPembayaranPage({required this.pesanan});
 
   @override
   _DetailPembayaranPageState createState() => _DetailPembayaranPageState();
@@ -82,7 +78,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pembayaran.biaya_jahit}',
+                  'Rp. ${widget.pesanan.pembayaran.biaya_jahit}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -90,7 +86,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pembayaran.biaya_material}',
+                  'Rp. ${widget.pesanan.pembayaran.biaya_material}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -98,7 +94,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pembayaran.biaya_kirim}',
+                  'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -106,7 +102,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pembayaran.biaya_kirim}',
+                  'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -124,7 +120,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
           style: TextStyle(fontSize: 13),
         ),
         Text(
-          'Rp ${widget.totalHarga}',
+          'Rp ${widget.pesanan.biaya_total}',
           style: TextStyle(fontSize: 13),
         ),
       ],
@@ -149,7 +145,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
     Container _buildPanel() {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: appPadding),
-        height: 300,
+        height: 270,
         child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           key: Key(_selected.toString()),
@@ -271,19 +267,21 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                       ),
 
                       SizedBox(height: 47),
-                      CustomButton(
-                        text: 'tawar',
-                        callback: () => showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return TawarDialog(
-                              totalHarga: widget.totalHarga,
-                              idPesanan: widget.idPesanan,
-                              pembayaranProvider: provider,
-                            );
-                          },
-                        ),
-                      ),
+                      widget.pesanan.tawaran.status_penawaran == 1
+                          ? CustomButton(
+                              text: 'tawar',
+                              callback: () => showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TawarDialog(
+                                    totalHarga: widget.pesanan.biaya_total,
+                                    idPesanan: widget.pesanan.id,
+                                    pembayaranProvider: provider,
+                                  );
+                                },
+                              ),
+                            )
+                          : SizedBox.shrink(),
                       SizedBox(height: 36),
                       Padding(
                         padding: const EdgeInsets.only(left: appPadding),
@@ -297,21 +295,29 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
 
                       _buildPanel(),
 
-                      SizedBox(height: 30),
+                      // SizedBox(height: 30),
                       CustomButton(
                         text: 'bayar',
                         callback: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PembayaranPage(
-                                pembayaran: widget.pembayaran,
-                                totalHarga: widget.totalHarga,
-                                idPesanan: widget.idPesanan,
-                                noRekening: '089089089089',
+                          if (_selected == -1) {
+                            final snackBar = SnackBar(
+                              content: Text(
+                                  'Pilih metode pembayaran terlebih dahulu'),
+                              backgroundColor: ColorConstants.black,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PembayaranPage(
+                                  pesanan: widget.pesanan,
+                                  method: _selected,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         },
                       ),
                       SizedBox(height: 40),
@@ -326,24 +332,3 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
     );
   }
 }
-
-List<MetodeBayar> metodeBayarList = [
-  MetodeBayar(
-    title: 'Bank BRI',
-    number: '091091091',
-    logo: ImageConstants.bankBRILogo,
-    name: 'Ananda Bagus',
-  ),
-  MetodeBayar(
-    title: 'Bank BCA',
-    number: '091091091',
-    logo: ImageConstants.bankBCAlogo,
-    name: 'Ananda Bagus',
-  ),
-  MetodeBayar(
-    title: 'Bank BNI',
-    number: '091091091',
-    logo: ImageConstants.bankBNIlogo,
-    name: 'Ananda Bagus',
-  ),
-];

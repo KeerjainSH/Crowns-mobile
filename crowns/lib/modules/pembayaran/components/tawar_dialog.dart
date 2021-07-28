@@ -1,4 +1,5 @@
 import 'package:crowns/constants/app_constants.dart';
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -27,6 +28,8 @@ class _TawarDialogState extends State<TawarDialog> {
     hari_tawar: DateTime.now(),
   );
   final formKey = new GlobalKey<FormState>();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +110,12 @@ class _TawarDialogState extends State<TawarDialog> {
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                         icon: Icon(Icons.event),
-                        // onSaved: (value) => tawaran.hari_tawar = value!,
-                        onSaved: (value) => tawaran.hari_tawar = DateTime.now(),
+                        onSaved: (value) {
+                          tawaran.hari_tawar = DateTime.parse(value!);
+                          print(tawaran.hari_tawar);
+                          // tawaran.hari_tawar = value!
+                        },
+                        // onSaved: (value) => tawaran.hari_tawar = DateTime.now(),
                         validator: (value) =>
                             value == '' ? 'Wajib diisi' : null,
                       ),
@@ -121,36 +128,54 @@ class _TawarDialogState extends State<TawarDialog> {
                 alignment: Alignment.centerRight,
                 child: Container(
                   margin: EdgeInsets.only(right: 10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: ColorConstants.primaryColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                    ),
-                    onPressed: () {
-                      final FormState? form = formKey.currentState;
+                  child: isLoading
+                      ? Container(
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: ColorConstants.primaryColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                          ),
+                          onPressed: () {
+                            final FormState? form = formKey.currentState;
 
-                      if (form!.validate()) {
-                        final Future<Map<String, dynamic>> successfulMessage =
-                            widget.pembayaranProvider
-                                .postTawar(tawaran, widget.idPesanan);
+                            if (form!.validate()) {
+                              form.save();
 
-                        successfulMessage.then((response) {
-                          Navigator.of(context).pop();
-                        });
-                      }
-                    },
-                    child: Text(
-                      'Kirim tawaran',
-                      style: TextStyle(
-                        // color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
+                              final Future<Map<String, dynamic>>
+                                  successfulMessage = widget.pembayaranProvider
+                                      .postTawar(tawaran, widget.idPesanan);
+
+                              setState(() {
+                                isLoading = true;
+                              });
+
+                              successfulMessage.then((response) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                if (response['status']) {
+                                  Navigator.of(context).pop();
+                                }
+                              });
+                            }
+                          },
+                          child: Text(
+                            'Kirim tawaran',
+                            style: TextStyle(
+                              // color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                 ),
               ),
             ],

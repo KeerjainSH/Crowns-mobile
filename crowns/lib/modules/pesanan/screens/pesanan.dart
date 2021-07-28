@@ -2,12 +2,15 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
+import 'package:crowns/modules/pesanan/components/rating_dialog.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class PesananScreen extends StatefulWidget {
@@ -34,7 +37,6 @@ class _PesananScreenState extends State<PesananScreen> {
         'Pesanan',
         style: TextStyle(color: Colors.black),
       ),
-      leading: SizedBox.shrink(),
       backgroundColor: Colors.white,
     );
 
@@ -61,7 +63,10 @@ class _PesananScreenState extends State<PesananScreen> {
             children: [
               Container(
                 height: 200,
-                child: Image.asset(ImageConstants.appLogo),
+                // child: Image.asset(ImageConstants.appLogo),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(pesanan.baju.foto)),
               ),
               SizedBox(width: 10),
               Expanded(
@@ -70,9 +75,13 @@ class _PesananScreenState extends State<PesananScreen> {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        pesanan.baju.nama,
-                      ),
+                      child: Text(pesanan.status_pesanan.toString() +
+                          ' ' +
+                          pesanan.pembayaran.status_pembayaran.toString() +
+                          ' ' +
+                          pesanan.tawaran.status_penawaran.toString() +
+                          ' - ' +
+                          pesanan.baju.nama),
                     ),
                     SizedBox(height: 2),
                     // Align(
@@ -119,8 +128,8 @@ class _PesananScreenState extends State<PesananScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailPesananLookbackPage(
-                                    detailPesanan: pesanan.detail_pesanan),
+                                builder: (context) =>
+                                    DetailPesananLookbackPage(pesanan: pesanan),
                               ),
                             );
                           },
@@ -140,9 +149,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               DetailPembayaranPage(
-                                            pembayaran: pesanan.pembayaran,
-                                            totalHarga: pesanan.biaya_total,
-                                            idPesanan: pesanan.id,
+                                            pesanan: pesanan,
                                           ),
                                         ),
                                       );
@@ -153,7 +160,48 @@ class _PesananScreenState extends State<PesananScreen> {
                                           color: ColorConstants.primaryColor),
                                     ),
                                   )
-                            : SizedBox.shrink(),
+                            : pesanan.status_pesanan == 5
+                                ? pesanan.rating == 0
+                                    ? InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return RatingDialog(
+                                                pesanan: pesanan,
+                                                pesananProvider:
+                                                    pesananProvider,
+                                              );
+                                            },
+                                          ).then((value) {
+                                            setState(() {
+                                              pesanan.rating = value;
+                                            });
+                                          });
+                                        },
+                                        child: Text(
+                                          'Beri rating',
+                                          style: TextStyle(
+                                              color:
+                                                  ColorConstants.primaryColor),
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            pesanan.rating.toString(),
+                                            style: TextStyle(
+                                              color: ColorConstants.darkGrey,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          SvgPicture.asset(
+                                              ImageConstants.starIcon),
+                                        ],
+                                      )
+                                : SizedBox.shrink(),
                         SizedBox.shrink(),
                       ],
                     ),
@@ -201,6 +249,7 @@ class _PesananScreenState extends State<PesananScreen> {
             child: Column(
               children: <Widget>[
                 ButtonsTabBar(
+                  physics: NeverScrollableScrollPhysics(),
                   backgroundColor: ColorConstants.primaryColor,
                   unselectedBackgroundColor: ColorConstants.grey,
                   unselectedLabelStyle: TextStyle(color: Colors.black),
@@ -225,7 +274,10 @@ class _PesananScreenState extends State<PesananScreen> {
                                 child:
                                     buildTileContent(snapshot.data[0]['data']));
                           else if (snapshot.hasError)
-                            return Center(child: Text('Eror'));
+                            return Center(
+                                child: Text(snapshot.error.toString()));
+                          // child: Text(
+                          //     'Terjadi kesalahan saat mengambil data'));
 
                           return Center(
                             child: CircularProgressIndicator(),
@@ -241,7 +293,9 @@ class _PesananScreenState extends State<PesananScreen> {
                                 child:
                                     buildTileContent(snapshot.data[1]['data']));
                           else if (snapshot.hasError)
-                            return Center(child: Text('Eror'));
+                            return Center(
+                                child: Text(
+                                    'Terjadi kesalahan saat mengambil data'));
 
                           return Center(
                             child: CircularProgressIndicator(),
@@ -257,7 +311,9 @@ class _PesananScreenState extends State<PesananScreen> {
                                 child:
                                     buildTileContent(snapshot.data[2]['data']));
                           else if (snapshot.hasError)
-                            return Center(child: Text('Eror'));
+                            return Center(
+                                child: Text(
+                                    'Terjadi kesalahan saat mengambil data'));
 
                           return Center(
                             child: CircularProgressIndicator(),

@@ -269,7 +269,7 @@ class PesananProvider extends ChangeNotifier {
     // notifyListeners();
 
     var token = await UserPreferences().getToken();
-    print(token);
+    // print(token);
 
     result.add(await fetchPesanan(ApiPath.pesananBelumValid));
     result.add(await fetchPesanan(ApiPath.pesananValid));
@@ -277,6 +277,8 @@ class PesananProvider extends ChangeNotifier {
 
     // _allPesananStatus = RequestStatus.Fetched;
     // notifyListeners();
+
+    print(result);
 
     return result;
   }
@@ -296,22 +298,14 @@ class PesananProvider extends ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      // String fixed = response.body.replaceAll(r"\", "");
-
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       var pesananBelumValidDataList = responseData['data'];
 
-      /// For dummy image
-      /// Commnet soon
-      // ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
-      // var buffer = bytes.buffer;
-      // var base64Image = base64.encode(Uint8List.view(buffer));
-
-      // print(base64Image);
       List<Pesanan> pesananList = [];
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
+        print(pesananBelumValid['penawaran']);
         Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
         pesananList.add(pesanan);
       }
@@ -323,6 +317,44 @@ class PesananProvider extends ChangeNotifier {
         'status': true,
         'message': responseData['message'],
         'data': pesananList,
+      };
+    } else {
+      _fetchPesananBelumValidStatus = RequestStatus.Failed;
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
+    }
+
+    print(result);
+    return result;
+  }
+
+  Future<Map<String, dynamic>> giveRating(int id, double rating) async {
+    var token = await UserPreferences().getToken();
+
+    final Map<String, dynamic> ratingData = {
+      'id_pesanan': id,
+      'rating': rating,
+    };
+
+    Response response = await post(
+      Uri.parse(ApiPath.beriRating),
+      body: jsonEncode(ratingData),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    var result;
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      result = {
+        'status': true,
+        'message': responseData['message'],
       };
     } else {
       _fetchPesananBelumValidStatus = RequestStatus.Failed;

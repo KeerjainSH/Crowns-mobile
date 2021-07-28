@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/models/baju.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
+import 'package:crowns/modules/pesanan/models/desain_custom_response.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/tawaran_response.dart';
 import 'package:flutter/material.dart';
 
 class Pesanan {
@@ -16,12 +19,12 @@ class Pesanan {
   int jumlah;
   String biaya_total;
   int status_pesanan;
-  int rating;
+  double rating;
   List<DetailPesanan> detail_pesanan;
-  // List<DesainCustom> designKustom;
+  List<DesainCustomResponse> designKustom;
   List<Alamat> lokasi_penjemputan;
   Pembayaran pembayaran;
-  Tawaran tawaran;
+  TawaranResponse tawaran;
 
   Pesanan({
     required this.id,
@@ -33,7 +36,7 @@ class Pesanan {
     required this.status_pesanan,
     required this.rating,
     required this.detail_pesanan,
-    // required this.designKustom,
+    required this.designKustom,
     required this.lokasi_penjemputan,
     required this.tawaran,
     required this.pembayaran,
@@ -52,13 +55,13 @@ class Pesanan {
       detailPesananList.add(detailPesanan);
     }
 
-    // final desainCustomDataList = responseData['designKustom'];
-    // List<DesainCustom> desainCustomList = [];
-    //
-    // for (final desainCustomData in desainCustomDataList) {
-    //   var desainCustom = DesainCustom.fromJson(desainCustomData);
-    //   desainCustomList.add(desainCustom);
-    // }
+    final desainCustomDataList = responseData['designKustom'];
+    List<DesainCustomResponse> desainCustomList = [];
+
+    for (final desainCustomData in desainCustomDataList) {
+      var desainCustom = DesainCustomResponse.fromJson(desainCustomData);
+      desainCustomList.add(desainCustom);
+    }
 
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
@@ -70,27 +73,39 @@ class Pesanan {
 
     var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
 
+    var tawaran;
+
+    print('Hello');
+
+    if (responseData['penawaran'] != null) {
+      tawaran = TawaranResponse.fromJson(responseData['penawaran']);
+      print('here you gooo');
+    } else
+      tawaran = TawaranResponse(
+          id: 0,
+          status_penawaran: 0,
+          jumlah_penawaran: '0',
+          hari_tawar: DateTime.now());
+
+    print('Hello2');
+
     return Pesanan(
       id: responseData['id'],
       id_penjahit: responseData['id_penjahit'],
       id_konsumen: responseData['id_konsumen'],
       baju: baju,
       biaya_total: responseData['biaya_total'].toString(),
-      // designKustom: desainCustomList,
+      designKustom: desainCustomList,
       detail_pesanan: detailPesananList,
       jumlah: responseData['jumlah'],
       lokasi_penjemputan: lokasiList,
       rating: responseData['rating'] == null
           ? 0
-          : int.parse(responseData['rating']),
+          : double.parse(responseData['rating'].toString()),
       status_pesanan: responseData['status_pesanan'] == null
           ? 0
           : int.parse(responseData['status_pesanan']),
-      tawaran: responseData['tawaran'] == null
-          ? Tawaran(jumlah_penawaran: 0, hari_tawar: DateTime.now())
-          : Tawaran.fromJson(
-              responseData['tawaran'],
-            ),
+      tawaran: tawaran,
       pembayaran: pembayaran,
     );
   }

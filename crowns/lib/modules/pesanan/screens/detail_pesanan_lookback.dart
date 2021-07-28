@@ -1,6 +1,7 @@
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan_filled.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -13,9 +14,9 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPesananLookbackPage extends StatefulWidget {
-  List<DetailPesanan> detailPesanan;
+  Pesanan pesanan;
 
-  DetailPesananLookbackPage({required this.detailPesanan});
+  DetailPesananLookbackPage({required this.pesanan});
 
   @override
   _DetailPesananLookbackPageState createState() =>
@@ -34,9 +35,12 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       height: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18.0),
-        child: Image.asset(
-          ImageConstants.seragamProduc1,
-        ),
+        child: widget.pesanan.designKustom.length > 0
+            ? Image.network(
+                widget.pesanan.designKustom[_highlightedImageIndex].foto)
+            : Image.network(
+                widget.pesanan.baju.foto,
+              ),
       ),
     );
 
@@ -88,7 +92,7 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           color: ColorConstants.grey,
           child: Center(
             child: Text(
-              widget.detailPesanan.length.toString(),
+              widget.pesanan.detail_pesanan.length.toString(),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -150,10 +154,10 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.detailPesanan.length,
+                itemCount: widget.pesanan.detail_pesanan.length,
                 itemBuilder: (context, i) {
                   return FormDetailPesananFilled(
-                      detailPesanan: widget.detailPesanan[i]);
+                      detailPesanan: widget.pesanan.detail_pesanan[i]);
                 },
               ),
             ),
@@ -207,140 +211,53 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       ),
     );
 
-    // final uploadedImages = Column(
-    //   children: [
-    //     Container(
-    //       padding: EdgeInsets.only(left: 23),
-    //       child: Align(
-    //         alignment: Alignment.centerLeft,
-    //         child: buildHeadline2(context, 'Desain Kamu'),
-    //       ),
-    //     ),
-    //     SizedBox(height: 10),
-    //     Container(
-    //       height: 106,
-    //       child: ListView(
-    //         scrollDirection: Axis.horizontal,
-    //         children: [Container(child: SizedBox(width: 23))] +
-    //             List.generate(
-    //               pesananProvider.desainCustomList.length,
-    //               (index) => _buildCatalogImage(
-    //                 pesananProvider.desainCustomList[index].foto,
-    //                 index,
-    //               ),
-    //             ) +
-    //             [Container(child: catalogAddImage)],
-    //       ),
-    //     ),
-    //     SizedBox(height: 10),
-    //   ],
-    // );
-
-    final submitButton = CustomButton(
-      text: 'pesan',
-      callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
-      // callback: () => formKey.currentState!.validate(),
-      // callback: () {
-      //   final FormState? formState = formKey.currentState;
-      //
-      //   if (formState!.validate()) {
-      //     formState.save();
-      //
-      //     pesananProvider.uploadDesain();
-      //     pesananProvider.updateDetailPesanan(
-      //         pesananProvider.detailPesananList, pesananProvider.pesanan);
-      //   }
-      // },
-    );
-
-    final questionDesain = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softGrey,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(
-        horizontal: appPadding,
-        vertical: 4,
-      ),
-      padding: EdgeInsets.all(6),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 6,
-            child: buildBodyText2(
-                context, 'Apakah kamu ingin memakai desain sendiri?'),
-          ),
-          Flexible(
-            flex: 4,
-            child: ToggleSwitch(
-              minHeight: 30,
-              minWidth: MediaQuery.of(context).size.width * 0.15,
-              cornerRadius: 20.0,
-              activeBgColors: [
-                [ColorConstants.primaryColor],
-                [ColorConstants.primaryColor],
-              ],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              initialLabelIndex: _desainSendiri ? 0 : 1,
-              totalSwitches: 2,
-              labels: ['Ya', 'Tidak'],
-              radiusStyle: true,
-              onToggle: (index) {
-                setState(() {
-                  _desainSendiri = index == 0 ? true : false;
-                });
-                print('desain sendiri: $_desainSendiri');
-              },
+    Container _buildCatalogImage(String foto, int index) {
+      return Container(
+        margin: EdgeInsets.only(right: 15),
+        width: 83,
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              _highlightedImageIndex = index;
+            });
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: Image.network(
+              foto,
+              fit: BoxFit.cover,
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
 
-    final questionKain = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softGrey,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(
-        horizontal: appPadding,
-        vertical: 4,
-      ),
-      padding: EdgeInsets.all(6),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 6,
-            child: buildBodyText2(
-                context, 'Apakah kamu ingin memakai kain sendiri?'),
+    final uploadedImages = Column(
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 23),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: buildHeadline2(context, 'Desain Kamu'),
           ),
-          Flexible(
-            flex: 4,
-            child: ToggleSwitch(
-              minHeight: 30,
-              minWidth: MediaQuery.of(context).size.width * 0.15,
-              cornerRadius: 20.0,
-              activeBgColors: [
-                [ColorConstants.primaryColor],
-                [ColorConstants.primaryColor],
-              ],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              initialLabelIndex: _kainSendiri ? 0 : 1,
-              totalSwitches: 2,
-              labels: ['Ya', 'Tidak'],
-              radiusStyle: true,
-              onToggle: (index) {
-                _kainSendiri = index == 0 ? true : false;
-                print('kain sendiri: $_kainSendiri');
-              },
-            ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          height: 106,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [Container(child: SizedBox(width: 23))] +
+                List.generate(
+                  widget.pesanan.designKustom.length,
+                  (index) => _buildCatalogImage(
+                    widget.pesanan.designKustom[index].foto,
+                    index,
+                  ),
+                ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 10),
+      ],
     );
 
     return Scaffold(
@@ -351,13 +268,11 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           children: [
             header,
             SizedBox(height: 15),
-            // _desainSendiri ? uploadedImages : SizedBox.shrink(),
-            // questionDesain,
-            // questionKain,
+            widget.pesanan.designKustom.length > 1
+                ? uploadedImages
+                : SizedBox.shrink(),
             SizedBox(height: 15),
             form,
-            SizedBox(height: 25),
-            submitButton,
             SizedBox(height: 100),
           ],
         ),
