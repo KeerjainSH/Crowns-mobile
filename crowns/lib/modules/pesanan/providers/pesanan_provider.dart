@@ -1,22 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:crowns/constants/api_path.dart';
-import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
-import 'package:crowns/modules/auth/providers/auth_provider.dart';
-import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum PesananStatus {
   PesananNotCreated,
@@ -45,17 +39,10 @@ class PesananProvider extends ChangeNotifier {
   RequestStatus get allPesananStatus => _allPesananStatus;
   RequestStatus get updateDetailStatus => _updateDetailStatus;
 
-  // List<Pesanan> _pesananBelumValidList = [];
-
   RequestStatus _fetchPesananBelumValidStatus = RequestStatus.NotFetched;
 
   RequestStatus get fetchPesananBelumValidStatus =>
       _fetchPesananBelumValidStatus;
-  // List<Pesanan> get pesananBelumValidList => _pesananBelumValidList;
-
-  List<Pesanan> _pesananSelesaiList = [];
-
-  List<Pesanan> _pesananDikerjakanList = [];
 
   PesananBaru get pesanan => _pesanan!;
   PesananStatus get pesananStatus => _pesananStatus;
@@ -283,7 +270,7 @@ class PesananProvider extends ChangeNotifier {
     // notifyListeners();
 
     var token = await UserPreferences().getToken();
-    // print(token);
+    print(token);
 
     result.add(await fetchPesanan(ApiPath.pesananBelumValid));
     result.add(await fetchPesanan(ApiPath.pesananValid));

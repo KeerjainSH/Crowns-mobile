@@ -38,7 +38,7 @@ class ProfileProvider extends ChangeNotifier {
       _profileStatus = RequestStatus.Fetched;
       notifyListeners();
       result = {
-        'status': false,
+        'status': true,
         'message': responseData['message'],
       };
     } else {

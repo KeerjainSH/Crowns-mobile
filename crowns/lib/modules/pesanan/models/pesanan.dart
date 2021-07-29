@@ -1,15 +1,9 @@
-import 'dart:developer';
-
-import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
-import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/models/baju.dart';
-import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom_response.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/tawaran_response.dart';
-import 'package:flutter/material.dart';
 
 class Pesanan {
   int id;
@@ -25,6 +19,7 @@ class Pesanan {
   List<Alamat> lokasi_penjemputan;
   Pembayaran pembayaran;
   TawaranResponse tawaran;
+  String created_at;
 
   Pesanan({
     required this.id,
@@ -40,6 +35,7 @@ class Pesanan {
     required this.lokasi_penjemputan,
     required this.tawaran,
     required this.pembayaran,
+    required this.created_at,
   });
 
   factory Pesanan.fromJson(Map<String, dynamic> responseData) {
@@ -66,8 +62,6 @@ class Pesanan {
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
 
-    print('hi');
-
     for (final lokasiData in lokasiDataList) {
       var lokasi = Alamat.fromJson(lokasiData);
       lokasiList.add(lokasi);
@@ -77,19 +71,15 @@ class Pesanan {
 
     var tawaran;
 
-    print('Hello');
-
     if (responseData['penawaran'] != null) {
       tawaran = TawaranResponse.fromJson(responseData['penawaran']);
-      print('here you gooo');
     } else
       tawaran = TawaranResponse(
-          id: 0,
-          status_penawaran: 0,
-          jumlah_penawaran: '0',
-          hari_tawar: DateTime.now());
-
-    print('Hello2');
+        id: 0,
+        status_penawaran: 0,
+        jumlah_penawaran: '0',
+        hari_tawar: DateTime.now(),
+      );
 
     return Pesanan(
       id: responseData['id'],
@@ -109,6 +99,7 @@ class Pesanan {
           : int.parse(responseData['status_pesanan']),
       tawaran: tawaran,
       pembayaran: pembayaran,
+      created_at: responseData['created_at'],
     );
   }
 }

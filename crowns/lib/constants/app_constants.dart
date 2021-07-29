@@ -14,6 +14,7 @@ class ColorConstants {
   static const Color softBlue = Color.fromRGBO(52, 110, 147, 0.2);
 
   static const Color black = Color.fromRGBO(22, 22, 22, 1);
+  static const Color white = Color.fromRGBO(240, 240, 240, 1);
 }
 
 class ImageConstants {

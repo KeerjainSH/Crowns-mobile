@@ -1,16 +1,9 @@
 import 'package:crowns/constants/request_enums.dart';
-import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan_filled.dart';
-import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
-import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-import 'dart:io';
-
-import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
-import 'package:crowns/modules/pesanan/components/upload_desain_dialog.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +20,6 @@ class DetailPesananLookbackPage extends StatefulWidget {
 
 class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
   int _highlightedImageIndex = 0;
-  bool _kainSendiri = false;
-  bool _desainSendiri = false;
 
   @override
   Widget build(BuildContext context) {
@@ -219,32 +210,42 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       ],
     );
 
-    var alamat = Column(
-      children: [
-        buildHeadline(context, 'Lokasi Penjahit'),
-        buildSubtitle(context, 'Ambil baju disini ya!'),
-        SizedBox(height: 15),
-        buildHeadline2(context, penjahitProvider.alamatPenjahit.nama),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'Kecamatan'),
-        SizedBox(height: 5),
-        buildBodyText3(context, penjahitProvider.alamatPenjahit.kecamatan),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'Kota'),
-        SizedBox(height: 5),
-        buildBodyText3(context, penjahitProvider.alamatPenjahit.kota),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'No Telepon'),
-        SizedBox(height: 5),
-        buildBodyText3(context, penjahitProvider.alamatPenjahit.no_hp),
-      ],
-    );
+    Column buildAlamat(Alamat alamat) {
+      return Column(
+        children: [
+          alamat.tipe == 1
+              ? buildHeadline(context, 'Lokasi Jemput Kain')
+              : buildHeadline(context, 'Lokasi Antar Produk'),
+          alamat.tipe == 1
+              ? buildSubtitle(context,
+                  'Bahan kain kamu akan diambil oleh penjahit pada alamat berikut')
+              : buildSubtitle(context,
+                  'Baju kamu akan diantarkan penjahit pada alamat berikut'),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Alamat'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.alamat),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Kecamatan'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.kecamatan),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Kota'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.kota),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Instruksi'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.instruksi),
+        ],
+      );
+    }
 
     return Provider(
       lazy: false,
       create: (context) {
         WidgetsBinding.instance!.addPostFrameCallback((_) {
-          penjahitProvider.fetchAlamatPenjahit(widget.pesanan.id_penjahit);
+          // penjahitProvider.fetchAlamatPenjahit(widget.pesanan.id_penjahit);
         });
       },
       dispose: (context, data) => penjahitProvider.reset(),
@@ -263,10 +264,22 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
                         : SizedBox.shrink(),
                     SizedBox(height: 15),
                     form,
-                    SizedBox(height: 15),
+                    SizedBox(height: 5),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32),
-                      child: alamat,
+                      child: widget.pesanan.lokasi_penjemputan.length == 1
+                          ? buildAlamat(widget.pesanan.lokasi_penjemputan[0])
+                          : widget.pesanan.lokasi_penjemputan.length == 2
+                              ? Column(
+                                  children: [
+                                    buildAlamat(
+                                        widget.pesanan.lokasi_penjemputan[0]),
+                                    SizedBox(height: 30),
+                                    buildAlamat(
+                                        widget.pesanan.lokasi_penjemputan[1]),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
                     ),
                     SizedBox(height: 80),
                   ],

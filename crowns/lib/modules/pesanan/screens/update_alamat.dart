@@ -40,7 +40,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     instruksi: '',
     kode_pos: 0,
     waktu: '',
-    tipe: 1,
+    tipe: 2,
   );
 
   final formKeySelesai = new GlobalKey<FormState>();
@@ -58,7 +58,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     instruksi: '',
     kode_pos: 0,
     waktu: '',
-    tipe: 2,
+    tipe: 1,
   );
 
   final formKeyKain = new GlobalKey<FormState>();
@@ -97,7 +97,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         },
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: buildLightButtonText(context, 'Antar Sendiri'),
+                          child: buildLightButtonText(context, 'Ambil Sendiri'),
                         ),
                       ),
                     ),
@@ -112,7 +112,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                       width: 114,
                       height: 42,
                       child: Center(
-                        child: buildButtonText(context, 'Di Ambil'),
+                        child: buildButtonText(context, 'Di Antar'),
                       ),
                     ),
                   ),
@@ -142,7 +142,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.only(right: 20.0),
-                            child: buildLightButtonText(context, 'Di Ambil'),
+                            child: buildLightButtonText(context, 'Di Antar'),
                           ),
                         ),
                       ),
@@ -158,7 +158,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                       width: 114,
                       height: 42,
                       child: Center(
-                          child: buildButtonText(context, 'Antar Sendiri')),
+                          child: buildButtonText(context, 'Ambil Sendiri')),
                     ),
                   ),
                 ],
@@ -415,7 +415,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
               Icons.event,
               color: ColorConstants.black,
             ),
-            onSaved: (value) => _alamatSelesai.waktu = value!,
+            onSaved: (value) => _alamatKain.waktu = value!,
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
         ],
@@ -514,7 +514,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                 margin: EdgeInsets.only(bottom: 5),
                 child: Center(
                   child: Text(
-                    'Ketika pesanan selesai',
+                    'Baju kamu',
                     style: TextStyle(
                       color: ColorConstants.primaryColor,
                       fontWeight: FontWeight.w700,
@@ -540,7 +540,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                           margin: EdgeInsets.only(top: 10, bottom: 5),
                           child: Center(
                             child: Text(
-                              'Kain kamu',
+                              'Bahan kain',
                               style: TextStyle(
                                 color: ColorConstants.primaryColor,
                                 fontWeight: FontWeight.w700,
