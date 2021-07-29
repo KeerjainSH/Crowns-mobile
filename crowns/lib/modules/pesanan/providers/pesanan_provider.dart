@@ -33,6 +33,7 @@ enum PesananStatus {
 
 class PesananProvider extends ChangeNotifier {
   PesananStatus _pesananStatus = PesananStatus.PesananNotCreated;
+  RequestStatus _updateDetailStatus = RequestStatus.NotFetched;
 
   RequestStatus _allPesananStatus = RequestStatus.NotFetched;
 
@@ -41,6 +42,7 @@ class PesananProvider extends ChangeNotifier {
   List<DesainCustom> _desainCustomList = [];
 
   RequestStatus get allPesananStatus => _allPesananStatus;
+  RequestStatus get updateDetailStatus => _updateDetailStatus;
 
   // List<Pesanan> _pesananBelumValidList = [];
 
@@ -190,6 +192,9 @@ class PesananProvider extends ChangeNotifier {
     PesananBaru pesananBaru,
     bool kainSendiri,
   ) async {
+    _updateDetailStatus = RequestStatus.Fetching;
+    notifyListeners();
+
     List<Map<String, dynamic>> detailPesananDataList = [];
 
     for (final detailPesanan in detailPesananList) {
@@ -229,12 +234,20 @@ class PesananProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+
+      _updateDetailStatus = RequestStatus.Fetched;
+      notifyListeners();
+
       result = {
         'status': true,
         'message': responseData['message'],
       };
     } else {
       final Map<String, dynamic> responseData = json.decode(response.body);
+
+      _updateDetailStatus = RequestStatus.Fetched;
+      notifyListeners();
+
       result = {
         'status': false,
         'message': responseData['message'],
@@ -305,7 +318,6 @@ class PesananProvider extends ChangeNotifier {
       List<Pesanan> pesananList = [];
 
       for (final pesananBelumValid in pesananBelumValidDataList) {
-        print(pesananBelumValid['penawaran']);
         Pesanan pesanan = Pesanan.fromJson(pesananBelumValid);
         pesananList.add(pesanan);
       }

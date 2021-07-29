@@ -1,3 +1,4 @@
+import 'package:crowns/modules/pesanan/screens/transisi_pesanan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ import '../../modules/catalog/screens/catalog.dart';
 import '../../modules/catalog/screens/kreasi.dart';
 import '../../modules/home.dart';
 import '../../modules/pembayaran/screens/detail_pembayaran.dart';
-import '../../modules/pembayaran/screens/menunggu_konfirmasi.dart';
+import '../../modules/pembayaran/screens/transisi_pembayaran.dart';
 import '../../modules/pembayaran/screens/pembayaran.dart';
 import '../../modules/pesanan/screens/detail_pesanan.dart';
 import '../../modules/pesanan/screens/pesanan.dart';
@@ -31,8 +32,10 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => CatalogScreen());
       case RouteConstants.detilPesanan:
         return MaterialPageRoute(builder: (_) => DetailPesananPage());
-      case RouteConstants.menungguKonfirmasi:
-        return MaterialPageRoute(builder: (_) => MenungguKonfirmasiScreen());
+      case RouteConstants.transisiPesanan:
+        return MaterialPageRoute(builder: (_) => TransisiPesananScreen());
+      case RouteConstants.transisiPembayaran:
+        return MaterialPageRoute(builder: (_) => TransisiPembayaranScreen());
       case RouteConstants.profile:
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case RouteConstants.editProfile:

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
 
-class MenungguKonfirmasiScreen extends StatelessWidget {
+class TransisiPembayaranScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var padding = MediaQuery.of(context).padding;

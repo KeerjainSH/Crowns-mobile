@@ -21,6 +21,7 @@ class _FormDetailPesananFilledState extends State<FormDetailPesananFilled> {
         SizedBox(height: 5),
         TextFormField(
           initialValue: widget.detailPesanan.nama_lengkap,
+          enabled: false,
         ),
         SizedBox(height: 8),
         buildFormLabel2(context, 'Ukuran Baju'),
@@ -62,6 +63,7 @@ class _FormDetailPesananFilledState extends State<FormDetailPesananFilled> {
             minLines: 4,
             maxLines: null,
             initialValue: widget.detailPesanan.instruksi_pembuatan,
+            enabled: false,
           ),
         ),
         SizedBox(height: 22),

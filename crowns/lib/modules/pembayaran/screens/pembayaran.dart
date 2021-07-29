@@ -302,7 +302,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                           successfulMessage.then((response) {
                             if (response['status']) {
                               Navigator.pushNamed(
-                                  context, RouteConstants.menungguKonfirmasi);
+                                  context, RouteConstants.transisiPembayaran);
                             } else {
                               final snackBar = SnackBar(
                                 content: Text(

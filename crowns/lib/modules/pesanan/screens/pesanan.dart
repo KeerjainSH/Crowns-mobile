@@ -235,7 +235,6 @@ class _PesananScreenState extends State<PesananScreen> {
       create: (context) {
         WidgetsBinding.instance!.addPostFrameCallback((_) {
           pesanan = pesananProvider.fetchAllPesanan();
-
           setState(() {});
         });
       },

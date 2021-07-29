@@ -66,6 +66,8 @@ class Pesanan {
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
 
+    print('hi');
+
     for (final lokasiData in lokasiDataList) {
       var lokasi = Alamat.fromJson(lokasiData);
       lokasiList.add(lokasi);

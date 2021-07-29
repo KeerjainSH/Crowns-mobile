@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/screens/update_alamat.dart';
@@ -335,8 +336,9 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      UpdateAlamatScreen(pesanan: pesananProvider.pesanan),
+                  builder: (context) => UpdateAlamatScreen(
+                      pesanan: pesananProvider.pesanan,
+                      kainSendiri: _kainSendiri),
                 ),
               );
             }
@@ -461,7 +463,9 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     SizedBox(height: 15),
                     form,
                     SizedBox(height: 25),
-                    submitButton,
+                    pesananProvider.updateDetailStatus == RequestStatus.Fetching
+                        ? Center(child: CircularProgressIndicator())
+                        : submitButton,
                     SizedBox(height: 100),
                   ],
                 ),

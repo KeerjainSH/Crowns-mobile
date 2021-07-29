@@ -67,7 +67,8 @@ class RouteConstants {
   static const String detilPembayaran = '/detil-pembayaran';
   static const String pembayarn = '/pembayaran';
   static const String pilihPenjahit = '/pilih-penjahit';
-  static const String menungguKonfirmasi = '/menunggu-konfirmasi';
+  static const String transisiPesanan = '/transisi-pesanan';
+  static const String transisiPembayaran = '/transisi-pembayaran';
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
   static const String pesanan = '/pesanan';
