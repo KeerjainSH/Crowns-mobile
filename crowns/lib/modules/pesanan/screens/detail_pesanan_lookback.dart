@@ -1,7 +1,9 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan_filled.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
+import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -30,6 +32,8 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
 
   @override
   Widget build(BuildContext context) {
+    PenjahitProvider penjahitProvider = Provider.of<PenjahitProvider>(context);
+
     final productPicture = Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: double.infinity,
@@ -166,27 +170,6 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       ),
     );
 
-    // Container _buildCatalogImage(File imageItem, int index) {
-    //   return Container(
-    //     margin: EdgeInsets.only(right: 15),
-    //     width: 83,
-    //     child: InkWell(
-    //       onTap: () {
-    //         setState(() {
-    //           _highlightedImageIndex = index;
-    //         });
-    //       },
-    //       child: ClipRRect(
-    //         borderRadius: BorderRadius.circular(18),
-    //         child: Image.file(
-    //           pesananProvider.desainCustomList[index].foto,
-    //           fit: BoxFit.cover,
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // }
-
     void showDesainDialog() {
       showDialog(
         context: context,
@@ -260,22 +243,59 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       ],
     );
 
-    return Scaffold(
-      backgroundColor: ColorConstants.backgroundColor,
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: [
-            header,
-            SizedBox(height: 15),
-            widget.pesanan.designKustom.length > 1
-                ? uploadedImages
-                : SizedBox.shrink(),
-            SizedBox(height: 15),
-            form,
-            SizedBox(height: 100),
-          ],
-        ),
+    var alamat = Column(
+      children: [
+        buildHeadline(context, 'Lokasi Penjahit'),
+        buildSubtitle(context, 'Ambil baju disini ya!'),
+        SizedBox(height: 15),
+        buildHeadline2(context, penjahitProvider.alamatPenjahit.nama),
+        SizedBox(height: 10),
+        buildFormLabel(context, 'Kecamatan'),
+        SizedBox(height: 5),
+        buildBodyText3(context, penjahitProvider.alamatPenjahit.kecamatan),
+        SizedBox(height: 10),
+        buildFormLabel(context, 'Kota'),
+        SizedBox(height: 5),
+        buildBodyText3(context, penjahitProvider.alamatPenjahit.kota),
+        SizedBox(height: 10),
+        buildFormLabel(context, 'No Telepon'),
+        SizedBox(height: 5),
+        buildBodyText3(context, penjahitProvider.alamatPenjahit.no_hp),
+      ],
+    );
+
+    return Provider(
+      lazy: false,
+      create: (context) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          penjahitProvider.fetchAlamatPenjahit(widget.pesanan.id_penjahit);
+        });
+      },
+      dispose: (context, data) => penjahitProvider.reset(),
+      child: Scaffold(
+        backgroundColor: ColorConstants.backgroundColor,
+        body: penjahitProvider.alamatPenjahitStatus == RequestStatus.Fetching
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                physics: ScrollPhysics(),
+                child: Column(
+                  children: [
+                    header,
+                    SizedBox(height: 15),
+                    widget.pesanan.designKustom.length > 1
+                        ? uploadedImages
+                        : SizedBox.shrink(),
+                    SizedBox(height: 15),
+                    form,
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      child: alamat,
+                    ),
+                    SizedBox(height: 80),
+                  ],
+                ),
+              ),
       ),
     );
   }

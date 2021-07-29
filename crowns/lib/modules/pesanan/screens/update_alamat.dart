@@ -1,4 +1,6 @@
 import 'package:crowns/modules/pesanan/models/alamat.dart';
+import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
+import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
@@ -15,8 +17,13 @@ import 'package:provider/provider.dart';
 class UpdateAlamatScreen extends StatefulWidget {
   PesananBaru pesanan;
   bool kainSendiri;
+  Penjahit penjahit;
 
-  UpdateAlamatScreen({required this.pesanan, required this.kainSendiri});
+  UpdateAlamatScreen({
+    required this.pesanan,
+    required this.kainSendiri,
+    required this.penjahit,
+  });
 
   @override
   _UpdateAlamatScreenState createState() => _UpdateAlamatScreenState();
@@ -232,23 +239,23 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         buildHeadline(context, 'Lokasi Penjahit'),
         buildSubtitle(context, 'Antar kesini ya!'),
         SizedBox(height: 15),
-        buildHeadline2(context, 'Pak Kamirin'),
+        buildHeadline2(context, widget.penjahit.nama),
         SizedBox(height: 10),
-        buildFormLabel(context, 'Kelurahan'),
+        buildFormLabel(context, 'Alamat'),
         SizedBox(height: 5),
-        buildBodyText3(context, 'Keputih'),
+        buildBodyText3(context, widget.penjahit.alamat),
         SizedBox(height: 10),
         buildFormLabel(context, 'Kecamatan'),
         SizedBox(height: 5),
-        buildBodyText3(context, 'Sukolilo'),
+        buildBodyText3(context, widget.penjahit.kecamatan),
         SizedBox(height: 10),
         buildFormLabel(context, 'Kota'),
         SizedBox(height: 5),
-        buildBodyText3(context, '60234'),
+        buildBodyText3(context, widget.penjahit.kota),
         SizedBox(height: 10),
         buildFormLabel(context, 'No Telepon'),
         SizedBox(height: 5),
-        buildBodyText3(context, '08001128888'),
+        buildBodyText3(context, widget.penjahit.no_hp),
       ],
     );
 

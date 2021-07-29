@@ -281,7 +281,20 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                                 },
                               ),
                             )
-                          : SizedBox.shrink(),
+                          : Container(
+                              decoration: BoxDecoration(
+                                color: ColorConstants.softBlue,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 3,
+                              ),
+                              child:
+                                  widget.pesanan.tawaran.status_penawaran == 2
+                                      ? Text('Menunggu jawaban dari penjahit')
+                                      : Text('Tawaran diterima'),
+                            ),
                       SizedBox(height: 36),
                       Padding(
                         padding: const EdgeInsets.only(left: appPadding),

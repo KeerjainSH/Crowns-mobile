@@ -62,7 +62,6 @@ class RouteConstants {
   static const String login = '/login';
   static const String register = '/register';
   static const String catalog = '/catalog';
-  static const String detilPesanan = '/detil-pesanan';
   static const String isiAlamat = '/isi-alamat';
   static const String detilPembayaran = '/detil-pembayaran';
   static const String pembayarn = '/pembayaran';

@@ -30,8 +30,6 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case RouteConstants.catalog:
         return MaterialPageRoute(builder: (_) => CatalogScreen());
-      case RouteConstants.detilPesanan:
-        return MaterialPageRoute(builder: (_) => DetailPesananPage());
       case RouteConstants.transisiPesanan:
         return MaterialPageRoute(builder: (_) => TransisiPesananScreen());
       case RouteConstants.transisiPembayaran:

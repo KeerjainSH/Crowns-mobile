@@ -1,6 +1,7 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
+import 'package:crowns/modules/pesanan/screens/detail_pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -29,12 +30,15 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
     final content = MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: penjahitProvider.penjahitList.length,
-        itemBuilder: (context, i) => tile(penjahitProvider.penjahitList[i]),
-      ),
+      child: penjahitProvider.penjahitList.length > 0
+          ? ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: penjahitProvider.penjahitList.length,
+              itemBuilder: (context, i) =>
+                  tile(penjahitProvider.penjahitList[i]),
+            )
+          : Text('Belum ada penjahit tersedia untuk baju ini'),
     );
 
     return Provider(
@@ -92,7 +96,16 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
         right: appPadding + 10,
       ),
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, RouteConstants.detilPesanan),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailPesananPage(
+                penjahit: penjahit,
+              ),
+            ),
+          );
+        },
         child: ListTile(
           leading: Container(
             child: DecoratedBox(

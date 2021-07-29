@@ -7,6 +7,7 @@ import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/auth/providers/auth_provider.dart';
+import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
 import 'package:crowns/modules/pesanan/models/desain_custom.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';

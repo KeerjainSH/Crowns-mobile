@@ -15,6 +15,7 @@ class ApiPath {
       baseUrl + '/pesanan/pembayaranBelumValid';
   static const String pesananValid = baseUrl + '/pesanan/pembayaranValid';
   static const String beriRating = baseUrl + '/pesanan/rate';
+  static const String updateProfil = baseUrl + '/pembeli/updateProfil';
 
   static String getCatalogByCategoryId(int id) {
     return baseUrl + '/kategori/' + id.toString() + '/katalog';
@@ -22,6 +23,10 @@ class ApiPath {
 
   static String getProfileById(int id) {
     return baseUrl + '/pembeli/' + id.toString();
+  }
+
+  static String getProfilePenjahitById(int id) {
+    return baseUrl + '/penjahit/' + id.toString();
   }
 
   static String getPenjahitByCatalogId(int id) {

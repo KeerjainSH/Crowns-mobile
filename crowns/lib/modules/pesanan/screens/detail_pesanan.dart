@@ -1,6 +1,8 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/screens/update_alamat.dart';
 import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:crowns/widgets/custom_button.dart';
@@ -15,6 +17,10 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPesananPage extends StatefulWidget {
+  Penjahit penjahit;
+
+  DetailPesananPage({required this.penjahit});
+
   @override
   _DetailPesananPageState createState() => _DetailPesananPageState();
 }
@@ -337,8 +343,10 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => UpdateAlamatScreen(
-                      pesanan: pesananProvider.pesanan,
-                      kainSendiri: _kainSendiri),
+                    pesanan: pesananProvider.pesanan,
+                    kainSendiri: _kainSendiri,
+                    penjahit: widget.penjahit,
+                  ),
                 ),
               );
             }

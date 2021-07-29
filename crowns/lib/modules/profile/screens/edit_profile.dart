@@ -1,6 +1,7 @@
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/auth/models/user_register.dart';
+import 'package:crowns/modules/profile/models/profile.dart';
 import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -18,8 +19,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final formKey = new GlobalKey<FormState>();
 
   String _currKelamin = 'l';
-
-  UserRegister userRegister = UserRegister();
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +42,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           margin: EdgeInsets.only(right: 20),
           child: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              final FormState? formState = formKey.currentState;
+
+              if (formState!.validate()) {
+                formState.save();
+
+                final Future<Map<String, dynamic>> successfulMessage;
+
+                successfulMessage = profileProvider.updateProfile();
+
+                successfulMessage.then((response) {
+                  if (response['status']) {
+                    Navigator.pop(context);
+                  }
+                });
+              }
             },
-            child: Icon(
-              Icons.check,
-              color: ColorConstants.black,
-            ),
+            child: profileProvider.updateProfileStatus == RequestStatus.Fetching
+                ? Center(child: CircularProgressIndicator())
+                : Icon(
+                    Icons.check,
+                    color: ColorConstants.black,
+                  ),
           ),
         ),
       ],
@@ -62,34 +77,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       elevation: 0,
     );
 
-    final usernameField = Column(
-      children: [
-        buildFormLabel(context, 'Username'),
-        SizedBox(height: 9),
-        TextFormField(
-          initialValue: profileProvider.profile.username,
-          style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.username = value!,
-          validator: (value) => value == '' ? 'wajib diisi' : null,
-        ),
-        SizedBox(height: 15),
-      ],
-    );
-
-    final emailField = Column(
-      children: [
-        buildFormLabel(context, 'Email'),
-        SizedBox(height: 9),
-        TextFormField(
-          initialValue: profileProvider.profile.email,
-          style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.email = value!,
-          validator: (value) => value == '' ? 'wajib diisi' : null,
-        ),
-        SizedBox(height: 15),
-      ],
-    );
-
     final namaField = Column(
       children: [
         buildFormLabel(context, 'Nama'),
@@ -97,7 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextFormField(
           initialValue: profileProvider.profile.nama,
           style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.nama = value!,
+          onSaved: (value) => profileProvider.profile..nama = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
@@ -119,7 +106,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 isDense: true,
                 onChanged: (String? value) {
                   setState(() {
-                    userRegister.jenis_kelamin = value!;
+                    profileProvider.profile..jenis_kelamin = value!;
                     _currKelamin = value;
                     state.didChange(value);
                   });
@@ -146,7 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           initialValue: profileProvider.profile.no_hp,
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
-          onSaved: (value) => userRegister.no_hp = value!,
+          onSaved: (value) => profileProvider.profile..no_hp = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
         SizedBox(height: 15),
@@ -163,7 +150,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
           style: TextStyle(fontSize: 13),
-          onSaved: (value) => userRegister.tanggal_lahir = value!,
+          onSaved: (value) => profileProvider.profile..tanggal_lahir = value!,
           validator: (value) => value == '' ? 'harus diisi' : null,
         ),
         SizedBox(height: 15),
@@ -178,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           initialValue: profileProvider.profile.kodepos,
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
-          onSaved: (value) => userRegister.kodepos = value!,
+          onSaved: (value) => profileProvider.profile..kodepos = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
         SizedBox(height: 15),
@@ -192,7 +179,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextFormField(
           initialValue: profileProvider.profile.kecamatan,
           style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.kecamatan = value!,
+          onSaved: (value) => profileProvider.profile..kecamatan = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
         SizedBox(height: 15),
@@ -206,7 +193,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextFormField(
           initialValue: profileProvider.profile.kota,
           style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.kota = value!,
+          onSaved: (value) => profileProvider.profile..kota = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
@@ -220,7 +207,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextFormField(
           initialValue: profileProvider.profile.provinsi,
           style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.provinsi = value!,
+          onSaved: (value) => profileProvider.profile.provinsi = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
@@ -234,7 +221,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextFormField(
           initialValue: profileProvider.profile.alamat,
           style: TextStyle(fontSize: 14),
-          onSaved: (value) => userRegister.alamat = value!,
+          onSaved: (value) => profileProvider.profile..alamat = value!,
           validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
@@ -263,8 +250,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Column(
           children: [
             namaField,
-            emailField,
-            usernameField,
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
