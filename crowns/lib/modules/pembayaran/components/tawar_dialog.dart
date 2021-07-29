@@ -162,7 +162,7 @@ class _TawarDialogState extends State<TawarDialog> {
                                   isLoading = false;
                                 });
                                 if (response['status']) {
-                                  Navigator.of(context).pop();
+                                  Navigator.pop(context, 2);
                                 }
                               });
                             }

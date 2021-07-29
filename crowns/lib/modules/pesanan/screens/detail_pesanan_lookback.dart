@@ -170,30 +170,6 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       ),
     );
 
-    void showDesainDialog() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return UploadDesainDialog();
-        },
-      );
-    }
-
-    final catalogAddImage = Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: ColorConstants.softGrey,
-      ),
-      margin: EdgeInsets.only(right: 15),
-      width: 83,
-      child: InkWell(
-        onTap: showDesainDialog,
-        child: Center(
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
-
     Container _buildCatalogImage(String foto, int index) {
       return Container(
         margin: EdgeInsets.only(right: 15),

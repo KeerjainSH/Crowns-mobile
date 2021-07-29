@@ -279,7 +279,12 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                                     pembayaranProvider: provider,
                                   );
                                 },
-                              ),
+                              ).then((value) {
+                                setState(() {
+                                  widget.pesanan.tawaran.status_penawaran =
+                                      value;
+                                });
+                              }),
                             )
                           : Container(
                               decoration: BoxDecoration(
