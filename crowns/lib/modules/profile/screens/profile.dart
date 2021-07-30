@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 child: Icon(
-                  Icons.camera_alt_outlined,
+                  Icons.person_outline,
                   size: 43,
                 ),
               ),

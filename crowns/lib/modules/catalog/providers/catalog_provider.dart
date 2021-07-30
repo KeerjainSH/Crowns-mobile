@@ -93,12 +93,6 @@ class CatalogProvider extends ChangeNotifier {
 
       var catalogDataList = responseData['data'];
 
-      /// For dummy image
-      /// Commnet soon
-      ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
-      var buffer = bytes.buffer;
-      var base64Image = base64.encode(Uint8List.view(buffer));
-
       for (final catalogData in catalogDataList) {
         int id_kategori = catalogData['id_kategori'];
 
@@ -108,7 +102,7 @@ class CatalogProvider extends ChangeNotifier {
               _catalogAllByCategory[category.nama] = [];
 
             _catalogAllByCategory[category.nama]
-                .add(Catalog.fromJson(catalogData, base64Image));
+                .add(Catalog.fromJson(catalogData));
 
             break;
           }
@@ -150,14 +144,8 @@ class CatalogProvider extends ChangeNotifier {
 
       _category = responseData['data']['kategori'];
 
-      /// For dummy image
-      /// Commnet soon
-      ByteData bytes = await rootBundle.load(ImageConstants.pestaProduct1);
-      var buffer = bytes.buffer;
-      var base64Image = base64.encode(Uint8List.view(buffer));
-
       for (final catalogData in catalogDataList) {
-        Catalog catalog = Catalog.fromJson(catalogData, base64Image);
+        Catalog catalog = Catalog.fromJson(catalogData);
         _catalogByCategoryList.add(catalog);
       }
 

@@ -43,6 +43,8 @@ class Pesanan {
 
     Baju baju = Baju.fromJson(bajuData);
 
+    print('baju');
+
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];
 
@@ -50,6 +52,8 @@ class Pesanan {
       var detailPesanan = DetailPesanan.fromJson(detailPesananData);
       detailPesananList.add(detailPesanan);
     }
+
+    print('detail_pesanan');
 
     final desainCustomDataList = responseData['designKustom'];
     List<DesainCustomResponse> desainCustomList = [];
@@ -59,6 +63,8 @@ class Pesanan {
       desainCustomList.add(desainCustom);
     }
 
+    print('desain Kustom');
+
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
 
@@ -66,6 +72,8 @@ class Pesanan {
       var lokasi = Alamat.fromJson(lokasiData);
       lokasiList.add(lokasi);
     }
+
+    print('lokasi');
 
     var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
 
@@ -80,6 +88,8 @@ class Pesanan {
         jumlah_penawaran: '0',
         hari_tawar: DateTime.now(),
       );
+
+    print('tawaran');
 
     return Pesanan(
       id: responseData['id'],

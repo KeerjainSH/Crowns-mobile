@@ -25,6 +25,12 @@ dependencies:
   fluttertoast: ^8.0.7
   dio: ^4.0.0
   flutter_rating_bar: ^4.0.0
+  flutter_launcher_icons: "^0.9.1"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo-app.png"
 
 dev_dependencies:
   flutter_test:

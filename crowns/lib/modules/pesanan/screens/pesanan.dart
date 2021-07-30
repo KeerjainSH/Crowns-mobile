@@ -74,8 +74,14 @@ class _PesananScreenState extends State<PesananScreen> {
                 Container(
                   height: 200,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(pesanan.baju.foto)),
+                    borderRadius: BorderRadius.circular(10),
+                    child: FadeInImage(
+                      image: NetworkImage(pesanan.baju.foto),
+                      placeholder: AssetImage(ImageConstants.appLogo),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  // Image.network(pesanan.baju.foto)),
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -173,9 +179,13 @@ class _PesananScreenState extends State<PesananScreen> {
                           pesanan.pembayaran.status_pembayaran > 1
                               ? Column(
                                   children: [
-                                    Text(
-                                      'Total belanja',
-                                      style: TextStyle(fontSize: 10),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      child: Text(
+                                        'Total belanja',
+                                        style: TextStyle(fontSize: 10),
+                                      ),
                                     ),
                                     Row(
                                       children: [
@@ -253,20 +263,24 @@ class _PesananScreenState extends State<PesananScreen> {
                                                     .primaryColor),
                                           ),
                                         )
-                                      : Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              pesanan.rating.toString(),
-                                              style: TextStyle(
-                                                color: ColorConstants.darkGrey,
-                                                fontSize: 10,
+                                      : Container(
+                                          margin: EdgeInsets.only(right: 5),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                pesanan.rating.toString(),
+                                                style: TextStyle(
+                                                  color:
+                                                      ColorConstants.darkGrey,
+                                                  fontSize: 10,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            SvgPicture.asset(
-                                                ImageConstants.starIcon),
-                                          ],
+                                              SizedBox(width: 5),
+                                              SvgPicture.asset(
+                                                  ImageConstants.starIcon),
+                                            ],
+                                          ),
                                         )
                                   : SizedBox.shrink(),
                         ],

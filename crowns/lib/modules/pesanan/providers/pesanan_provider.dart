@@ -269,12 +269,15 @@ class PesananProvider extends ChangeNotifier {
     // _allPesananStatus = RequestStatus.Fetching;
     // notifyListeners();
 
+    final user = await UserPreferences().getUser();
+    final userId = user.id;
+
     var token = await UserPreferences().getToken();
     print(token);
 
     result.add(await fetchPesanan(ApiPath.pesananBelumValid));
     result.add(await fetchPesanan(ApiPath.pesananValid));
-    result.add(await fetchPesanan(ApiPath.getHistoryPesananbyId(3)));
+    result.add(await fetchPesanan(ApiPath.getHistoryPesananbyId(userId)));
 
     // _allPesananStatus = RequestStatus.Fetched;
     // notifyListeners();
@@ -300,6 +303,8 @@ class PesananProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+
+      print(responseData);
 
       var pesananBelumValidDataList = responseData['data'];
 

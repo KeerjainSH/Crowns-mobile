@@ -493,77 +493,102 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
       },
     );
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(height: 41),
-              appHeader,
-              SizedBox(height: 36),
+    Future<bool> _onWillPop() async {
+      return (await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Apakah anda yakin?'),
+              content: new Text('Jika ia pesanan tidak ada akan diproses'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('Tidak'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                      context, RouteConstants.landingPage, (route) => false),
+                  child: new Text('Ya'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    }
 
-              /// Show image progress bar
-              Container(
-                width: 221,
-                child: Image.asset(ImageConstants.progressBar3),
-              ),
-              SizedBox(height: 24),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(height: 41),
+                appHeader,
+                SizedBox(height: 36),
 
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                margin: EdgeInsets.only(bottom: 5),
-                child: Center(
-                  child: Text(
-                    'Baju kamu',
-                    style: TextStyle(
-                      color: ColorConstants.primaryColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 22,
+                /// Show image progress bar
+                Container(
+                  width: 221,
+                  child: Image.asset(ImageConstants.progressBar3),
+                ),
+                SizedBox(height: 24),
+
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  margin: EdgeInsets.only(bottom: 5),
+                  child: Center(
+                    child: Text(
+                      'Baju kamu',
+                      style: TextStyle(
+                        color: ColorConstants.primaryColor,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              buttonChoiceSelesai,
-              SizedBox(height: 22),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                child: _alamatSelesai.dijemput == 1
-                    ? diambilContentSelesai
-                    : antarSendiriContentSelesai,
-              ),
+                buttonChoiceSelesai,
+                SizedBox(height: 22),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  child: _alamatSelesai.dijemput == 1
+                      ? diambilContentSelesai
+                      : antarSendiriContentSelesai,
+                ),
 
-              widget.kainSendiri
-                  ? Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 32),
-                          margin: EdgeInsets.only(top: 10, bottom: 5),
-                          child: Center(
-                            child: Text(
-                              'Bahan kain',
-                              style: TextStyle(
-                                color: ColorConstants.primaryColor,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 22,
+                widget.kainSendiri
+                    ? Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 32),
+                            margin: EdgeInsets.only(top: 10, bottom: 5),
+                            child: Center(
+                              child: Text(
+                                'Bahan kain',
+                                style: TextStyle(
+                                  color: ColorConstants.primaryColor,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        buttonChoiceKain,
-                        SizedBox(height: 22),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32),
-                          child: _alamatKain.dijemput == 1
-                              ? diambilContentKain
-                              : antarSendiriContentSelesai,
-                        ),
-                      ],
-                    )
-                  : SizedBox.shrink(),
-              SizedBox(height: 30),
-              submitButton,
-              SizedBox(height: 40),
-            ],
+                          buttonChoiceKain,
+                          SizedBox(height: 22),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 32),
+                            child: _alamatKain.dijemput == 1
+                                ? diambilContentKain
+                                : antarSendiriContentSelesai,
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(),
+                SizedBox(height: 30),
+                submitButton,
+                SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

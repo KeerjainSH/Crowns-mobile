@@ -14,9 +14,13 @@ class TawaranResponse {
   factory TawaranResponse.fromJson(Map<String, dynamic> responseData) {
     return TawaranResponse(
       id: responseData['id'],
-      hari_tawar: DateTime.parse(responseData['hari_tawar']),
+      hari_tawar: responseData['hari_tawar'] == null
+          ? DateTime.now()
+          : DateTime.parse(responseData['hari_tawar']),
       jumlah_penawaran: responseData['jumlah_penawaran'].toString(),
-      status_penawaran: int.parse(responseData['status_penawaran']),
+      status_penawaran: responseData['status_penawaran'] == null
+          ? 0
+          : int.parse(responseData['status_penawaran']),
     );
   }
 }

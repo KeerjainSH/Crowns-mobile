@@ -7,7 +7,7 @@ class Catalog {
   String nama;
   String jenisKelamin;
   String deskripsi;
-  Uint8List foto;
+  String foto;
 
   Catalog({
     required this.id,
@@ -18,10 +18,7 @@ class Catalog {
     required this.foto,
   });
 
-  factory Catalog.fromJson(
-    Map<String, dynamic> responseData,
-    String base64Image,
-  ) {
+  factory Catalog.fromJson(Map<String, dynamic> responseData) {
     // int deficiency = 4 - responseData['foto'].toString().length % 4;
     // if (deficiency > 0) {
     //   responseData['foto'] += 'a' * deficiency;
@@ -33,8 +30,7 @@ class Catalog {
       nama: responseData['nama'],
       jenisKelamin: responseData['jenis_kelamin'],
       deskripsi: responseData['deskripsi'],
-      // foto: base64.decode(responseData['foto']),
-      foto: base64.decode(base64Image),
+      foto: responseData['foto'],
     );
   }
 }

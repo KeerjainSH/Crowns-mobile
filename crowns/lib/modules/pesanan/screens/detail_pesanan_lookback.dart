@@ -31,10 +31,18 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18.0),
         child: widget.pesanan.designKustom.length > 0
-            ? Image.network(
-                widget.pesanan.designKustom[_highlightedImageIndex].foto)
-            : Image.network(
-                widget.pesanan.baju.foto,
+            ? FadeInImage(
+                image: NetworkImage(
+                    widget.pesanan.designKustom[_highlightedImageIndex].foto),
+                placeholder: AssetImage(ImageConstants.appLogo),
+                fit: BoxFit.cover,
+              )
+            : FadeInImage(
+                image: NetworkImage(
+                  widget.pesanan.baju.foto,
+                ),
+                placeholder: AssetImage(ImageConstants.appLogo),
+                fit: BoxFit.cover,
               ),
       ),
     );
@@ -45,7 +53,7 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Seragam SMP',
+              widget.pesanan.baju.nama,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -54,19 +62,28 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Perempuan',
-              style: TextStyle(
-                color: ColorConstants.darkGrey,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-              ),
-            ),
+            child: widget.pesanan.baju.jenis_kelamin == 'P'
+                ? Text(
+                    'Perempuan',
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  )
+                : Text(
+                    'Laki-laki',
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Lengan dan Rok Panjang',
+              widget.pesanan.baju.deskripsi,
               style: TextStyle(
                 color: ColorConstants.darkGrey,
                 fontWeight: FontWeight.w400,

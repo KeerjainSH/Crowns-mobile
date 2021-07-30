@@ -33,12 +33,14 @@ class _CatalogScreenState extends State<CatalogScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PilihPenjahitScreen(id: catalog.id),
+                    builder: (context) => PilihPenjahitScreen(catalog: catalog),
                   ));
             },
-            child: new Image.memory(catalog.foto),
-            // child: Text(catalog.nama),
-            // child: Image.asset(ImageConstants.pestaProduct1),
+            child: FadeInImage(
+              image: NetworkImage(catalog.foto),
+              placeholder: AssetImage(ImageConstants.appLogo),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       );

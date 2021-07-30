@@ -2,7 +2,7 @@
     package="com.crowns">
    <application
         android:label="crowns"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">
 
         <activity

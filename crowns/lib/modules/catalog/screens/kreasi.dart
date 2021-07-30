@@ -28,16 +28,17 @@ class _KreasiScreenState extends State<KreasiScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PilihPenjahitScreen(id: catalog.id),
+                builder: (context) => PilihPenjahitScreen(catalog: catalog),
               ));
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            image: DecorationImage(
-              image: MemoryImage(catalog.foto),
-              fit: BoxFit.cover,
-            ),
+          ),
+          child: FadeInImage(
+            image: NetworkImage(catalog.foto),
+            placeholder: AssetImage(ImageConstants.appLogo),
+            fit: BoxFit.cover,
           ),
         ),
       );

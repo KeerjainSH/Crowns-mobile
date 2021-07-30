@@ -1,4 +1,5 @@
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan.dart';
@@ -12,9 +13,9 @@ import 'package:crowns/widgets/app_widgets.dart';
 import 'package:provider/provider.dart';
 
 class PilihPenjahitScreen extends StatefulWidget {
-  int id;
+  Catalog catalog;
 
-  PilihPenjahitScreen({required this.id});
+  PilihPenjahitScreen({required this.catalog});
 
   @override
   _PilihPenjahitScreenState createState() => _PilihPenjahitScreenState();
@@ -45,7 +46,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
       lazy: false,
       create: (context) {
         WidgetsBinding.instance!.addPostFrameCallback((_) {
-          penjahitProvider.fetchPenjahitByCatalogId(widget.id);
+          penjahitProvider.fetchPenjahitByCatalogId(widget.catalog.id);
         });
       },
       dispose: (context, data) => penjahitProvider.reset(),
@@ -101,29 +102,16 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => DetailPesananPage(
-                penjahit: penjahit,
-              ),
+                  penjahit: penjahit, catalog: widget.catalog),
             ),
           );
         },
         child: ListTile(
           leading: Container(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    spreadRadius: 2,
-                    color: ColorConstants.grey,
-                    offset: Offset(-2, 1),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(ImageConstants.profilePhoto),
-              ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              // child: Image.asset(ImageConstants.profilePhoto),
+              child: Icon(Icons.person_outline),
             ),
           ),
           title: Text(

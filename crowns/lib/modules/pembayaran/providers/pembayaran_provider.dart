@@ -84,13 +84,15 @@ class PembayaranProvider extends ChangeNotifier {
     List<Map<String, dynamic>> buktiBayarList = [];
 
     List<int> imageBytes = bukti.readAsBytesSync();
+
     String base64Image = 'data:image/png;base64,' + base64.encode(imageBytes);
+
     final Map<String, dynamic> buktiBayarData = {
       'foto': base64Image,
     };
     buktiBayarList.add(buktiBayarData);
 
-    final Map<String, dynamic> tawaranData = {
+    final Map<String, dynamic> buktiPembayaranData = {
       'id_pesanan': idPesanan,
       'metode_pembayaran': metode,
       'list_bukti': buktiBayarList,
@@ -98,11 +100,11 @@ class PembayaranProvider extends ChangeNotifier {
 
     var token = await UserPreferences().getToken();
 
-    print(json.encode(tawaranData));
+    print(json.encode(buktiPembayaranData));
 
     Response response = await post(
-      Uri.parse(ApiPath.tawar),
-      body: json.encode(tawaranData),
+      Uri.parse(ApiPath.uploadBuktiBayar),
+      body: json.encode(buktiPembayaranData),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -112,12 +114,9 @@ class PembayaranProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      /// Del soon
-      print(responseData);
-
       _tawarStatus = RequestStatus.Fetched;
-
       notifyListeners();
+
       result = {
         'status': true,
         'message': responseData['message'],
@@ -126,9 +125,6 @@ class PembayaranProvider extends ChangeNotifier {
       _tawarStatus = RequestStatus.Failed;
 
       final Map<String, dynamic> responseData = json.decode(response.body);
-
-      /// Del soon
-      // print(responseData);
 
       notifyListeners();
       result = {

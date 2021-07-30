@@ -1,4 +1,5 @@
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
@@ -18,8 +19,12 @@ import 'package:provider/provider.dart';
 
 class DetailPesananPage extends StatefulWidget {
   Penjahit penjahit;
+  Catalog catalog;
 
-  DetailPesananPage({required this.penjahit});
+  DetailPesananPage({
+    required this.penjahit,
+    required this.catalog,
+  });
 
   @override
   _DetailPesananPageState createState() => _DetailPesananPageState();
@@ -51,8 +56,10 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   fit: BoxFit.fitHeight,
                 ),
               )
-            : Image.asset(
-                ImageConstants.seragamProduc1,
+            : FadeInImage(
+                image: NetworkImage(widget.catalog.foto),
+                placeholder: AssetImage(ImageConstants.appLogo),
+                fit: BoxFit.cover,
               ),
       ),
     );
@@ -63,7 +70,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Seragam SMP',
+              widget.catalog.nama,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -72,14 +79,23 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Perempuan',
-              style: TextStyle(
-                color: ColorConstants.darkGrey,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-              ),
-            ),
+            child: widget.catalog.jenisKelamin == 'P'
+                ? Text(
+                    'Perempuan',
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  )
+                : Text(
+                    'Laki-laki',
+                    style: TextStyle(
+                      color: ColorConstants.darkGrey,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
           ),
           pesananProvider.pesananStatus == PesananStatus.DesainAdded
               ? Align(
@@ -96,7 +112,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               : Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Lengan dan Rok Panjang',
+                    widget.catalog.deskripsi,
                     style: TextStyle(
                       color: ColorConstants.darkGrey,
                       fontWeight: FontWeight.w400,
@@ -445,39 +461,68 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       ),
     );
 
-    return Provider(
-      lazy: false,
-      create: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          pesananProvider.createPesanan(1, 3);
-        });
-      },
-      dispose: (context, data) => pesananProvider.reset(),
-      child: Scaffold(
-        backgroundColor: ColorConstants.backgroundColor,
-        body: pesananProvider.pesananStatus == PesananStatus.PesananCreating
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                physics: ScrollPhysics(),
-                child: Column(
-                  children: [
-                    header,
-                    SizedBox(height: 15),
-                    _desainSendiri ? uploadedImages : SizedBox.shrink(),
-                    questionDesain,
-                    questionKain,
-                    SizedBox(height: 15),
-                    form,
-                    SizedBox(height: 25),
-                    pesananProvider.updateDetailStatus == RequestStatus.Fetching
-                        ? Center(child: CircularProgressIndicator())
-                        : submitButton,
-                    SizedBox(height: 100),
-                  ],
+    Future<bool> _onWillPop() async {
+      return (await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Apakah anda yakin?'),
+              content: new Text('Jika iya pesanan tidak ada akan diproses'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('Tidak'),
                 ),
-              ),
+                TextButton(
+                  onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                      context, RouteConstants.landingPage, (route) => false),
+                  child: new Text('Ya'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    }
+
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Provider(
+        lazy: false,
+        create: (context) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            pesananProvider.createPesanan(
+              widget.penjahit.id_penjahit,
+              widget.catalog.id,
+            );
+          });
+        },
+        dispose: (context, data) => pesananProvider.reset(),
+        child: Scaffold(
+          backgroundColor: ColorConstants.backgroundColor,
+          body: pesananProvider.pesananStatus == PesananStatus.PesananCreating
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: Column(
+                    children: [
+                      header,
+                      SizedBox(height: 15),
+                      _desainSendiri ? uploadedImages : SizedBox.shrink(),
+                      questionDesain,
+                      questionKain,
+                      SizedBox(height: 15),
+                      form,
+                      SizedBox(height: 25),
+                      pesananProvider.updateDetailStatus ==
+                              RequestStatus.Fetching
+                          ? Center(child: CircularProgressIndicator())
+                          : submitButton,
+                      SizedBox(height: 100),
+                    ],
+                  ),
+                ),
+        ),
       ),
     );
   }

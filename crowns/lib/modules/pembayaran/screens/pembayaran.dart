@@ -1,5 +1,4 @@
 import 'package:crowns/constants/metode_bayar.dart';
-import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -290,7 +289,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                 SizedBox(height: 34),
                 _state == 'uploaded'
                     ? CustomButton(
-                        text: 'Kirim',
+                        text: 'kirim',
                         callback: () {
                           final Future<Map<String, dynamic>> successfulMessage =
                               provider.uploadButki(

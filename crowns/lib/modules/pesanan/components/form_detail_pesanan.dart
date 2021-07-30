@@ -99,7 +99,7 @@ Container buildUkuranBajuField(
                 detailPesanan.dada = double.parse(value!);
               else if (text == 'Leher')
                 detailPesanan.leher = double.parse(value!);
-              else if (text == 'Tinggi tubuh')
+              else if (text == 'Tinggi Tubuh')
                 detailPesanan.tinggi_tubuh = double.parse(value!);
               else if (text == 'Berat Badan')
                 detailPesanan.berat_badan = double.parse(value!);
