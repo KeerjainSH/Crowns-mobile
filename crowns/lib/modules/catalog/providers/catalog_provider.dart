@@ -12,13 +12,14 @@ class CatalogProvider extends ChangeNotifier {
   RequestStatus _catalogAllStatus = RequestStatus.NotFetched;
   RequestStatus _categoryStatus = RequestStatus.NotFetched;
 
+  RequestStatus get categoryStatus => _categoryStatus;
+
   int _categoryId = 1;
   String _category = '';
 
   set categoryId(int id) => this._categoryId = id;
   int get categoryId => this._categoryId;
 
-  // List<Catalog> _catalogAllList = [];
   Map<String, dynamic> _catalogAllByCategory = Map<String, dynamic>();
   List<Catalog> _catalogByCategoryList = [];
   List<Category> _categoryList = [];
@@ -28,7 +29,6 @@ class CatalogProvider extends ChangeNotifier {
 
   String get category => _category;
 
-  // List<Catalog> get catalogAllList => _catalogAllList;
   Map<String, dynamic> get catalogAllByCategory => _catalogAllByCategory;
   List<Catalog> get catalogByCategoryList => _catalogByCategoryList;
   List<Category> get categoryList => _categoryList;
@@ -60,6 +60,7 @@ class CatalogProvider extends ChangeNotifier {
       result = {
         'status': true,
         'message': 'Successful',
+        'data': _categoryList,
       };
     } else {
       _categoryStatus = RequestStatus.Failed;
@@ -90,10 +91,10 @@ class CatalogProvider extends ChangeNotifier {
       var catalogDataList = responseData['data'];
 
       for (final catalogData in catalogDataList) {
-        int id_kategori = catalogData['id_kategori'];
+        int idKategori = catalogData['id_kategori'];
 
         for (final category in _categoryList) {
-          if (category.id == id_kategori) {
+          if (category.id == idKategori) {
             if (_catalogAllByCategory[category.nama] == null)
               _catalogAllByCategory[category.nama] = [];
 

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingDialog extends StatefulWidget {
-  PesananProvider pesananProvider;
-  Pesanan pesanan;
+  final PesananProvider pesananProvider;
+  final Pesanan pesanan;
 
   RatingDialog({
     required this.pesananProvider,

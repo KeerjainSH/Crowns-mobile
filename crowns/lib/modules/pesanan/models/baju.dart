@@ -1,16 +1,16 @@
 class Baju {
   int id;
-  int id_kategori;
+  int idKategori;
   String nama;
-  String jenis_kelamin;
+  String jenisKelamin;
   String deskripsi;
   String foto;
 
   Baju({
     required this.id,
-    required this.id_kategori,
+    required this.idKategori,
     required this.nama,
-    required this.jenis_kelamin,
+    required this.jenisKelamin,
     required this.deskripsi,
     required this.foto,
   });
@@ -18,9 +18,9 @@ class Baju {
   factory Baju.fromJson(Map<String, dynamic> responseData) {
     return Baju(
       id: responseData['id'],
-      id_kategori: responseData['id_kategori'],
+      idKategori: responseData['id_kategori'],
       nama: responseData['nama'],
-      jenis_kelamin: responseData['jenis_kelamin'],
+      jenisKelamin: responseData['jenis_kelamin'],
       deskripsi: responseData['deskripsi'],
       foto: responseData['foto'],
     );

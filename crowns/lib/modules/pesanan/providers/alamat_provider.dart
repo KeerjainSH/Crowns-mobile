@@ -29,7 +29,7 @@ class AlamatProvider extends ChangeNotifier {
         'kecamatan': alamat.kecamatan,
         'kota': alamat.kota,
         'provinsi': alamat.provinsi,
-        'kode_pos': alamat.kode_pos,
+        'kode_pos': alamat.kodePos,
         'instruksi': alamat.instruksi,
         'waktu': alamat.waktu,
         'tipe': alamat.tipe

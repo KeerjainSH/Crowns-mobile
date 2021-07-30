@@ -87,12 +87,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
-    final lineSeparator = Container(
-      height: 1,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      color: ColorConstants.darkGrey,
-    );
-
     final aturProfile = InkWell(
       onTap: () {
         Navigator.pushNamed(context, RouteConstants.editProfile);

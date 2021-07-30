@@ -1,5 +1,4 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
 import 'package:crowns/modules/pesanan/components/rating_dialog.dart';
@@ -7,9 +6,9 @@ import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
 import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +20,12 @@ class PesananScreen extends StatefulWidget {
 }
 
 class _PesananScreenState extends State<PesananScreen> {
-  String _currState = 'Semua';
-
   Future<List<Map<String, dynamic>>>? pesanan;
 
   @override
   Widget build(BuildContext context) {
     PesananProvider pesananProvider =
         Provider.of<PesananProvider>(context, listen: false);
-
-    var padding = MediaQuery.of(context).padding;
 
     final appBar = AppBar(
       title: Text(
@@ -39,6 +34,53 @@ class _PesananScreenState extends State<PesananScreen> {
       ),
       backgroundColor: Colors.white,
     );
+
+    Future<bool> markDoneModal(int idPesanan) async {
+      return (await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Apakah anda yakin?'),
+              content:
+                  new Text('Jika iya maka pesanan akan dikonfirmasi selesai'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('Tidak'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final Future<Map<String, dynamic>> successfulMessage =
+                        pesananProvider.markDone(idPesanan);
+
+                    successfulMessage.then((response) {
+                      if (response['status']) {
+                        final snackBar = SnackBar(
+                          content:
+                              Text('Berhasil mengkonfirmasi pesanan selesai'),
+                          backgroundColor: ColorConstants.black,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RouteConstants.pesanan, (route) => false);
+                      } else {
+                        final snackBar = SnackBar(
+                          content: Text(
+                              'Terjadi kesalahan saat mengonfirmasi pesanan selesai'),
+                          backgroundColor: ColorConstants.black,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Navigator.of(context).pop(false);
+                      }
+                    });
+                  },
+                  child: new Text('Ya'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    }
 
     Align tile(Pesanan pesanan) {
       return Align(
@@ -99,17 +141,17 @@ class _PesananScreenState extends State<PesananScreen> {
                           ),
                         ),
                         child: Text(
-                          'Pesanan ' + pesanan.created_at,
+                          'Pesanan ' + pesanan.createdAt,
                           style: TextStyle(fontSize: 9),
                         ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(pesanan.status_pesanan.toString() +
+                        child: Text(pesanan.statusPesanan.toString() +
                             ' ' +
-                            pesanan.pembayaran.status_pembayaran.toString() +
+                            pesanan.pembayaran.statusPembayaran.toString() +
                             ' ' +
-                            pesanan.tawaran.status_penawaran.toString() +
+                            pesanan.tawaran.statusPenawaran.toString() +
                             ' - ' +
                             pesanan.baju.nama),
                       ),
@@ -126,8 +168,8 @@ class _PesananScreenState extends State<PesananScreen> {
                             horizontal: 15,
                             vertical: 3,
                           ),
-                          child: pesanan.status_pesanan == 3 // pesanan baru
-                              ? pesanan.pembayaran.status_pembayaran == 1
+                          child: pesanan.statusPesanan == 3 // pesanan baru
+                              ? pesanan.pembayaran.statusPembayaran == 1
                                   ? Text(
                                       'Menunggu penjahit mengisi harga',
                                       style: TextStyle(
@@ -144,8 +186,8 @@ class _PesananScreenState extends State<PesananScreen> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     )
-                              : pesanan.status_pesanan == 4
-                                  ? pesanan.pembayaran.status_pembayaran == 4
+                              : pesanan.statusPesanan == 4
+                                  ? pesanan.pembayaran.statusPembayaran == 4
                                       ? Text(
                                           'Baju sedang dikerjakan',
                                           style: TextStyle(
@@ -176,7 +218,7 @@ class _PesananScreenState extends State<PesananScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          pesanan.pembayaran.status_pembayaran > 1
+                          pesanan.pembayaran.statusPembayaran > 1
                               ? Column(
                                   children: [
                                     Container(
@@ -190,7 +232,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Rp. ' + pesanan.biaya_total,
+                                          'Rp. ' + pesanan.biayaTotal,
                                           style: TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.w600,
@@ -202,8 +244,8 @@ class _PesananScreenState extends State<PesananScreen> {
                                   ],
                                 )
                               : SizedBox.shrink(),
-                          pesanan.status_pesanan == 3
-                              ? pesanan.pembayaran.status_pembayaran == 1
+                          pesanan.statusPesanan == 3
+                              ? pesanan.pembayaran.statusPembayaran == 1
                                   ? SizedBox.shrink()
                                   : InkWell(
                                       onTap: () {
@@ -237,7 +279,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                         ),
                                       ),
                                     )
-                              : pesanan.status_pesanan == 5
+                              : pesanan.statusPesanan == 5
                                   ? pesanan.rating == 0
                                       ? InkWell(
                                           onTap: () {
@@ -282,7 +324,28 @@ class _PesananScreenState extends State<PesananScreen> {
                                             ],
                                           ),
                                         )
-                                  : SizedBox.shrink(),
+                                  : InkWell(
+                                      onTap: () => markDoneModal(pesanan.id),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: ColorConstants.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          vertical: 3,
+                                        ),
+                                        child: Text(
+                                          'Tandai selesai',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    )
                         ],
                       ),
                       SizedBox.shrink(),
@@ -299,16 +362,31 @@ class _PesananScreenState extends State<PesananScreen> {
     Container buildTileContent(List<Pesanan> data) {
       return Container(
         margin: EdgeInsets.only(bottom: 80),
-        child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: data.length,
-            itemBuilder: (context, i) => tile(data[i]),
-          ),
-        ),
+        child: data.length == 0
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  Image.asset(
+                    ImageConstants.appLogo,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                  ),
+                  Center(
+                    child: buildLightButtonText(context, 'Belum ada pesanan'),
+                  ),
+                ],
+              )
+            : MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, i) => tile(data[i]),
+                ),
+              ),
       );
     }
 

@@ -1,11 +1,8 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
-import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
-import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/screens/update_alamat.dart';
-import 'package:crowns/utils/services/user_preferences.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -18,8 +15,8 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPesananPage extends StatefulWidget {
-  Penjahit penjahit;
-  Catalog catalog;
+  final Penjahit penjahit;
+  final Catalog catalog;
 
   DetailPesananPage({
     required this.penjahit,
@@ -35,8 +32,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
   int _highlightedImageIndex = 0;
   bool _kainSendiri = false;
   bool _desainSendiri = false;
-
-  PesananStatus _state = PesananStatus.PesananCreated;
 
   @override
   Widget build(BuildContext context) {
@@ -490,7 +485,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         create: (context) {
           WidgetsBinding.instance!.addPostFrameCallback((_) {
             pesananProvider.createPesanan(
-              widget.penjahit.id_penjahit,
+              widget.penjahit.idPenjahit,
               widget.catalog.id,
             );
           });

@@ -16,12 +16,12 @@ class PenjahitProvider extends ChangeNotifier {
 
   AlamatPenjahit _alamatPenjahit = AlamatPenjahit(
     nama: '',
-    kode_pos: 0,
+    kodePos: 0,
     kecamatan: '',
     kota: '',
     provinsi: '',
     alamat: '',
-    no_hp: '',
+    noHp: '',
   );
 
   AlamatPenjahit get alamatPenjahit => _alamatPenjahit;

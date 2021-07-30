@@ -107,7 +107,6 @@ class _FloatingNavbarState extends State<FloatingNavbar> {
 }
 
 ItemBuilder _defaultItemBuilder({
-  Function(int val)? onTap,
   List<FloatingNavbarItem>? items,
   int? currentIndex,
   Color? selectedBackgroundColor,

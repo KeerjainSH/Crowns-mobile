@@ -3,7 +3,8 @@ import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 class FormDetailPesanan extends StatefulWidget {
-  DetailPesanan detailPesanan;
+  final DetailPesanan detailPesanan;
+
   FormDetailPesanan({required this.detailPesanan});
 
   @override
@@ -20,7 +21,7 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
         SizedBox(height: 5),
         TextFormField(
           validator: (value) => value == '' ? 'harus diisi' : null,
-          onSaved: (value) => widget.detailPesanan.nama_lengkap = value!,
+          onSaved: (value) => widget.detailPesanan.namaLengkap = value!,
         ),
         SizedBox(height: 8),
         buildFormLabel2(context, 'Ukuran Baju'),
@@ -63,7 +64,7 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
             maxLines: null,
             validator: (value) => value == '' ? 'harus diisi' : null,
             onSaved: (value) =>
-                widget.detailPesanan.instruksi_pembuatan = value!,
+                widget.detailPesanan.instruksiPembuatan = value!,
           ),
         ),
         SizedBox(height: 22),
@@ -100,9 +101,9 @@ Container buildUkuranBajuField(
               else if (text == 'Leher')
                 detailPesanan.leher = double.parse(value!);
               else if (text == 'Tinggi Tubuh')
-                detailPesanan.tinggi_tubuh = double.parse(value!);
+                detailPesanan.tinggiTubuh = double.parse(value!);
               else if (text == 'Berat Badan')
-                detailPesanan.berat_badan = double.parse(value!);
+                detailPesanan.beratBadan = double.parse(value!);
             },
           ),
         ),

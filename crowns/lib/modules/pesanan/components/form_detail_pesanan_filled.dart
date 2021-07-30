@@ -3,7 +3,8 @@ import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
 class FormDetailPesananFilled extends StatefulWidget {
-  DetailPesanan detailPesanan;
+  final DetailPesanan detailPesanan;
+
   FormDetailPesananFilled({required this.detailPesanan});
 
   @override
@@ -20,7 +21,7 @@ class _FormDetailPesananFilledState extends State<FormDetailPesananFilled> {
         buildFormLabel2(context, 'Nama Lengkap'),
         SizedBox(height: 5),
         TextFormField(
-          initialValue: widget.detailPesanan.nama_lengkap,
+          initialValue: widget.detailPesanan.namaLengkap,
           enabled: false,
         ),
         SizedBox(height: 8),
@@ -62,7 +63,7 @@ class _FormDetailPesananFilledState extends State<FormDetailPesananFilled> {
             keyboardType: TextInputType.multiline,
             minLines: 4,
             maxLines: null,
-            initialValue: widget.detailPesanan.instruksi_pembuatan,
+            initialValue: widget.detailPesanan.instruksiPembuatan,
             enabled: false,
           ),
         ),
@@ -85,8 +86,8 @@ Container buildUkuranBajuField(
   else if (text == 'Leher')
     value = detailPesanan.leher.toString();
   else if (text == 'Tinggi Tubuh')
-    value = detailPesanan.tinggi_tubuh.toString();
-  else if (text == 'Berat Badan') value = detailPesanan.berat_badan.toString();
+    value = detailPesanan.tinggiTubuh.toString();
+  else if (text == 'Berat Badan') value = detailPesanan.beratBadan.toString();
 
   return Container(
     width: MediaQuery.of(context).size.width * 0.22,

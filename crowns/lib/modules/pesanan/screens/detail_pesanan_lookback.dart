@@ -9,7 +9,7 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPesananLookbackPage extends StatefulWidget {
-  Pesanan pesanan;
+  final Pesanan pesanan;
 
   DetailPesananLookbackPage({required this.pesanan});
 
@@ -62,7 +62,7 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: widget.pesanan.baju.jenis_kelamin == 'P'
+            child: widget.pesanan.baju.jenisKelamin == 'P'
                 ? Text(
                     'Perempuan',
                     style: TextStyle(
@@ -104,7 +104,7 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
           color: ColorConstants.grey,
           child: Center(
             child: Text(
-              widget.pesanan.detail_pesanan.length.toString(),
+              widget.pesanan.detailPesanan.length.toString(),
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -166,10 +166,10 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.pesanan.detail_pesanan.length,
+                itemCount: widget.pesanan.detailPesanan.length,
                 itemBuilder: (context, i) {
                   return FormDetailPesananFilled(
-                      detailPesanan: widget.pesanan.detail_pesanan[i]);
+                      detailPesanan: widget.pesanan.detailPesanan[i]);
                 },
               ),
             ),
@@ -284,16 +284,16 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
                     SizedBox(height: 5),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32),
-                      child: widget.pesanan.lokasi_penjemputan.length == 1
-                          ? buildAlamat(widget.pesanan.lokasi_penjemputan[0])
-                          : widget.pesanan.lokasi_penjemputan.length == 2
+                      child: widget.pesanan.lokasiPenjemputan.length == 1
+                          ? buildAlamat(widget.pesanan.lokasiPenjemputan[0])
+                          : widget.pesanan.lokasiPenjemputan.length == 2
                               ? Column(
                                   children: [
                                     buildAlamat(
-                                        widget.pesanan.lokasi_penjemputan[0]),
+                                        widget.pesanan.lokasiPenjemputan[0]),
                                     SizedBox(height: 30),
                                     buildAlamat(
-                                        widget.pesanan.lokasi_penjemputan[1]),
+                                        widget.pesanan.lokasiPenjemputan[1]),
                                   ],
                                 )
                               : SizedBox.shrink(),

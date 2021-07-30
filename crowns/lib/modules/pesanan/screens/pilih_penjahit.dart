@@ -13,7 +13,7 @@ import 'package:crowns/widgets/app_widgets.dart';
 import 'package:provider/provider.dart';
 
 class PilihPenjahitScreen extends StatefulWidget {
-  Catalog catalog;
+  final Catalog catalog;
 
   PilihPenjahitScreen({required this.catalog});
 
@@ -136,7 +136,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '4.8',
+                    penjahit.rating,
                     style: TextStyle(
                       color: ColorConstants.darkGrey,
                       fontSize: 10,

@@ -1,23 +1,20 @@
 import 'package:crowns/modules/pesanan/models/alamat.dart';
-import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
 import 'package:crowns/modules/pesanan/providers/alamat_provider.dart';
-import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class UpdateAlamatScreen extends StatefulWidget {
-  PesananBaru pesanan;
-  bool kainSendiri;
-  Penjahit penjahit;
+  final PesananBaru pesanan;
+  final bool kainSendiri;
+  final Penjahit penjahit;
 
   UpdateAlamatScreen({
     required this.pesanan,
@@ -36,9 +33,9 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     provinsi: '',
     kecamatan: '',
     dijemput: 1,
-    id_pesanan: 0,
+    idPesanan: 0,
     instruksi: '',
-    kode_pos: 0,
+    kodePos: 0,
     waktu: '',
     tipe: 2,
   );
@@ -54,9 +51,9 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     provinsi: '',
     kecamatan: '',
     dijemput: 1,
-    id_pesanan: 0,
+    idPesanan: 0,
     instruksi: '',
-    kode_pos: 0,
+    kodePos: 0,
     waktu: '',
     tipe: 1,
   );
@@ -204,7 +201,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           buildFormLabel(context, 'Kode Pos'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) => _alamatSelesai.kode_pos = int.parse(value!),
+            onSaved: (value) => _alamatSelesai.kodePos = int.parse(value!),
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
@@ -255,7 +252,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
         SizedBox(height: 10),
         buildFormLabel(context, 'No Telepon'),
         SizedBox(height: 5),
-        buildBodyText3(context, widget.penjahit.no_hp),
+        buildBodyText3(context, widget.penjahit.noHp),
       ],
     );
 
@@ -392,7 +389,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           buildFormLabel(context, 'Kode Pos'),
           SizedBox(height: 5),
           TextFormField(
-            onSaved: (value) => _alamatKain.kode_pos = int.parse(value!),
+            onSaved: (value) => _alamatKain.kodePos = int.parse(value!),
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
           SizedBox(height: 8),
@@ -420,31 +417,6 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           ),
         ],
       ),
-    );
-
-    final antarSendiriContentKain = Column(
-      children: [
-        buildHeadline(context, 'Lokasi Penjahit'),
-        buildSubtitle(context, 'Antar kesini ya!'),
-        SizedBox(height: 15),
-        buildHeadline2(context, 'Pak Kamirin'),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'Kelurahan'),
-        SizedBox(height: 5),
-        buildBodyText3(context, 'Keputih'),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'Kecamatan'),
-        SizedBox(height: 5),
-        buildBodyText3(context, 'Sukolilo'),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'Kota'),
-        SizedBox(height: 5),
-        buildBodyText3(context, '60234'),
-        SizedBox(height: 10),
-        buildFormLabel(context, 'No Telepon'),
-        SizedBox(height: 5),
-        buildBodyText3(context, '08001128888'),
-      ],
     );
 
     final submitButton = CustomButton(

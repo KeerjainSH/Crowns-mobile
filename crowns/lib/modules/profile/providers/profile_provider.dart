@@ -42,7 +42,6 @@ class ProfileProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      final Map<String, dynamic> responseData = json.decode(response.body);
       _profileStatus = RequestStatus.Failed;
       notifyListeners();
       result = {
@@ -62,9 +61,9 @@ class ProfileProvider extends ChangeNotifier {
 
     final Map<String, dynamic> registerData = {
       'nama': _profile!.nama,
-      'jenis_kelamin': _profile!.jenis_kelamin,
-      'no_hp': _profile!.no_hp,
-      'tanggal_lahir': _profile!.tanggal_lahir,
+      'jenis_kelamin': _profile!.jenisKelamin,
+      'no_hp': _profile!.noHp,
+      'tanggal_lahir': _profile!.tanggalLahir,
       'kodepos': _profile!.kodepos,
       'kecamatan': _profile!.kecamatan,
       'kota': _profile!.kota,
@@ -94,8 +93,6 @@ class ProfileProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-
       _updateProfileStatus = RequestStatus.Fetched;
       notifyListeners();
 

@@ -1,13 +1,13 @@
 class Tawaran {
-  int jumlah_penawaran;
-  DateTime hari_tawar;
+  int jumlahPenawaran;
+  DateTime hariTawar;
 
-  Tawaran({required this.jumlah_penawaran, required this.hari_tawar});
+  Tawaran({required this.jumlahPenawaran, required this.hariTawar});
 
   factory Tawaran.fromJson(Map<String, dynamic> responseData) {
     return Tawaran(
-      hari_tawar: responseData['hari_tawar'],
-      jumlah_penawaran: responseData['jumlah_penawaran'],
+      hariTawar: responseData['hari_tawar'],
+      jumlahPenawaran: responseData['jumlah_penawaran'],
     );
   }
 }

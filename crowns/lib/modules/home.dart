@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/category.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/widgets/app_widgets.dart';
@@ -13,8 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    CatalogProvider catalogProvider =
-        Provider.of<CatalogProvider>(context, listen: false);
+    CatalogProvider catalogProvider = Provider.of<CatalogProvider>(context);
 
     var padding = MediaQuery.of(context).padding;
 
@@ -159,7 +159,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Provider(
-      create: (context) => catalogProvider.fetchCategory(),
+      create: (context) {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          catalogProvider.fetchCategory();
+          setState(() {});
+        });
+      },
       lazy: false,
       child: SafeArea(
         child: Scaffold(
@@ -167,31 +172,33 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.height -
                 padding.top -
                 padding.bottom,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  /// Header home page
-                  Container(
-                    width: double.infinity,
-                    child: Image.asset(
-                      ImageConstants.homeHeader,
-                      fit: BoxFit.cover,
+            child: catalogProvider.categoryStatus == RequestStatus.Fetching
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        /// Header home page
+                        Container(
+                          width: double.infinity,
+                          child: Image.asset(
+                            ImageConstants.homeHeader,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(height: 55),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            jahitSekarang,
+                            SizedBox(height: 42),
+                            kreasi,
+                            SizedBox(height: 100)
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 55),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      jahitSekarang,
-                      SizedBox(height: 42),
-                      kreasi,
-                      SizedBox(height: 100)
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ),
           extendBody: true,
           bottomNavigationBar: navbar,

@@ -25,8 +25,8 @@ class PembayaranProvider extends ChangeNotifier {
 
     final Map<String, dynamic> tawaranData = {
       'id_pesanan': idPesanan,
-      'hari_tawar': tawaran.hari_tawar.toString(),
-      'jumlah_penawaran': tawaran.jumlah_penawaran,
+      'hari_tawar': tawaran.hariTawar.toString(),
+      'jumlah_penawaran': tawaran.jumlahPenawaran,
     };
 
     var token = await UserPreferences().getToken();

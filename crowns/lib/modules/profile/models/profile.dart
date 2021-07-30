@@ -1,10 +1,10 @@
 class Profile {
   int id;
-  int id_user;
+  int idUser;
   String nama;
-  String jenis_kelamin;
-  String no_hp;
-  String tanggal_lahir;
+  String jenisKelamin;
+  String noHp;
+  String tanggalLahir;
   String kodepos;
   String kecamatan;
   String kota;
@@ -15,11 +15,11 @@ class Profile {
 
   Profile({
     required this.id,
-    required this.id_user,
+    required this.idUser,
     required this.nama,
-    required this.jenis_kelamin,
-    required this.no_hp,
-    required this.tanggal_lahir,
+    required this.jenisKelamin,
+    required this.noHp,
+    required this.tanggalLahir,
     required this.kodepos,
     required this.kecamatan,
     required this.kota,
@@ -32,11 +32,11 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> responseData) {
     return Profile(
       id: responseData['id'],
-      id_user: responseData['id_user'],
+      idUser: responseData['id_user'],
       nama: responseData['nama'],
-      jenis_kelamin: responseData['jenis_kelamin'],
-      no_hp: responseData['no_hp'],
-      tanggal_lahir: responseData['tanggal_lahir'],
+      jenisKelamin: responseData['jenis_kelamin'],
+      noHp: responseData['no_hp'],
+      tanggalLahir: responseData['tanggal_lahir'],
       kodepos: responseData['kodepos'],
       kecamatan: responseData['kecamatan'],
       kota: responseData['kota'],

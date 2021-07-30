@@ -1,34 +1,34 @@
 class DetailPesanan {
-  String nama_lengkap;
+  String namaLengkap;
   double lengan;
   double leher;
   double pinggang;
-  double tinggi_tubuh;
+  double tinggiTubuh;
   double dada;
-  double berat_badan;
-  String instruksi_pembuatan;
+  double beratBadan;
+  String instruksiPembuatan;
 
   DetailPesanan({
-    required this.nama_lengkap,
+    required this.namaLengkap,
     required this.dada,
     required this.leher,
     required this.lengan,
     required this.pinggang,
-    required this.berat_badan,
-    required this.tinggi_tubuh,
-    required this.instruksi_pembuatan,
+    required this.beratBadan,
+    required this.tinggiTubuh,
+    required this.instruksiPembuatan,
   });
 
   factory DetailPesanan.fromJson(Map<String, dynamic> responseData) {
     return new DetailPesanan(
-      nama_lengkap: responseData['nama_lengkap'],
+      namaLengkap: responseData['nama_lengkap'],
       dada: responseData['dada'].toDouble(),
       leher: responseData['leher'].toDouble(),
       lengan: responseData['lengan'].toDouble(),
       pinggang: responseData['pinggang'].toDouble(),
-      berat_badan: responseData['berat_badan'].toDouble(),
-      tinggi_tubuh: responseData['tinggi_tubuh'].toDouble(),
-      instruksi_pembuatan: responseData['instruksi_pembuatan'],
+      beratBadan: responseData['berat_badan'].toDouble(),
+      tinggiTubuh: responseData['tinggi_tubuh'].toDouble(),
+      instruksiPembuatan: responseData['instruksi_pembuatan'],
     );
   }
 }

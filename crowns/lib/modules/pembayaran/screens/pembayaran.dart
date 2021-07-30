@@ -12,8 +12,8 @@ import 'package:crowns/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 class PembayaranPage extends StatefulWidget {
-  Pesanan pesanan;
-  int method;
+  final Pesanan pesanan;
+  final int method;
 
   PembayaranPage({
     required this.pesanan,
@@ -115,7 +115,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biaya_jahit}',
+                          'Rp. ${widget.pesanan.pembayaran.biayaJahit}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -123,7 +123,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biaya_material}',
+                          'Rp. ${widget.pesanan.pembayaran.biayaMaterial}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -131,7 +131,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
+                          'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -139,7 +139,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
+                          'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
@@ -165,7 +165,7 @@ class _PembayaranPageState extends State<PembayaranPage> {
                   style: TextStyle(fontSize: 13),
                 ),
                 Text(
-                  'Rp ${widget.pesanan.biaya_total}',
+                  'Rp ${widget.pesanan.biayaTotal}',
                   style: TextStyle(fontSize: 13),
                 ),
               ],

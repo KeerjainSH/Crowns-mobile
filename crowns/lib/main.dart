@@ -23,7 +23,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  bool isLogin;
+  final bool isLogin;
 
   MyApp(this.isLogin);
 

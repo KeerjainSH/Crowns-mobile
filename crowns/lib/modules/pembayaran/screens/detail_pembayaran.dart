@@ -1,7 +1,5 @@
 import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
-import 'package:crowns/modules/pembayaran/models/metode_bayar.dart';
-import 'package:crowns/modules/pembayaran/models/pembayaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
@@ -14,7 +12,7 @@ import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPembayaranPage extends StatefulWidget {
-  Pesanan pesanan;
+  final Pesanan pesanan;
 
   DetailPembayaranPage({required this.pesanan});
 
@@ -78,7 +76,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biaya_jahit}',
+                  'Rp. ${widget.pesanan.pembayaran.biayaJahit}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -86,7 +84,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biaya_material}',
+                  'Rp. ${widget.pesanan.pembayaran.biayaMaterial}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -94,7 +92,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
+                  'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -102,7 +100,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biaya_kirim}',
+                  'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -120,7 +118,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
           style: TextStyle(fontSize: 13),
         ),
         Text(
-          'Rp ${widget.pesanan.biaya_total}',
+          'Rp ${widget.pesanan.biayaTotal}',
           style: TextStyle(fontSize: 13),
         ),
       ],
@@ -267,21 +265,21 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                       ),
 
                       SizedBox(height: 47),
-                      widget.pesanan.tawaran.status_penawaran == 1
+                      widget.pesanan.tawaran.statusPenawaran == 1
                           ? CustomButton(
                               text: 'tawar',
                               callback: () => showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return TawarDialog(
-                                    totalHarga: widget.pesanan.biaya_total,
+                                    totalHarga: widget.pesanan.biayaTotal,
                                     idPesanan: widget.pesanan.id,
                                     pembayaranProvider: provider,
                                   );
                                 },
                               ).then((value) {
                                 setState(() {
-                                  widget.pesanan.tawaran.status_penawaran =
+                                  widget.pesanan.tawaran.statusPenawaran =
                                       value;
                                 });
                               }),
@@ -295,10 +293,9 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                                 horizontal: 15,
                                 vertical: 3,
                               ),
-                              child:
-                                  widget.pesanan.tawaran.status_penawaran == 2
-                                      ? Text('Menunggu jawaban dari penjahit')
-                                      : Text('Tawaran diterima'),
+                              child: widget.pesanan.tawaran.statusPenawaran == 2
+                                  ? Text('Menunggu jawaban dari penjahit')
+                                  : Text('Tawaran diterima'),
                             ),
                       SizedBox(height: 36),
                       Padding(

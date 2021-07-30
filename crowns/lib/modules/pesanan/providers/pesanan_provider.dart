@@ -49,13 +49,12 @@ class PesananProvider extends ChangeNotifier {
   List<DesainCustom> get desainCustomList => _desainCustomList;
   List<DetailPesanan> get detailPesananList => _detailPesananList;
 
-  Future<Map<String, dynamic>> createPesanan(
-      int id_penjahit, int id_baju) async {
+  Future<Map<String, dynamic>> createPesanan(int idPenjahit, int idBaju) async {
     var result;
 
     final Map<String, dynamic> pesananData = {
-      'id_penjahit': id_penjahit,
-      'id_baju': id_baju
+      'id_penjahit': idPenjahit,
+      'id_baju': idBaju
     };
 
     _pesananStatus = PesananStatus.PesananCreating;
@@ -154,7 +153,6 @@ class PesananProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      var desainCustomData = responseData['data'];
 
       _pesananStatus = PesananStatus.DesainUploaded;
       notifyListeners();
@@ -163,7 +161,6 @@ class PesananProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      final Map<String, dynamic> responseData = json.decode(response.body);
       _pesananStatus = PesananStatus.Failed;
       notifyListeners();
       result = {
@@ -187,14 +184,14 @@ class PesananProvider extends ChangeNotifier {
 
     for (final detailPesanan in detailPesananList) {
       final Map<String, dynamic> detailPesananData = {
-        'nama_lengkap': detailPesanan.nama_lengkap,
+        'nama_lengkap': detailPesanan.namaLengkap,
         'lengan': detailPesanan.lengan,
         'pinggang': detailPesanan.pinggang,
         'dada': detailPesanan.dada,
         'leher': detailPesanan.leher,
-        'tinggi_tubuh': detailPesanan.tinggi_tubuh,
-        'berat_badan': detailPesanan.berat_badan,
-        'instruksi_pembuatan': detailPesanan.instruksi_pembuatan,
+        'tinggi_tubuh': detailPesanan.tinggiTubuh,
+        'berat_badan': detailPesanan.beratBadan,
+        'instruksi_pembuatan': detailPesanan.instruksiPembuatan,
       };
       detailPesananDataList.add(detailPesananData);
     }
@@ -252,14 +249,14 @@ class PesananProvider extends ChangeNotifier {
 
   DetailPesanan createEmptyDetailPesanan() {
     return new DetailPesanan(
-      nama_lengkap: '',
+      namaLengkap: '',
       dada: 0,
       leher: 0,
       lengan: 0,
       pinggang: 0,
-      berat_badan: 0,
-      tinggi_tubuh: 0,
-      instruksi_pembuatan: '',
+      beratBadan: 0,
+      tinggiTubuh: 0,
+      instruksiPembuatan: '',
     );
   }
 
@@ -351,6 +348,46 @@ class PesananProvider extends ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
     );
+
+    var result;
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      result = {
+        'status': true,
+        'message': responseData['message'],
+      };
+    } else {
+      _fetchPesananBelumValidStatus = RequestStatus.Failed;
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message'],
+      };
+    }
+
+    print(result);
+    return result;
+  }
+
+  Future<Map<String, dynamic>> markDone(int idPesanan) async {
+    var token = await UserPreferences().getToken();
+    print(token);
+
+    final Map<String, dynamic> requestData = {
+      'id_pesanan': idPesanan,
+    };
+
+    Response response = await post(
+      Uri.parse(ApiPath.konfirmasiSelesai),
+      body: jsonEncode(requestData),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print(json.decode(response.body));
 
     var result;
 

@@ -1,16 +1,14 @@
 import 'package:crowns/constants/app_constants.dart';
-import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pembayaran/models/tawaran.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TawarDialog extends StatefulWidget {
-  String totalHarga;
-  int idPesanan;
-  PembayaranProvider pembayaranProvider;
+  final String totalHarga;
+  final int idPesanan;
+  final PembayaranProvider pembayaranProvider;
 
   TawarDialog({
     required this.totalHarga,
@@ -24,8 +22,8 @@ class TawarDialog extends StatefulWidget {
 
 class _TawarDialogState extends State<TawarDialog> {
   Tawaran tawaran = new Tawaran(
-    jumlah_penawaran: 0,
-    hari_tawar: DateTime.now(),
+    jumlahPenawaran: 0,
+    hariTawar: DateTime.now(),
   );
   final formKey = new GlobalKey<FormState>();
 
@@ -84,7 +82,7 @@ class _TawarDialogState extends State<TawarDialog> {
                                 isDense: true,
                               ),
                               onSaved: (value) =>
-                                  tawaran.jumlah_penawaran = int.parse(value!),
+                                  tawaran.jumlahPenawaran = int.parse(value!),
                               validator: (value) =>
                                   value == '' ? 'Wajib diisi' : null,
                             ),
@@ -111,8 +109,8 @@ class _TawarDialogState extends State<TawarDialog> {
                         lastDate: DateTime(2100),
                         icon: Icon(Icons.event),
                         onSaved: (value) {
-                          tawaran.hari_tawar = DateTime.parse(value!);
-                          print(tawaran.hari_tawar);
+                          tawaran.hariTawar = DateTime.parse(value!);
+                          print(tawaran.hariTawar);
                           // tawaran.hari_tawar = value!
                         },
                         // onSaved: (value) => tawaran.hari_tawar = DateTime.now(),

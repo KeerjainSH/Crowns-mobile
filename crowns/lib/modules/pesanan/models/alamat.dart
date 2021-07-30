@@ -1,7 +1,7 @@
 class Alamat {
-  int id_pesanan;
+  int idPesanan;
   int dijemput;
-  int kode_pos;
+  int kodePos;
   String kecamatan;
   String kota;
   String provinsi;
@@ -11,9 +11,9 @@ class Alamat {
   int tipe;
 
   Alamat({
-    required this.id_pesanan,
+    required this.idPesanan,
     required this.dijemput,
-    required this.kode_pos,
+    required this.kodePos,
     required this.kecamatan,
     required this.kota,
     required this.provinsi,
@@ -26,9 +26,9 @@ class Alamat {
   factory Alamat.fromJson(Map<String, dynamic> responseData) {
     return Alamat(
       dijemput: 1,
-      id_pesanan: responseData['id_pesanan'],
+      idPesanan: responseData['id_pesanan'],
       waktu: responseData['waktu'],
-      kode_pos: int.parse(responseData['kode_pos']),
+      kodePos: int.parse(responseData['kode_pos']),
       instruksi: responseData['instruksi'],
       kecamatan: responseData['kecamatan'],
       kota: responseData['kota'],

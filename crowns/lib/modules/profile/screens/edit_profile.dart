@@ -1,7 +1,5 @@
 import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
-import 'package:crowns/modules/auth/models/user_register.dart';
-import 'package:crowns/modules/profile/models/profile.dart';
 import 'package:crowns/modules/profile/providers/profile_provider.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -106,7 +104,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 isDense: true,
                 onChanged: (String? value) {
                   setState(() {
-                    profileProvider.profile..jenis_kelamin = value!;
+                    profileProvider.profile..jenisKelamin = value!;
                     _currKelamin = value;
                     state.didChange(value);
                   });
@@ -130,10 +128,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         buildFormLabel(context, 'No HP'),
         SizedBox(height: 9),
         TextFormField(
-          initialValue: profileProvider.profile.no_hp,
+          initialValue: profileProvider.profile.noHp,
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
-          onSaved: (value) => profileProvider.profile..no_hp = value!,
+          onSaved: (value) => profileProvider.profile..noHp = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
         SizedBox(height: 15),
@@ -145,12 +143,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         buildFormLabel(context, 'Tanggal Lahir'),
         SizedBox(height: 9),
         DateTimePicker(
-          initialValue: profileProvider.profile.tanggal_lahir,
+          initialValue: profileProvider.profile.tanggalLahir,
           type: DateTimePickerType.date,
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
           style: TextStyle(fontSize: 13),
-          onSaved: (value) => profileProvider.profile..tanggal_lahir = value!,
+          onSaved: (value) => profileProvider.profile..tanggalLahir = value!,
           validator: (value) => value == '' ? 'harus diisi' : null,
         ),
         SizedBox(height: 15),

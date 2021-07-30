@@ -7,35 +7,35 @@ import 'package:crowns/modules/pesanan/models/tawaran_response.dart';
 
 class Pesanan {
   int id;
-  int id_penjahit;
-  int id_konsumen;
+  int idPenjahit;
+  int idKonsumen;
   Baju baju;
   int jumlah;
-  String biaya_total;
-  int status_pesanan;
+  String biayaTotal;
+  int statusPesanan;
   double rating;
-  List<DetailPesanan> detail_pesanan;
+  List<DetailPesanan> detailPesanan;
   List<DesainCustomResponse> designKustom;
-  List<Alamat> lokasi_penjemputan;
+  List<Alamat> lokasiPenjemputan;
   Pembayaran pembayaran;
   TawaranResponse tawaran;
-  String created_at;
+  String createdAt;
 
   Pesanan({
     required this.id,
-    required this.id_penjahit,
-    required this.id_konsumen,
+    required this.idPenjahit,
+    required this.idKonsumen,
     required this.baju,
     required this.jumlah,
-    required this.biaya_total,
-    required this.status_pesanan,
+    required this.biayaTotal,
+    required this.statusPesanan,
     required this.rating,
-    required this.detail_pesanan,
+    required this.detailPesanan,
     required this.designKustom,
-    required this.lokasi_penjemputan,
+    required this.lokasiPenjemputan,
     required this.tawaran,
     required this.pembayaran,
-    required this.created_at,
+    required this.createdAt,
   });
 
   factory Pesanan.fromJson(Map<String, dynamic> responseData) {
@@ -84,32 +84,32 @@ class Pesanan {
     } else
       tawaran = TawaranResponse(
         id: 0,
-        status_penawaran: 0,
-        jumlah_penawaran: '0',
-        hari_tawar: DateTime.now(),
+        statusPenawaran: 0,
+        jumlahPenawaran: '0',
+        hariTawar: DateTime.now(),
       );
 
     print('tawaran');
 
     return Pesanan(
       id: responseData['id'],
-      id_penjahit: responseData['id_penjahit'],
-      id_konsumen: responseData['id_konsumen'],
+      idPenjahit: responseData['id_penjahit'],
+      idKonsumen: responseData['id_konsumen'],
       baju: baju,
-      biaya_total: responseData['biaya_total'].toString(),
+      biayaTotal: responseData['biaya_total'].toString(),
       designKustom: desainCustomList,
-      detail_pesanan: detailPesananList,
+      detailPesanan: detailPesananList,
       jumlah: responseData['jumlah'],
-      lokasi_penjemputan: lokasiList,
+      lokasiPenjemputan: lokasiList,
       rating: responseData['rating'] == null
           ? 0
           : double.parse(responseData['rating'].toString()),
-      status_pesanan: responseData['status_pesanan'] == null
+      statusPesanan: responseData['status_pesanan'] == null
           ? 0
           : int.parse(responseData['status_pesanan']),
       tawaran: tawaran,
       pembayaran: pembayaran,
-      created_at: responseData['created_at'],
+      createdAt: responseData['created_at'],
     );
   }
 }
