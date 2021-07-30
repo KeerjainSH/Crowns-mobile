@@ -91,6 +91,5 @@ class _RatingDialogState extends State<RatingDialog> {
         ],
       ),
     );
-    ;
   }
 }

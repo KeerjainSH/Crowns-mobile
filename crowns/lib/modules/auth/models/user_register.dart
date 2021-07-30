@@ -3,9 +3,9 @@ class UserRegister {
   String email;
   String password;
   String nama;
-  String jenis_kelamin;
-  String no_hp;
-  String tanggal_lahir;
+  String jenisKelamin;
+  String noHp;
+  String tanggalLahir;
   String kodepos;
   String kecamatan;
   String kota;
@@ -17,9 +17,9 @@ class UserRegister {
     this.email = '',
     this.password = '',
     this.nama = '',
-    this.jenis_kelamin = '',
-    this.no_hp = '',
-    this.tanggal_lahir = '',
+    this.jenisKelamin = '',
+    this.noHp = '',
+    this.tanggalLahir = '',
     this.kodepos = '',
     this.kecamatan = '',
     this.kota = '',

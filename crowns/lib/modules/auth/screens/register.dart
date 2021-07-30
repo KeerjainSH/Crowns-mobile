@@ -7,7 +7,6 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -114,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 isDense: true,
                 onChanged: (String? value) {
                   setState(() {
-                    userRegister.jenis_kelamin = value!;
+                    userRegister.jenisKelamin = value!;
                     _currKelamin = value;
                     state.didChange(value);
                   });
@@ -140,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         TextFormField(
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
-          onSaved: (value) => userRegister.no_hp = value!,
+          onSaved: (value) => userRegister.noHp = value!,
           validator: (value) => value == '' ? 'Please enter username' : null,
         ),
         SizedBox(height: 15),
@@ -156,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
           style: TextStyle(fontSize: 13),
-          onSaved: (value) => userRegister.tanggal_lahir = value!,
+          onSaved: (value) => userRegister.tanggalLahir = value!,
           validator: (value) => value == '' ? 'harus diisi' : null,
         ),
         SizedBox(height: 15),

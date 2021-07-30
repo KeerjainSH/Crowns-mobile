@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
 
 import 'package:crowns/constants/api_path.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
-import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/category.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
 class CatalogProvider extends ChangeNotifier {
@@ -41,7 +37,7 @@ class CatalogProvider extends ChangeNotifier {
     var result;
 
     _categoryStatus = RequestStatus.Fetching;
-    // notifyListeners();
+    notifyListeners();
 
     Response response = await get(
       Uri.parse(ApiPath.category),
@@ -67,7 +63,7 @@ class CatalogProvider extends ChangeNotifier {
       };
     } else {
       _categoryStatus = RequestStatus.Failed;
-      // notifyListeners();
+      notifyListeners();
 
       result = {
         'status': false,

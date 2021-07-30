@@ -9,13 +9,8 @@ import '../../modules/auth/screens/register.dart';
 import '../../modules/catalog/screens/catalog.dart';
 import '../../modules/catalog/screens/kreasi.dart';
 import '../../modules/home.dart';
-import '../../modules/pembayaran/screens/detail_pembayaran.dart';
 import '../../modules/pembayaran/screens/transisi_pembayaran.dart';
-import '../../modules/pembayaran/screens/pembayaran.dart';
-import '../../modules/pesanan/screens/detail_pesanan.dart';
 import '../../modules/pesanan/screens/pesanan.dart';
-import '../../modules/pesanan/screens/pilih_penjahit.dart';
-import '../../modules/pesanan/screens/update_alamat.dart';
 import '../../modules/profile/screens/edit_profile.dart';
 import '../../modules/profile/screens/profile.dart';
 

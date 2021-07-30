@@ -356,9 +356,8 @@ class _PesananScreenState extends State<PesananScreen> {
                                     buildTileContent(snapshot.data[0]['data']));
                           else if (snapshot.hasError)
                             return Center(
-                                child: Text(snapshot.error.toString()));
-                          // child: Text(
-                          //     'Terjadi kesalahan saat mengambil data'));
+                                child: Text(
+                                    'Terjadi kesalahan saat mengambil data'));
 
                           return Center(
                             child: CircularProgressIndicator(),
