@@ -51,10 +51,11 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   fit: BoxFit.fitHeight,
                 ),
               )
-            : FadeInImage(
-                image: NetworkImage(widget.catalog.foto),
-                placeholder: AssetImage(ImageConstants.appLogo),
-                fit: BoxFit.cover,
+            : Image.network(
+                widget.catalog.foto,
+                errorBuilder: (context, exception, stackTrace) {
+                  return Icon(Icons.error);
+                },
               ),
       ),
     );

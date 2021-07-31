@@ -27,15 +27,16 @@ class Alamat {
     return Alamat(
       dijemput: 1,
       idPesanan: responseData['id_pesanan'],
-      waktu: responseData['waktu'],
-      kodePos: int.parse(responseData['kode_pos']),
-      instruksi: responseData['instruksi'],
-      kecamatan: responseData['kecamatan'],
-      kota: responseData['kota'],
-      provinsi:
-          responseData['provinsi'] == null ? '' : responseData['provinsi'],
-      alamat: responseData['alamat'],
-      tipe: responseData['tipe'] == null ? 0 : responseData['tipe'],
+      waktu: responseData['waktu'] ?? '',
+      kodePos: responseData['kode_pos'] == null
+          ? 0
+          : int.parse(responseData['kode_pos']),
+      instruksi: responseData['instruksi'] ?? '',
+      kecamatan: responseData['kecamatan'] ?? '',
+      kota: responseData['kota'] ?? '',
+      provinsi: responseData['provinsi'] ?? '',
+      alamat: responseData['alamat'] ?? '',
+      tipe: responseData['tipe'] ?? '',
     );
   }
 }

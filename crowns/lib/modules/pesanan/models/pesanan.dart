@@ -43,8 +43,6 @@ class Pesanan {
 
     Baju baju = Baju.fromJson(bajuData);
 
-    print('baju');
-
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];
 
@@ -52,8 +50,6 @@ class Pesanan {
       var detailPesanan = DetailPesanan.fromJson(detailPesananData);
       detailPesananList.add(detailPesanan);
     }
-
-    print('detail_pesanan');
 
     final desainCustomDataList = responseData['designKustom'];
     List<DesainCustomResponse> desainCustomList = [];
@@ -63,8 +59,6 @@ class Pesanan {
       desainCustomList.add(desainCustom);
     }
 
-    print('desain Kustom');
-
     final lokasiDataList = responseData['lokasi_penjemputan'];
     List<Alamat> lokasiList = [];
 
@@ -72,8 +66,6 @@ class Pesanan {
       var lokasi = Alamat.fromJson(lokasiData);
       lokasiList.add(lokasi);
     }
-
-    print('lokasi');
 
     var pembayaran = Pembayaran.fromJson(responseData['pembayaran']);
 
@@ -89,17 +81,17 @@ class Pesanan {
         hariTawar: DateTime.now(),
       );
 
-    print('tawaran');
-
     return Pesanan(
       id: responseData['id'],
       idPenjahit: responseData['id_penjahit'],
       idKonsumen: responseData['id_konsumen'],
       baju: baju,
-      biayaTotal: responseData['biaya_total'].toString(),
+      biayaTotal: responseData['biaya_total'] == null
+          ? '0'
+          : responseData['biaya_total'].toString(),
       designKustom: desainCustomList,
       detailPesanan: detailPesananList,
-      jumlah: responseData['jumlah'],
+      jumlah: responseData['jumlah'] ?? 0,
       lokasiPenjemputan: lokasiList,
       rating: responseData['rating'] == null
           ? 0
@@ -109,7 +101,7 @@ class Pesanan {
           : int.parse(responseData['status_pesanan']),
       tawaran: tawaran,
       pembayaran: pembayaran,
-      createdAt: responseData['created_at'],
+      createdAt: responseData['created_at'] ?? '',
     );
   }
 }

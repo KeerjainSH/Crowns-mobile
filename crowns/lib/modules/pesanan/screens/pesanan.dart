@@ -87,12 +87,13 @@ class _PesananScreenState extends State<PesananScreen> {
         alignment: Alignment.topCenter,
         child: InkWell(
           onTap: () {
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) =>
                     DetailPesananLookbackPage(pesanan: pesanan),
               ),
+              (route) => false,
             );
           },
           child: Container(
@@ -117,13 +118,13 @@ class _PesananScreenState extends State<PesananScreen> {
                   height: 200,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: FadeInImage(
-                      image: NetworkImage(pesanan.baju.foto),
-                      placeholder: AssetImage(ImageConstants.appLogo),
-                      fit: BoxFit.cover,
+                    child: Image.network(
+                      pesanan.baju.foto,
+                      errorBuilder: (context, exception, stackTrace) {
+                        return Icon(Icons.error);
+                      },
                     ),
                   ),
-                  // Image.network(pesanan.baju.foto)),
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -221,13 +222,14 @@ class _PesananScreenState extends State<PesananScreen> {
                           pesanan.pembayaran.statusPembayaran > 1
                               ? Column(
                                   children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      child: Text(
-                                        'Total belanja',
-                                        style: TextStyle(fontSize: 10),
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Total belanja',
+                                          style: TextStyle(fontSize: 10),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       children: [
@@ -279,52 +281,9 @@ class _PesananScreenState extends State<PesananScreen> {
                                         ),
                                       ),
                                     )
-                              : pesanan.statusPesanan == 5
-                                  ? pesanan.rating == 0
-                                      ? InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return RatingDialog(
-                                                  pesanan: pesanan,
-                                                  pesananProvider:
-                                                      pesananProvider,
-                                                );
-                                              },
-                                            ).then((value) {
-                                              setState(() {
-                                                pesanan.rating = value;
-                                              });
-                                            });
-                                          },
-                                          child: Text(
-                                            'Beri rating',
-                                            style: TextStyle(
-                                                color: ColorConstants
-                                                    .primaryColor),
-                                          ),
-                                        )
-                                      : Container(
-                                          margin: EdgeInsets.only(right: 5),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                pesanan.rating.toString(),
-                                                style: TextStyle(
-                                                  color:
-                                                      ColorConstants.darkGrey,
-                                                  fontSize: 10,
-                                                ),
-                                              ),
-                                              SizedBox(width: 5),
-                                              SvgPicture.asset(
-                                                  ImageConstants.starIcon),
-                                            ],
-                                          ),
-                                        )
-                                  : InkWell(
+                              : pesanan.statusPesanan == 4 &&
+                                      pesanan.pembayaran.statusPembayaran == 4
+                                  ? InkWell(
                                       onTap: () => markDoneModal(pesanan.id),
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -346,6 +305,67 @@ class _PesananScreenState extends State<PesananScreen> {
                                         ),
                                       ),
                                     )
+                                  : pesanan.statusPesanan == 5
+                                      ? pesanan.rating == 0
+                                          ? InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return RatingDialog(
+                                                      pesanan: pesanan,
+                                                      pesananProvider:
+                                                          pesananProvider,
+                                                    );
+                                                  },
+                                                ).then((value) {
+                                                  setState(() {
+                                                    pesanan.rating = value;
+                                                  });
+                                                });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: ColorConstants
+                                                      .primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                  vertical: 3,
+                                                ),
+                                                child: Text(
+                                                  'Beri Rating',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              margin: EdgeInsets.only(right: 5),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    pesanan.rating.toString(),
+                                                    style: TextStyle(
+                                                      color: ColorConstants
+                                                          .darkGrey,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 5),
+                                                  SvgPicture.asset(
+                                                      ImageConstants.starIcon),
+                                                ],
+                                              ),
+                                            )
+                                      : SizedBox.shrink(),
                         ],
                       ),
                       SizedBox.shrink(),

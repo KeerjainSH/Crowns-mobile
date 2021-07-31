@@ -19,10 +19,10 @@ class Baju {
     return Baju(
       id: responseData['id'],
       idKategori: responseData['id_kategori'],
-      nama: responseData['nama'],
-      jenisKelamin: responseData['jenis_kelamin'],
-      deskripsi: responseData['deskripsi'],
-      foto: responseData['foto'],
+      nama: responseData['nama'] ?? '',
+      jenisKelamin: responseData['jenis_kelamin'] ?? '',
+      deskripsi: responseData['deskripsi'] ?? '',
+      foto: responseData['foto'] ?? '',
     );
   }
 }

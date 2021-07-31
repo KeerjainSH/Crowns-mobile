@@ -201,6 +201,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           buildFormLabel(context, 'Kode Pos'),
           SizedBox(height: 5),
           TextFormField(
+            keyboardType: TextInputType.number,
             onSaved: (value) => _alamatSelesai.kodePos = int.parse(value!),
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),
@@ -389,6 +390,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
           buildFormLabel(context, 'Kode Pos'),
           SizedBox(height: 5),
           TextFormField(
+            keyboardType: TextInputType.number,
             onSaved: (value) => _alamatKain.kodePos = int.parse(value!),
             validator: (value) => value == '' ? 'harus diisi' : null,
           ),

@@ -7,7 +7,7 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> responseData) {
     return Category(
       id: responseData['id'],
-      nama: responseData['nama'],
+      nama: responseData['nama'] ?? '',
     );
   }
 }

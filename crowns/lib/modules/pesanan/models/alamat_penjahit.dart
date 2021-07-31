@@ -19,13 +19,15 @@ class AlamatPenjahit {
 
   factory AlamatPenjahit.fromJson(Map<String, dynamic> responseData) {
     return AlamatPenjahit(
-        nama: responseData['nama'],
-        kodePos: int.parse(responseData['kode_pos']),
-        kecamatan: responseData['kecamatan'],
-        kota: responseData['kota'],
-        provinsi:
-            responseData['provinsi'] == null ? '' : responseData['provinsi'],
-        alamat: responseData['alamat'],
-        noHp: responseData['no_hp']);
+      nama: responseData['nama'] ?? '',
+      kodePos: responseData['kode_pos'] == null
+          ? 0
+          : int.parse(responseData['kode_pos']),
+      kecamatan: responseData['kecamatan'] ?? '',
+      kota: responseData['kota'] ?? '',
+      provinsi: responseData['provinsi'] ?? '',
+      alamat: responseData['alamat'] ?? '',
+      noHp: responseData['no_hp'] ?? '',
+    );
   }
 }

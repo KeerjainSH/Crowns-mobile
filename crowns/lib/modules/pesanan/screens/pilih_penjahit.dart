@@ -1,5 +1,7 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
+import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
+import 'package:crowns/modules/catalog/screens/kreasi.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:crowns/modules/pesanan/screens/detail_pesanan.dart';
@@ -14,8 +16,12 @@ import 'package:provider/provider.dart';
 
 class PilihPenjahitScreen extends StatefulWidget {
   final Catalog catalog;
+  final int categoryId;
 
-  PilihPenjahitScreen({required this.catalog});
+  PilihPenjahitScreen({
+    required this.catalog,
+    required this.categoryId,
+  });
 
   @override
   _PilihPenjahitScreenState createState() => _PilihPenjahitScreenState();
@@ -42,48 +48,70 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
           : Text('Belum ada penjahit tersedia untuk baju ini'),
     );
 
-    return Provider(
-      lazy: false,
-      create: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          penjahitProvider.fetchPenjahitByCatalogId(widget.catalog.id);
-        });
+    return WillPopScope(
+      onWillPop: () async {
+        if (widget.categoryId == -1) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteConstants.catalog,
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => KreasiScreen(
+                idCategory: widget.categoryId,
+              ),
+            ),
+            (route) => false,
+          );
+        }
+        return true;
       },
-      dispose: (context, data) => penjahitProvider.reset(),
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            child: penjahitProvider.penjahitStatus == RequestStatus.Fetching
-                ? Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    physics: ScrollPhysics(),
-                    child: Column(
-                      children: [
-                        appHeader,
-                        SizedBox(height: 36),
-                        Container(
-                          width: 221,
-                          child: Image.asset(ImageConstants.progressBar2),
-                        ),
-                        SizedBox(height: 36),
-                        Padding(
-                          padding: const EdgeInsets.only(left: appPadding),
-                          child: buildHeadline(context, 'Penjahit'),
-                        ),
-                        SizedBox(height: 6),
-                        Padding(
-                          padding: const EdgeInsets.only(left: appPadding),
-                          child: buildSubtitle(
-                              context, 'Pilih penjahit favoritmu'),
-                        ),
-                        SizedBox(height: 15),
-                        content,
-                      ],
+      child: Provider(
+        lazy: false,
+        create: (context) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            penjahitProvider.fetchPenjahitByCatalogId(widget.catalog.id);
+          });
+        },
+        dispose: (context, data) => penjahitProvider.reset(),
+        child: SafeArea(
+          child: Scaffold(
+            body: Container(
+              height: MediaQuery.of(context).size.height -
+                  padding.top -
+                  padding.bottom,
+              child: penjahitProvider.penjahitStatus == RequestStatus.Fetching
+                  ? Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      physics: ScrollPhysics(),
+                      child: Column(
+                        children: [
+                          appHeader,
+                          SizedBox(height: 36),
+                          Container(
+                            width: 221,
+                            child: Image.asset(ImageConstants.progressBar2),
+                          ),
+                          SizedBox(height: 36),
+                          Padding(
+                            padding: const EdgeInsets.only(left: appPadding),
+                            child: buildHeadline(context, 'Penjahit'),
+                          ),
+                          SizedBox(height: 6),
+                          Padding(
+                            padding: const EdgeInsets.only(left: appPadding),
+                            child: buildSubtitle(
+                                context, 'Pilih penjahit favoritmu'),
+                          ),
+                          SizedBox(height: 15),
+                          content,
+                        ],
+                      ),
                     ),
-                  ),
+            ),
           ),
         ),
       ),
@@ -102,7 +130,9 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => DetailPesananPage(
-                  penjahit: penjahit, catalog: widget.catalog),
+                penjahit: penjahit,
+                catalog: widget.catalog,
+              ),
             ),
           );
         },

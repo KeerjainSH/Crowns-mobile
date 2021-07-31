@@ -1,6 +1,7 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/category.dart';
 import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
+import 'package:crowns/modules/catalog/screens/kreasi.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:crowns/constants/app_constants.dart';
@@ -62,7 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: InkWell(
           onTap: () {
             catalogProvider.categoryId = category.id;
-            Navigator.pushNamed(context, RouteConstants.kreasi);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => KreasiScreen(
+                  idCategory: category.id,
+                ),
+              ),
+            );
           },
           child: Container(
             margin: index == 0

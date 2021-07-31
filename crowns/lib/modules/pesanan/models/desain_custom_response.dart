@@ -6,8 +6,8 @@ class DesainCustomResponse {
 
   factory DesainCustomResponse.fromJson(Map<String, dynamic> responseData) {
     return DesainCustomResponse(
-      foto: responseData['foto'],
-      deskipsi: responseData['deskripsi'],
+      foto: responseData['foto'] ?? '',
+      deskipsi: responseData['deskripsi'] ?? '',
     );
   }
 }

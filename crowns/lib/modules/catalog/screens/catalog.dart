@@ -30,16 +30,31 @@ class _CatalogScreenState extends State<CatalogScreen> {
           borderRadius: BorderRadius.circular(18),
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PilihPenjahitScreen(catalog: catalog),
-                  ));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PilihPenjahitScreen(
+                    catalog: catalog,
+                    categoryId: -1,
+                  ),
+                ),
+                (route) => false,
+              );
             },
-            child: FadeInImage(
-              image: NetworkImage(catalog.foto),
-              placeholder: AssetImage(ImageConstants.appLogo),
-              fit: BoxFit.cover,
+            child: Image.network(
+              catalog.foto,
+              errorBuilder: (context, exception, stackTrace) {
+                return Center(
+                  child: Text(
+                    'Foto tidak tersedia',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -82,71 +97,81 @@ class _CatalogScreenState extends State<CatalogScreen> {
       );
     }
 
-    return Provider(
-      create: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          catalogProvider.fetchCatalogAll();
-        });
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteConstants.landingPage,
+          (route) => false,
+        );
+        return true;
       },
-      dispose: (context, data) => catalogProvider.resetCatalog(),
-      lazy: false,
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            height: MediaQuery.of(context).size.height -
-                padding.top -
-                padding.bottom,
-            child: catalogProvider.catalogAllStatus == RequestStatus.Fetching
-                ? Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        appHeader,
-                        SizedBox(height: 36),
+      child: Provider(
+        create: (context) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            catalogProvider.fetchCatalogAll();
+          });
+        },
+        dispose: (context, data) => catalogProvider.resetCatalog(),
+        lazy: false,
+        child: SafeArea(
+          child: Scaffold(
+            body: Container(
+              height: MediaQuery.of(context).size.height -
+                  padding.top -
+                  padding.bottom,
+              child: catalogProvider.catalogAllStatus == RequestStatus.Fetching
+                  ? Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          appHeader,
+                          SizedBox(height: 36),
 
-                        /// Show image progress bar
-                        Container(
-                          width: 221,
-                          child: Image.asset(ImageConstants.progressBar1),
-                        ),
-                        SizedBox(height: 36),
-                        Container(
-                          padding: EdgeInsets.only(left: appPadding),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Katalog',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 22,
+                          /// Show image progress bar
+                          Container(
+                            width: 221,
+                            child: Image.asset(ImageConstants.progressBar1),
+                          ),
+                          SizedBox(height: 36),
+                          Container(
+                            padding: EdgeInsets.only(left: appPadding),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Katalog',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        Container(
-                          padding: EdgeInsets.only(left: appPadding),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Busana spesialis para penjahit kamu!',
-                              style: TextStyle(
-                                color: ColorConstants.darkGrey,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 13,
+                          Container(
+                            padding: EdgeInsets.only(left: appPadding),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Busana spesialis para penjahit kamu!',
+                                style: TextStyle(
+                                  color: ColorConstants.darkGrey,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        _buildCatalogPerCategory(),
-                        SizedBox(height: 80),
-                      ],
+                          _buildCatalogPerCategory(),
+                          SizedBox(height: 80),
+                        ],
+                      ),
                     ),
-                  ),
+            ),
+            extendBody: true,
+            bottomNavigationBar: navbar,
           ),
-          extendBody: true,
-          bottomNavigationBar: navbar,
         ),
       ),
     );

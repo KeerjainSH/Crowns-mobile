@@ -19,7 +19,7 @@ class PesananBaru {
       idPenjahit: responseData['id_penjahit'],
       idKonsumen: responseData['id_konsumen'],
       idBaju: responseData['id_baju'],
-      statusPesanan: responseData['status_pesanan'],
+      statusPesanan: responseData['status_pesanan'] ?? 0,
     );
   }
 }

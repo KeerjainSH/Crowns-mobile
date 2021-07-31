@@ -23,14 +23,22 @@ class Pembayaran {
     return Pembayaran(
       id: responseData['id'],
       idPesanan: responseData['id_pesanan'],
-      biayaJahit: responseData['biaya_jahit'].toString(),
-      biayaMaterial: responseData['biaya_material'].toString(),
-      biayaJemput: responseData['biaya_jemput'].toString(),
-      biayaKirim: responseData['biaya_kirim'].toString(),
-      statusPembayaran: int.parse(responseData['status_pembayaran']),
-      metodePembayaran: (responseData['metode_pembayaran'] == null)
-          ? "Transfer"
-          : responseData['metode_pembayaran'],
+      biayaJahit: responseData['biaya_jahit'] == null
+          ? ''
+          : responseData['biaya_jahit'].toString(),
+      biayaMaterial: responseData['biaya_material'] == null
+          ? ''
+          : responseData['biaya_material'].toString(),
+      biayaJemput: responseData['biaya_jemput'] == null
+          ? ''
+          : responseData['biaya_jemput'].toString(),
+      biayaKirim: responseData['biaya_kirim'] == null
+          ? ''
+          : responseData['biaya_kirim'].toString(),
+      statusPembayaran: responseData['status_pembayaran'] == null
+          ? 0
+          : int.parse(responseData['status_pembayaran']),
+      metodePembayaran: responseData['metode_pembayaran'] ?? '',
     );
   }
 }

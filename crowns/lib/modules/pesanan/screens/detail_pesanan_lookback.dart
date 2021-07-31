@@ -31,18 +31,17 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18.0),
         child: widget.pesanan.designKustom.length > 0
-            ? FadeInImage(
-                image: NetworkImage(
-                    widget.pesanan.designKustom[_highlightedImageIndex].foto),
-                placeholder: AssetImage(ImageConstants.appLogo),
-                fit: BoxFit.cover,
+            ? Image.network(
+                widget.pesanan.designKustom[_highlightedImageIndex].foto,
+                errorBuilder: (context, exception, stackTrace) {
+                  return Icon(Icons.error);
+                },
               )
-            : FadeInImage(
-                image: NetworkImage(
-                  widget.pesanan.baju.foto,
-                ),
-                placeholder: AssetImage(ImageConstants.appLogo),
-                fit: BoxFit.cover,
+            : Image.network(
+                widget.pesanan.baju.foto,
+                errorBuilder: (context, exception, stackTrace) {
+                  return Icon(Icons.error);
+                },
               ),
       ),
     );
@@ -193,6 +192,9 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
             child: Image.network(
               foto,
               fit: BoxFit.cover,
+              errorBuilder: (context, exception, stackTrace) {
+                return Icon(Icons.error);
+              },
             ),
           ),
         ),
@@ -258,50 +260,60 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
       );
     }
 
-    return Provider(
-      lazy: false,
-      create: (context) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          // penjahitProvider.fetchAlamatPenjahit(widget.pesanan.id_penjahit);
-        });
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteConstants.pesanan,
+          (route) => false,
+        );
+        return true;
       },
-      dispose: (context, data) => penjahitProvider.reset(),
-      child: Scaffold(
-        backgroundColor: ColorConstants.backgroundColor,
-        body: penjahitProvider.alamatPenjahitStatus == RequestStatus.Fetching
-            ? Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                physics: ScrollPhysics(),
-                child: Column(
-                  children: [
-                    header,
-                    SizedBox(height: 15),
-                    widget.pesanan.designKustom.length > 1
-                        ? uploadedImages
-                        : SizedBox.shrink(),
-                    SizedBox(height: 15),
-                    form,
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
-                      child: widget.pesanan.lokasiPenjemputan.length == 1
-                          ? buildAlamat(widget.pesanan.lokasiPenjemputan[0])
-                          : widget.pesanan.lokasiPenjemputan.length == 2
-                              ? Column(
-                                  children: [
-                                    buildAlamat(
-                                        widget.pesanan.lokasiPenjemputan[0]),
-                                    SizedBox(height: 30),
-                                    buildAlamat(
-                                        widget.pesanan.lokasiPenjemputan[1]),
-                                  ],
-                                )
-                              : SizedBox.shrink(),
-                    ),
-                    SizedBox(height: 80),
-                  ],
+      child: Provider(
+        lazy: false,
+        create: (context) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            // penjahitProvider.fetchAlamatPenjahit(widget.pesanan.idPenjahit);
+          });
+        },
+        dispose: (context, data) => penjahitProvider.reset(),
+        child: Scaffold(
+          backgroundColor: ColorConstants.backgroundColor,
+          body: penjahitProvider.alamatPenjahitStatus == RequestStatus.Fetching
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: Column(
+                    children: [
+                      header,
+                      SizedBox(height: 15),
+                      widget.pesanan.designKustom.length > 1
+                          ? uploadedImages
+                          : SizedBox.shrink(),
+                      SizedBox(height: 15),
+                      form,
+                      SizedBox(height: 5),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        child: widget.pesanan.lokasiPenjemputan.length == 1
+                            ? buildAlamat(widget.pesanan.lokasiPenjemputan[0])
+                            : widget.pesanan.lokasiPenjemputan.length == 2
+                                ? Column(
+                                    children: [
+                                      buildAlamat(
+                                          widget.pesanan.lokasiPenjemputan[0]),
+                                      SizedBox(height: 30),
+                                      buildAlamat(
+                                          widget.pesanan.lokasiPenjemputan[1]),
+                                    ],
+                                  )
+                                : SizedBox.shrink(),
+                      ),
+                      SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

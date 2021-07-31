@@ -149,8 +149,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           callback: () {
                             Future<Map<String, dynamic>> result =
                                 profileProvider.logout();
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                RouteConstants.login, (route) => false);
+                            result.then((value) =>
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    RouteConstants.login, (route) => false));
                           },
                         ),
                         SizedBox(height: 50),

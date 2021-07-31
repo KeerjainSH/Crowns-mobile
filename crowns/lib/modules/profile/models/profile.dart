@@ -33,18 +33,17 @@ class Profile {
     return Profile(
       id: responseData['id'],
       idUser: responseData['id_user'],
-      nama: responseData['nama'],
-      jenisKelamin: responseData['jenis_kelamin'],
-      noHp: responseData['no_hp'],
-      tanggalLahir: responseData['tanggal_lahir'],
-      kodepos: responseData['kodepos'],
-      kecamatan: responseData['kecamatan'],
-      kota: responseData['kota'],
-      provinsi:
-          responseData['provinsi'] == null ? '' : responseData['provinsi'],
-      alamat: responseData['alamat'] == null ? '' : responseData['alamat'],
-      username: responseData['username'],
-      email: responseData['email'],
+      nama: responseData['nama'] ?? '',
+      jenisKelamin: responseData['jenis_kelamin'] ?? '',
+      noHp: responseData['no_hp'] ?? '',
+      tanggalLahir: responseData['tanggal_lahir'] ?? '',
+      kodepos: responseData['kodepos'] ?? '',
+      kecamatan: responseData['kecamatan'] ?? '',
+      kota: responseData['kota'] ?? '',
+      provinsi: responseData['provinsi'] ?? '',
+      alamat: responseData['alamat'] ?? '',
+      username: responseData['username'] ?? '',
+      email: responseData['email'] ?? '',
     );
   }
 }

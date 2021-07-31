@@ -307,7 +307,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             final snackBar = SnackBar(
               content: Text('Register berhasil'),
-              backgroundColor: ColorConstants.primaryColor,
+              backgroundColor: ColorConstants.black,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
 

@@ -35,25 +35,14 @@ class ImageConstants {
   static const String linkAjaLogo = 'assets/images/logo-linkaja.png';
   static const String danaLogo = 'assets/images/logo-dana.png';
 
-  static const String facebookLogo = 'assets/images/logo-facebook.png';
-  static const String googleLogo = 'assets/images/logo-google.png';
-
-  static const String seragamProduc1 = 'assets/images/product-seragam-1.png';
-  static const String formalProduct1 = 'assets/images/product-formal-1.png';
-  static const String pestaProduct1 = 'assets/images/product-pesta-1.png';
-
   static const String progressBar1 = 'assets/images/progress-bar-1.png';
   static const String progressBar2 = 'assets/images/progress-bar-2.png';
   static const String progressBar3 = 'assets/images/progress-bar-3.png';
   static const String progressBar4 = 'assets/images/progress-bar-4.png';
 
-  static const String splashScreen = 'assets/images/splash-screen.png';
-
   static const String homeIcon = 'assets/images/icon-home.png';
   static const String profileIcon = 'assets/images/icon-profile.png';
   static const String shopIcon = 'assets/images/icon-shop.png';
-
-  static const String profilePhoto = 'assets/images/profile-1.png';
 
   static const String starIcon = 'assets/svg/icon-star.svg';
 }

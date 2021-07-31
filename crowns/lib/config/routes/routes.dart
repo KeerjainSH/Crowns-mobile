@@ -35,8 +35,6 @@ class CustomRouter {
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
       case RouteConstants.pesanan:
         return MaterialPageRoute(builder: (_) => PesananScreen());
-      case RouteConstants.kreasi:
-        return MaterialPageRoute(builder: (_) => KreasiScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
