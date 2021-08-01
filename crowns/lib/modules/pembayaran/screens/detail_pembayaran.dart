@@ -124,6 +124,20 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
       ],
     );
 
+    final detilHari = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Estimasi Tanggal Selesai',
+          style: TextStyle(fontSize: 13),
+        ),
+        Text(
+          widget.pesanan.tawaran.hariTawar.toString().substring(0, 10),
+          style: TextStyle(fontSize: 13),
+        ),
+      ],
+    );
+
     final detilPembayaran = Column(
       children: [
         detilPembayaranInfo,
@@ -137,6 +151,8 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
         /// Detil Pembayaran Total
         SizedBox(height: 3),
         detilPembayaranTotal,
+        SizedBox(height: 3),
+        detilHari,
       ],
     );
 
