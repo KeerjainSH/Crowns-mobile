@@ -263,9 +263,6 @@ class PesananProvider extends ChangeNotifier {
   Future<List<Map<String, dynamic>>> fetchAllPesanan() async {
     List<Map<String, dynamic>> result = [];
 
-    // _allPesananStatus = RequestStatus.Fetching;
-    // notifyListeners();
-
     final user = await UserPreferences().getUser();
     final userId = user.id;
 
@@ -276,9 +273,6 @@ class PesananProvider extends ChangeNotifier {
     result.add(await fetchPesanan(ApiPath.pesananValid));
     result.add(await fetchPesanan(ApiPath.getHistoryPesananbyId(userId)));
 
-    // _allPesananStatus = RequestStatus.Fetched;
-    // notifyListeners();
-
     print(result);
 
     return result;
@@ -286,7 +280,6 @@ class PesananProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> fetchPesanan(url) async {
     var result;
-    _fetchPesananBelumValidStatus = RequestStatus.Fetching;
 
     var token = await UserPreferences().getToken();
 
@@ -301,8 +294,6 @@ class PesananProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      print(responseData);
-
       var pesananBelumValidDataList = responseData['data'];
 
       List<Pesanan> pesananList = [];
@@ -312,16 +303,12 @@ class PesananProvider extends ChangeNotifier {
         pesananList.add(pesanan);
       }
 
-      _fetchPesananBelumValidStatus = RequestStatus.Fetched;
-      notifyListeners();
-
       result = {
         'status': true,
         'message': responseData['message'],
         'data': pesananList,
       };
     } else {
-      _fetchPesananBelumValidStatus = RequestStatus.Failed;
       result = {
         'status': false,
         'message': json.decode(response.body)['message'],
@@ -359,7 +346,6 @@ class PesananProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      _fetchPesananBelumValidStatus = RequestStatus.Failed;
       result = {
         'status': false,
         'message': json.decode(response.body)['message'],
@@ -399,7 +385,6 @@ class PesananProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      _fetchPesananBelumValidStatus = RequestStatus.Failed;
       result = {
         'status': false,
         'message': json.decode(response.body)['message'],
@@ -414,9 +399,5 @@ class PesananProvider extends ChangeNotifier {
     _pesananStatus = PesananStatus.PesananCreated;
     _detailPesananList.removeRange(0, _detailPesananList.length);
     _desainCustomList.removeRange(0, _desainCustomList.length);
-  }
-
-  void resetPesananBelumValid() {
-    // _pesananBelumValidList.removeRange(0, _pesananBelumValidList.length);
   }
 }

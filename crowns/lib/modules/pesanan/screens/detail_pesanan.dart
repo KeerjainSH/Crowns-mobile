@@ -1,60 +1,54 @@
-import 'package:crowns/constants/request_enums.dart';
-import 'package:crowns/modules/catalog/models/catalog.dart';
-import 'package:crowns/modules/pesanan/components/form_detail_pesanan.dart';
-import 'package:crowns/modules/pesanan/models/penjahit.dart';
-import 'package:crowns/modules/pesanan/screens/update_alamat.dart';
-import 'package:crowns/widgets/custom_button.dart';
+import 'package:crowns/modules/pesanan/models/alamat.dart';
+import 'package:crowns/modules/pesanan/models/alamat_penjahit.dart';
+import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/models/pesanan.dart';
+import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-import 'dart:io';
-
-import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
-import 'package:crowns/modules/pesanan/components/upload_desain_dialog.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPesananPage extends StatefulWidget {
-  final Penjahit penjahit;
-  final Catalog catalog;
+  final Pesanan pesanan;
 
-  DetailPesananPage({
-    required this.penjahit,
-    required this.catalog,
-  });
+  DetailPesananPage({required this.pesanan});
 
   @override
   _DetailPesananPageState createState() => _DetailPesananPageState();
 }
 
 class _DetailPesananPageState extends State<DetailPesananPage> {
-  final formKey = new GlobalKey<FormState>();
-  Future<Map<String, dynamic>>? pesananNew;
-
+  Future<Map<String, dynamic>>? alamatPenjahit;
   int _highlightedImageIndex = 0;
-  bool _kainSendiri = false;
-  bool _desainSendiri = false;
 
   @override
   Widget build(BuildContext context) {
-    PesananProvider pesananProvider = Provider.of<PesananProvider>(context);
+    PenjahitProvider penjahitProvider = Provider.of<PenjahitProvider>(context);
 
     final productPicture = Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: double.infinity,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18.0),
-        child: pesananProvider.pesananStatus == PesananStatus.DesainAdded
-            ? Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: Image.file(
-                  pesananProvider.desainCustomList[_highlightedImageIndex].foto,
-                  fit: BoxFit.fitHeight,
-                ),
+        child: widget.pesanan.designKustom.length > 0
+            ? Image.network(
+                widget.pesanan.designKustom[_highlightedImageIndex].foto,
+                errorBuilder: (context, exception, stackTrace) {
+                  return Center(
+                    child: Text(
+                      'Foto tidak tersedia',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
               )
             : Image.network(
-                widget.catalog.foto,
+                widget.pesanan.baju.foto,
                 errorBuilder: (context, exception, stackTrace) {
                   return Center(
                     child: Text(
@@ -77,7 +71,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              widget.catalog.nama,
+              widget.pesanan.baju.nama,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -86,7 +80,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: widget.catalog.jenisKelamin == 'P'
+            child: widget.pesanan.baju.jenisKelamin == 'P'
                 ? Text(
                     'Perempuan',
                     style: TextStyle(
@@ -104,28 +98,16 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     ),
                   ),
           ),
-          pesananProvider.pesananStatus == PesananStatus.DesainAdded
-              ? Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    pesananProvider
-                        .desainCustomList[_highlightedImageIndex].deskipsi,
-                    style: TextStyle(
-                      color: ColorConstants.darkGrey,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                )
-              : Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.catalog.deskripsi,
-                    style: TextStyle(
-                      color: ColorConstants.darkGrey,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              widget.pesanan.baju.deskripsi,
+              style: TextStyle(
+                color: ColorConstants.darkGrey,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -134,68 +116,19 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildFormLabel2(context, 'Jumlah'),
-        Row(
-          children: [
-            InkWell(
-              onTap: () {
-                if (pesananProvider.detailPesananList.length > 1)
-                  pesananProvider.removeLastDetailPesanan();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    color: ColorConstants.primaryColor,
-                    borderRadius: BorderRadius.circular(5.0)),
-                height: 18,
-                width: 18,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '-',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
+        Container(
+          height: 18,
+          width: 43,
+          color: ColorConstants.grey,
+          child: Center(
+            child: Text(
+              widget.pesanan.detailPesanan.length.toString(),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
             ),
-            SizedBox(width: 3),
-            Container(
-              height: 18,
-              width: 43,
-              color: ColorConstants.grey,
-              child: Center(
-                child: Text(
-                  pesananProvider.detailPesananList.length.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-            SizedBox(width: 3),
-            InkWell(
-              onTap: pesananProvider.addDetailPesanan,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: ColorConstants.primaryColor,
-                    borderRadius: BorderRadius.circular(5.0)),
-                height: 18,
-                width: 18,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ],
     );
@@ -238,35 +171,157 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       ),
     );
 
-    final form = Container(
+    Container buildDetailUkuran(String label, double value) {
+      return Container(
+        width: MediaQuery.of(context).size.width * 0.22,
+        child: Column(
+          children: [
+            buildFormLabel3(context, label),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(value.toString()),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Column buildDataDetail(DetailPesanan detailPesanan) {
+      return Column(
+        children: [
+          SizedBox(height: 11),
+          buildFormLabel2(context, 'Nama Lengkap'),
+          SizedBox(height: 5),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(detailPesanan.namaLengkap),
+          ),
+          SizedBox(height: 8),
+          buildFormLabel2(context, 'Ukuran Baju'),
+          SizedBox(height: 1),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildDetailUkuran('Lengan', detailPesanan.lengan),
+                    buildDetailUkuran('Pinggang', detailPesanan.pinggang),
+                    buildDetailUkuran('Dada', detailPesanan.dada),
+                  ],
+                ),
+                SizedBox(height: 7),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildDetailUkuran('Leher', detailPesanan.leher),
+                    buildDetailUkuran(
+                        'Tinggi Tubuh', detailPesanan.tinggiTubuh),
+                    buildDetailUkuran('Berat Badan', detailPesanan.beratBadan),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          buildFormLabel2(context, 'Instruksi Pembuatan'),
+          SizedBox(height: 5),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(detailPesanan.instruksiPembuatan),
+          ),
+          SizedBox(height: 22),
+        ],
+      );
+    }
+
+    final detailPesanan = Container(
       padding: EdgeInsets.symmetric(horizontal: appPadding),
       child: Column(
         children: [
           buildHeadline(context, 'Detail Pesanan'),
-          SizedBox(height: 6),
-          buildSubtitle(context, 'Isi sesuai dengan pesanan kamu ya!'),
-          SizedBox(height: 10),
-          Form(
-            key: formKey,
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: true,
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: pesananProvider.detailPesananList.length,
-                itemBuilder: (context, i) {
-                  return FormDetailPesanan(
-                      detailPesanan: pesananProvider.detailPesananList[i]);
-                },
-              ),
+          MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.pesanan.detailPesanan.length,
+              itemBuilder: (context, i) {
+                return buildDataDetail(widget.pesanan.detailPesanan[i]);
+              },
             ),
           ),
         ],
       ),
     );
 
-    Container _buildCatalogImage(File imageItem, int index) {
+    openwhatsapp() async {
+      var whatsapp = "+919144040888";
+      var whatsappURI = "https://wa.me/$whatsapp";
+
+      if (await canLaunch(whatsappURI)) {
+        await launch(whatsappURI);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    }
+
+    Container buildDataPenjahit(AlamatPenjahit penjahit) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: appPadding),
+        child: Column(
+          children: [
+            buildHeadline(context, 'Data Penjahit'),
+            SizedBox(height: 10),
+            buildHeadline2(context, penjahit.nama),
+            SizedBox(height: 7),
+            buildFormLabel(context, 'Alamat'),
+            // SizedBox(height: 5),
+            buildBodyText3(context, penjahit.alamat),
+            SizedBox(height: 7),
+            buildFormLabel(context, 'Kecamatan'),
+            // SizedBox(height: 5),
+            buildBodyText3(context, penjahit.kecamatan),
+            SizedBox(height: 7),
+            buildFormLabel(context, 'Kota'),
+            // SizedBox(height: 5),
+            buildBodyText3(context, penjahit.kota),
+            SizedBox(height: 7),
+            buildFormLabel(context, 'No Telepon'),
+            // SizedBox(height: 5),
+            buildBodyText3(context, penjahit.noHp),
+            SizedBox(height: 2),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                  width: 80,
+                  height: 25,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstants.greenWhatsapp,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onPressed: openwhatsapp,
+                  child: Text(
+                    'Hubungi',
+                    style: TextStyle(fontSize: 10),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    Container _buildCatalogImage(String foto, int index) {
       return Container(
         margin: EdgeInsets.only(right: 15),
         width: 83,
@@ -278,38 +333,17 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(18),
-            child: Image.file(
-              pesananProvider.desainCustomList[index].foto,
+            child: Image.network(
+              foto,
               fit: BoxFit.cover,
+              errorBuilder: (context, exception, stackTrace) {
+                return Icon(Icons.error);
+              },
             ),
           ),
         ),
       );
     }
-
-    void showDesainDialog() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return UploadDesainDialog();
-        },
-      );
-    }
-
-    final catalogAddImage = Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: ColorConstants.softGrey,
-      ),
-      margin: EdgeInsets.only(right: 15),
-      width: 83,
-      child: InkWell(
-        onTap: showDesainDialog,
-        child: Center(
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
 
     final uploadedImages = Column(
       children: [
@@ -327,227 +361,121 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             scrollDirection: Axis.horizontal,
             children: [Container(child: SizedBox(width: 23))] +
                 List.generate(
-                  pesananProvider.desainCustomList.length,
+                  widget.pesanan.designKustom.length,
                   (index) => _buildCatalogImage(
-                    pesananProvider.desainCustomList[index].foto,
+                    widget.pesanan.designKustom[index].foto,
                     index,
                   ),
-                ) +
-                [Container(child: catalogAddImage)],
+                ),
           ),
         ),
         SizedBox(height: 10),
       ],
     );
 
-    final submitButton = CustomButton(
-      text: 'pesan',
-      // callback: () => Navigator.pushNamed(context, RouteConstants.isiAlamat),
-      // callback: () => formKey.currentState!.validate(),
-      callback: () {
-        final FormState? formState = formKey.currentState;
-
-        if (formState!.validate()) {
-          formState.save();
-
-          final Future<Map<String, dynamic>> successfulMessage;
-
-          if (_desainSendiri) pesananProvider.uploadDesain();
-
-          successfulMessage = pesananProvider.updateDetailPesanan(
-            pesananProvider.detailPesananList,
-            pesananProvider.pesanan,
-            _kainSendiri,
-          );
-
-          successfulMessage.then((response) {
-            if (response['status']) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UpdateAlamatScreen(
-                    pesanan: pesananProvider.pesanan,
-                    kainSendiri: _kainSendiri,
-                    penjahit: widget.penjahit,
-                  ),
-                ),
-              );
-            }
-          });
-        }
-      },
-    );
-
-    final questionDesain = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softGrey,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(
-        horizontal: appPadding,
-        vertical: 4,
-      ),
-      padding: EdgeInsets.all(6),
-      child: Row(
+    Column buildAlamat(Alamat alamat) {
+      return Column(
         children: [
-          Flexible(
-            flex: 6,
-            child: buildBodyText2(
-                context, 'Apakah kamu ingin memakai desain sendiri?'),
-          ),
-          Flexible(
-            flex: 4,
-            child: ToggleSwitch(
-              minHeight: 30,
-              minWidth: MediaQuery.of(context).size.width * 0.15,
-              cornerRadius: 20.0,
-              activeBgColors: [
-                [ColorConstants.primaryColor],
-                [ColorConstants.primaryColor],
-              ],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              initialLabelIndex: _desainSendiri ? 0 : 1,
-              totalSwitches: 2,
-              labels: ['Ya', 'Tidak'],
-              radiusStyle: true,
-              onToggle: (index) {
-                setState(() {
-                  _desainSendiri = index == 0 ? true : false;
-                });
-                print('desain sendiri: $_desainSendiri');
-              },
-            ),
-          ),
+          alamat.tipe == 1
+              ? buildHeadline(context, 'Lokasi Jemput Kain')
+              : buildHeadline(context, 'Lokasi Antar Produk'),
+          alamat.tipe == 1
+              ? buildSubtitle(context,
+                  'Bahan kain kamu akan diambil oleh penjahit pada alamat berikut')
+              : buildSubtitle(context,
+                  'Baju kamu akan diantarkan penjahit pada alamat berikut'),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Alamat'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.alamat),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Kecamatan'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.kecamatan),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Kota'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.kota),
+          SizedBox(height: 10),
+          buildFormLabel(context, 'Instruksi'),
+          SizedBox(height: 5),
+          buildBodyText3(context, alamat.instruksi),
         ],
-      ),
-    );
-
-    final questionKain = Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.softGrey,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      margin: EdgeInsets.symmetric(
-        horizontal: appPadding,
-        vertical: 4,
-      ),
-      padding: EdgeInsets.all(6),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 6,
-            child: buildBodyText2(
-                context, 'Apakah kamu ingin memakai kain sendiri?'),
-          ),
-          Flexible(
-            flex: 4,
-            child: ToggleSwitch(
-              minHeight: 30,
-              minWidth: MediaQuery.of(context).size.width * 0.15,
-              cornerRadius: 20.0,
-              activeBgColors: [
-                [ColorConstants.primaryColor],
-                [ColorConstants.primaryColor],
-              ],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              initialLabelIndex: _kainSendiri ? 0 : 1,
-              totalSwitches: 2,
-              labels: ['Ya', 'Tidak'],
-              radiusStyle: true,
-              onToggle: (index) {
-                _kainSendiri = index == 0 ? true : false;
-                print('kain sendiri: $_kainSendiri');
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-
-    Future<bool> _onWillPop() async {
-      return (await showDialog(
-            context: context,
-            builder: (context) => new AlertDialog(
-              title: new Text('Apakah anda yakin?'),
-              content: new Text('Jika iya pesanan tidak ada akan diproses'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text('Tidak'),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                      context, RouteConstants.landingPage, (route) => false),
-                  child: new Text('Ya'),
-                ),
-              ],
-            ),
-          )) ??
-          false;
+      );
     }
 
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteConstants.pesanan,
+          (route) => false,
+        );
+        return true;
+      },
       child: Provider(
         lazy: false,
         create: (context) {
           WidgetsBinding.instance!.addPostFrameCallback((_) {
-            pesananNew = pesananProvider.createPesanan(
-              widget.penjahit.idPenjahit,
-              widget.catalog.id,
-            );
+            alamatPenjahit = penjahitProvider
+                .fetchAlamatPenjahitById(widget.pesanan.idPenjahit);
             setState(() {});
           });
         },
-        dispose: (context, data) => pesananProvider.reset(),
+        dispose: (context, data) => penjahitProvider.reset(),
         child: Scaffold(
           backgroundColor: ColorConstants.backgroundColor,
-          body: pesananProvider.pesananStatus == PesananStatus.PesananCreating
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: FutureBuilder(
-                    future: pesananNew,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData)
-                        return SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              header,
-                              SizedBox(height: 15),
-                              _desainSendiri
-                                  ? uploadedImages
+          body: FutureBuilder(
+            future: alamatPenjahit,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData)
+                return SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    physics: ScrollPhysics(),
+                    child: Column(
+                      children: [
+                        header,
+                        SizedBox(height: 15),
+                        widget.pesanan.designKustom.length > 1
+                            ? uploadedImages
+                            : SizedBox.shrink(),
+                        SizedBox(height: 15),
+                        buildDataPenjahit(snapshot.data['data']),
+                        SizedBox(height: 15),
+                        detailPesanan,
+                        SizedBox(height: 5),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 32),
+                          child: widget.pesanan.lokasiPenjemputan.length == 1
+                              ? buildAlamat(widget.pesanan.lokasiPenjemputan[0])
+                              : widget.pesanan.lokasiPenjemputan.length == 2
+                                  ? Column(
+                                      children: [
+                                        buildAlamat(widget
+                                            .pesanan.lokasiPenjemputan[0]),
+                                        SizedBox(height: 30),
+                                        buildAlamat(widget
+                                            .pesanan.lokasiPenjemputan[1]),
+                                      ],
+                                    )
                                   : SizedBox.shrink(),
-                              questionDesain,
-                              questionKain,
-                              SizedBox(height: 15),
-                              form,
-                              SizedBox(height: 25),
-                              pesananProvider.updateDetailStatus ==
-                                      RequestStatus.Fetching
-                                  ? Center(child: CircularProgressIndicator())
-                                  : submitButton,
-                              SizedBox(height: 100),
-                            ],
-                          ),
-                        );
-                      else if (snapshot.hasError)
-                        return Center(
-                            child: Text(
-                                'Terjadi kesalahan saat membuat pesanan baru'));
-
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
+                        ),
+                        SizedBox(height: 80),
+                      ],
+                    ),
                   ),
-                ),
+                );
+              else if (snapshot.hasError)
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                  // child: Text('Terjadi kesalahan saat mengambil data'),
+                );
+
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ),
     );

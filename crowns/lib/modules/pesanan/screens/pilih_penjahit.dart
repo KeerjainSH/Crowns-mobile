@@ -3,7 +3,7 @@ import 'package:crowns/modules/catalog/models/catalog.dart';
 import 'package:crowns/modules/catalog/screens/kreasi.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';
-import 'package:crowns/modules/pesanan/screens/detail_pesanan.dart';
+import 'package:crowns/modules/pesanan/screens/update_detail_pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -128,7 +128,7 @@ class _PilihPenjahitScreenState extends State<PilihPenjahitScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailPesananPage(
+              builder: (context) => UpdateDetailPesananPage(
                 penjahit: penjahit,
                 catalog: widget.catalog,
               ),

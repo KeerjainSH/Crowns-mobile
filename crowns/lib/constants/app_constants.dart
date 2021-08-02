@@ -15,6 +15,8 @@ class ColorConstants {
 
   static const Color black = Color.fromRGBO(22, 22, 22, 1);
   static const Color white = Color.fromRGBO(240, 240, 240, 1);
+
+  static const Color greenWhatsapp = Color.fromRGBO(18, 140, 126, 1);
 }
 
 class ImageConstants {

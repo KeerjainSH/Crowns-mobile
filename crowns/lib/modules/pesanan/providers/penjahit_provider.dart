@@ -14,17 +14,6 @@ class PenjahitProvider extends ChangeNotifier {
 
   RequestStatus _alamatPenjahitStatus = RequestStatus.NotFetched;
 
-  AlamatPenjahit _alamatPenjahit = AlamatPenjahit(
-    nama: '',
-    kodePos: 0,
-    kecamatan: '',
-    kota: '',
-    provinsi: '',
-    alamat: '',
-    noHp: '',
-  );
-
-  AlamatPenjahit get alamatPenjahit => _alamatPenjahit;
   RequestStatus get alamatPenjahitStatus => _alamatPenjahitStatus;
 
   RequestStatus get penjahitStatus => _penjahitStatus;
@@ -69,10 +58,7 @@ class PenjahitProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> fetchAlamatPenjahit(int id) async {
-    _alamatPenjahitStatus = RequestStatus.Fetching;
-    notifyListeners();
-
+  Future<Map<String, dynamic>> fetchAlamatPenjahitById(int id) async {
     Response response = await get(
       Uri.parse(ApiPath.getProfilePenjahitById(id)),
       headers: {
@@ -85,15 +71,12 @@ class PenjahitProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      _alamatPenjahit = AlamatPenjahit.fromJson(responseData);
-
-      _alamatPenjahitStatus = RequestStatus.Fetched;
-      notifyListeners();
+      var alamatPenjahit = AlamatPenjahit.fromJson(responseData['data']);
 
       result = {
         'status': true,
         'message': responseData['message'],
-        'data': _alamatPenjahit,
+        'data': alamatPenjahit,
       };
     } else {
       _alamatPenjahitStatus = RequestStatus.Failed;

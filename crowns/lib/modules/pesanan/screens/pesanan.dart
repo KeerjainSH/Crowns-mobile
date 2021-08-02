@@ -4,7 +4,7 @@ import 'package:crowns/modules/pembayaran/screens/detail_pembayaran.dart';
 import 'package:crowns/modules/pesanan/components/rating_dialog.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/modules/pesanan/providers/pesanan_provider.dart';
-import 'package:crowns/modules/pesanan/screens/detail_pesanan_lookback.dart';
+import 'package:crowns/modules/pesanan/screens/detail_pesanan.dart';
 import 'package:crowns/widgets/app_widgets.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,8 +90,7 @@ class _PesananScreenState extends State<PesananScreen> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    DetailPesananLookbackPage(pesanan: pesanan),
+                builder: (context) => DetailPesananPage(pesanan: pesanan),
               ),
               (route) => false,
             );
@@ -159,13 +158,6 @@ class _PesananScreenState extends State<PesananScreen> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(pesanan.baju.nama),
-                        // child: Text(pesanan.statusPesanan.toString() +
-                        //     ' ' +
-                        //     pesanan.pembayaran.statusPembayaran.toString() +
-                        //     ' ' +
-                        //     pesanan.tawaran.statusPenawaran.toString() +
-                        //     ' - ' +
-                        //     pesanan.baju.nama),
                       ),
                       SizedBox(height: 2),
                       SizedBox(height: 6),
@@ -430,7 +422,6 @@ class _PesananScreenState extends State<PesananScreen> {
           setState(() {});
         });
       },
-      dispose: (context, data) => pesananProvider.resetPesananBelumValid(),
       child: SafeArea(
         child: Scaffold(
           appBar: appBar,

@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SizedBox(height: 9),
         DateTimePicker(
           type: DateTimePickerType.date,
-          firstDate: DateTime(2000),
+          firstDate: DateTime(1900),
           lastDate: DateTime(2100),
           style: TextStyle(fontSize: 13),
           onSaved: (value) => userRegister.tanggalLahir = value!,
