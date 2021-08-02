@@ -34,13 +34,31 @@ class _DetailPesananLookbackPageState extends State<DetailPesananLookbackPage> {
             ? Image.network(
                 widget.pesanan.designKustom[_highlightedImageIndex].foto,
                 errorBuilder: (context, exception, stackTrace) {
-                  return Icon(Icons.error);
+                  return Center(
+                    child: Text(
+                      'Foto tidak tersedia',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
                 },
               )
             : Image.network(
                 widget.pesanan.baju.foto,
                 errorBuilder: (context, exception, stackTrace) {
-                  return Icon(Icons.error);
+                  return Center(
+                    child: Text(
+                      'Foto tidak tersedia',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
                 },
               ),
       ),

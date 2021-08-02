@@ -29,6 +29,8 @@ class DetailPesananPage extends StatefulWidget {
 
 class _DetailPesananPageState extends State<DetailPesananPage> {
   final formKey = new GlobalKey<FormState>();
+  Future<Map<String, dynamic>>? pesananNew;
+
   int _highlightedImageIndex = 0;
   bool _kainSendiri = false;
   bool _desainSendiri = false;
@@ -54,7 +56,16 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             : Image.network(
                 widget.catalog.foto,
                 errorBuilder: (context, exception, stackTrace) {
-                  return Icon(Icons.error);
+                  return Center(
+                    child: Text(
+                      'Foto tidak tersedia',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
                 },
               ),
       ),
@@ -485,10 +496,11 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         lazy: false,
         create: (context) {
           WidgetsBinding.instance!.addPostFrameCallback((_) {
-            pesananProvider.createPesanan(
+            pesananNew = pesananProvider.createPesanan(
               widget.penjahit.idPenjahit,
               widget.catalog.id,
             );
+            setState(() {});
           });
         },
         dispose: (context, data) => pesananProvider.reset(),
@@ -500,22 +512,40 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                 )
               : SingleChildScrollView(
                   physics: ScrollPhysics(),
-                  child: Column(
-                    children: [
-                      header,
-                      SizedBox(height: 15),
-                      _desainSendiri ? uploadedImages : SizedBox.shrink(),
-                      questionDesain,
-                      questionKain,
-                      SizedBox(height: 15),
-                      form,
-                      SizedBox(height: 25),
-                      pesananProvider.updateDetailStatus ==
-                              RequestStatus.Fetching
-                          ? Center(child: CircularProgressIndicator())
-                          : submitButton,
-                      SizedBox(height: 100),
-                    ],
+                  child: FutureBuilder(
+                    future: pesananNew,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData)
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              header,
+                              SizedBox(height: 15),
+                              _desainSendiri
+                                  ? uploadedImages
+                                  : SizedBox.shrink(),
+                              questionDesain,
+                              questionKain,
+                              SizedBox(height: 15),
+                              form,
+                              SizedBox(height: 25),
+                              pesananProvider.updateDetailStatus ==
+                                      RequestStatus.Fetching
+                                  ? Center(child: CircularProgressIndicator())
+                                  : submitButton,
+                              SizedBox(height: 100),
+                            ],
+                          ),
+                        );
+                      else if (snapshot.hasError)
+                        return Center(
+                            child: Text(
+                                'Terjadi kesalahan saat membuat pesanan baru'));
+
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
         ),

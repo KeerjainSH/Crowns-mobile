@@ -115,13 +115,23 @@ class _PesananScreenState extends State<PesananScreen> {
             child: Row(
               children: [
                 Container(
-                  height: 200,
+                  // height: 200,
+                  width: 60,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       pesanan.baju.foto,
                       errorBuilder: (context, exception, stackTrace) {
-                        return Icon(Icons.error);
+                        return Center(
+                          child: Text(
+                            'Foto tidak tersedia',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -148,13 +158,14 @@ class _PesananScreenState extends State<PesananScreen> {
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(pesanan.statusPesanan.toString() +
-                            ' ' +
-                            pesanan.pembayaran.statusPembayaran.toString() +
-                            ' ' +
-                            pesanan.tawaran.statusPenawaran.toString() +
-                            ' - ' +
-                            pesanan.baju.nama),
+                        child: Text(pesanan.baju.nama),
+                        // child: Text(pesanan.statusPesanan.toString() +
+                        //     ' ' +
+                        //     pesanan.pembayaran.statusPembayaran.toString() +
+                        //     ' ' +
+                        //     pesanan.tawaran.statusPenawaran.toString() +
+                        //     ' - ' +
+                        //     pesanan.baju.nama),
                       ),
                       SizedBox(height: 2),
                       SizedBox(height: 6),
@@ -251,7 +262,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                   ? SizedBox.shrink()
                                   : InkWell(
                                       onTap: () {
-                                        Navigator.push(
+                                        Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
@@ -259,6 +270,7 @@ class _PesananScreenState extends State<PesananScreen> {
                                               pesanan: pesanan,
                                             ),
                                           ),
+                                          (route) => false,
                                         );
                                       },
                                       child: Container(

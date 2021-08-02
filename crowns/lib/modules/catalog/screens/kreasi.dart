@@ -45,7 +45,16 @@ class _KreasiScreenState extends State<KreasiScreen> {
           child: Image.network(
             catalog.foto,
             errorBuilder: (context, exception, stackTrace) {
-              return Icon(Icons.error);
+              return Center(
+                child: Text(
+                  'Foto tidak tersedia',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
             },
           ),
         ),

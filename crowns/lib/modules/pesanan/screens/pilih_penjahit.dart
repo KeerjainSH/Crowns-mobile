@@ -1,6 +1,5 @@
 import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/catalog/models/catalog.dart';
-import 'package:crowns/modules/catalog/providers/catalog_provider.dart';
 import 'package:crowns/modules/catalog/screens/kreasi.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/providers/penjahit_provider.dart';

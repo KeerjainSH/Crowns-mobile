@@ -239,120 +239,131 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
       );
     }
 
-    return ChangeNotifierProvider<PembayaranProvider>(
-      create: (context) => PembayaranProvider(),
-      child: Consumer<PembayaranProvider>(
-        builder: (context, provider, child) => SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.white,
-            body: Container(
-              height: MediaQuery.of(context).size.height -
-                  padding.top -
-                  padding.bottom,
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Column(
-                    children: [
-                      appHeader,
-                      SizedBox(height: 36),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RouteConstants.pesanan,
+          (route) => false,
+        );
+        return true;
+      },
+      child: ChangeNotifierProvider<PembayaranProvider>(
+        create: (context) => PembayaranProvider(),
+        child: Consumer<PembayaranProvider>(
+          builder: (context, provider, child) => SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: Container(
+                height: MediaQuery.of(context).size.height -
+                    padding.top -
+                    padding.bottom,
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        appHeader,
+                        SizedBox(height: 36),
 
-                      /// Show image progress bar
-                      Container(
-                        width: 221,
-                        child: Image.asset(ImageConstants.progressBar4),
-                      ),
-                      SizedBox(height: 24),
+                        /// Show image progress bar
+                        Container(
+                          width: 221,
+                          child: Image.asset(ImageConstants.progressBar4),
+                        ),
+                        SizedBox(height: 24),
 
-                      Padding(
-                        padding: EdgeInsets.only(left: appPadding),
-                        child: buildHeadline(context, 'Pembayaran'),
-                      ),
-                      SizedBox(height: 6),
-                      Padding(
-                        padding: const EdgeInsets.only(left: appPadding),
-                        child: buildSubtitle(
-                            context, 'Estimasi harga yang harus dibayar'),
-                      ),
-                      SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.only(left: appPadding),
+                          child: buildHeadline(context, 'Pembayaran'),
+                        ),
+                        SizedBox(height: 6),
+                        Padding(
+                          padding: const EdgeInsets.only(left: appPadding),
+                          child: buildSubtitle(
+                              context, 'Estimasi harga yang harus dibayar'),
+                        ),
+                        SizedBox(height: 20),
 
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: appPadding),
-                        child: detilPembayaran,
-                      ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: appPadding),
+                          child: detilPembayaran,
+                        ),
 
-                      SizedBox(height: 47),
-                      widget.pesanan.tawaran.statusPenawaran == 1
-                          ? CustomButton(
-                              text: 'tawar',
-                              callback: () => showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return TawarDialog(
-                                    totalHarga: widget.pesanan.biayaTotal,
-                                    idPesanan: widget.pesanan.id,
-                                    pembayaranProvider: provider,
-                                  );
-                                },
-                              ).then((value) {
-                                setState(() {
-                                  widget.pesanan.tawaran.statusPenawaran =
-                                      value;
-                                });
-                              }),
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                color: ColorConstants.softBlue,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 3,
-                              ),
-                              child: widget.pesanan.tawaran.statusPenawaran == 2
-                                  ? Text('Menunggu jawaban dari penjahit')
-                                  : Text('Tawaran diterima'),
-                            ),
-                      SizedBox(height: 36),
-                      Padding(
-                        padding: const EdgeInsets.only(left: appPadding),
-                        child: buildHeadline(context, 'Metode'),
-                      ),
-                      SizedBox(height: 6),
-                      Padding(
-                        padding: const EdgeInsets.only(left: appPadding),
-                        child: buildSubtitle(context, 'Mau membayar dimana?'),
-                      ),
-
-                      _buildPanel(),
-
-                      // SizedBox(height: 30),
-                      CustomButton(
-                        text: 'bayar',
-                        callback: () {
-                          if (_selected == -1) {
-                            final snackBar = SnackBar(
-                              content: Text(
-                                  'Pilih metode pembayaran terlebih dahulu'),
-                              backgroundColor: ColorConstants.black,
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PembayaranPage(
-                                  pesanan: widget.pesanan,
-                                  method: _selected,
+                        SizedBox(height: 47),
+                        widget.pesanan.tawaran.statusPenawaran == 1
+                            ? CustomButton(
+                                text: 'tawar',
+                                callback: () => showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return TawarDialog(
+                                      totalHarga: widget.pesanan.biayaTotal,
+                                      idPesanan: widget.pesanan.id,
+                                      pembayaranProvider: provider,
+                                    );
+                                  },
+                                ).then((value) {
+                                  setState(() {
+                                    widget.pesanan.tawaran.statusPenawaran =
+                                        value;
+                                  });
+                                }),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: ColorConstants.softBlue,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 3,
+                                ),
+                                child:
+                                    widget.pesanan.tawaran.statusPenawaran == 2
+                                        ? Text('Menunggu jawaban dari penjahit')
+                                        : Text('Tawaran diterima'),
                               ),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 40),
-                    ],
+                        SizedBox(height: 36),
+                        Padding(
+                          padding: const EdgeInsets.only(left: appPadding),
+                          child: buildHeadline(context, 'Metode'),
+                        ),
+                        SizedBox(height: 6),
+                        Padding(
+                          padding: const EdgeInsets.only(left: appPadding),
+                          child: buildSubtitle(context, 'Mau membayar dimana?'),
+                        ),
+
+                        _buildPanel(),
+
+                        // SizedBox(height: 30),
+                        CustomButton(
+                          text: 'bayar',
+                          callback: () {
+                            if (_selected == -1) {
+                              final snackBar = SnackBar(
+                                content: Text(
+                                    'Pilih metode pembayaran terlebih dahulu'),
+                                backgroundColor: ColorConstants.black,
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PembayaranPage(
+                                    pesanan: widget.pesanan,
+                                    method: _selected,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(height: 40),
+                      ],
+                    ),
                   ),
                 ),
               ),
