@@ -282,7 +282,9 @@ class _UpdateDetailPesananPageState extends State<UpdateDetailPesananPage> {
                 itemCount: pesananProvider.detailPesananList.length,
                 itemBuilder: (context, i) {
                   return FormDetailPesanan(
-                      detailPesanan: pesananProvider.detailPesananList[i]);
+                    detailPesanan: pesananProvider.detailPesananList[i],
+                    jenisKelamin: widget.catalog.jenisKelamin,
+                  );
                 },
               ),
             ),
