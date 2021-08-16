@@ -26,37 +26,53 @@ class _CatalogScreenState extends State<CatalogScreen> {
             ? EdgeInsets.only(left: appPadding, right: 15)
             : EdgeInsets.only(right: 15),
         width: 83,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(18),
-          child: InkWell(
-            onTap: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PilihPenjahitScreen(
-                    catalog: catalog,
-                    categoryId: -1,
+        height: 120,
+        child: Column(
+          children: [
+            Container(
+              height: 100,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PilihPenjahitScreen(
+                          catalog: catalog,
+                          categoryId: -1,
+                        ),
+                      ),
+                      (route) => false,
+                    );
+                  },
+                  child: Image.network(
+                    catalog.foto,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, exception, stackTrace) {
+                      return Center(
+                        child: Text(
+                          'Foto tidak tersedia',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
                   ),
                 ),
-                (route) => false,
-              );
-            },
-            child: Image.network(
-              catalog.foto,
-              errorBuilder: (context, exception, stackTrace) {
-                return Center(
-                  child: Text(
-                    'Foto tidak tersedia',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              },
+              ),
             ),
-          ),
+            Text(
+              catalog.nama,
+              style: TextStyle(
+                fontSize: 10,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       );
     }
@@ -82,7 +98,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
               ),
               SizedBox(height: 5),
               Container(
-                height: 106,
+                height: 120,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: entry.value.length,

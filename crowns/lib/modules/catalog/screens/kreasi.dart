@@ -38,25 +38,43 @@ class _KreasiScreenState extends State<KreasiScreen> {
             (route) => false,
           );
         },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Image.network(
-            catalog.foto,
-            errorBuilder: (context, exception, stackTrace) {
-              return Center(
+        child: Column(
+          children: [
+            Flexible(
+              flex: 8,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Image.network(
+                  catalog.foto,
+                  errorBuilder: (context, exception, stackTrace) {
+                    return Center(
+                      child: Text(
+                        'Foto tidak tersedia',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(top: 2),
                 child: Text(
-                  'Foto tidak tersedia',
+                  catalog.nama,
                   style: TextStyle(
                     fontSize: 10,
-                    fontWeight: FontWeight.w600,
                   ),
-                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       );
     }

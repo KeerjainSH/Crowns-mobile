@@ -19,6 +19,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _currKelamin = 'l';
 
+  bool _passwordVisible = false;
+
   UserRegister userRegister = UserRegister();
 
   @override
@@ -43,29 +45,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         buildFormLabel(context, 'Password'),
         SizedBox(height: 9),
-        TextFormField(
-          style: TextStyle(fontSize: 14),
-          obscureText: true,
-          onSaved: (value) => userRegister.password = value!,
-          validator: (value) => value == '' ? 'wajib diisi' : null,
-        ),
-        SizedBox(height: 15),
-      ],
-    );
-
-    final confirmPasswordField = Column(
-      children: [
-        buildFormLabel(context, 'Konfirmasi Password'),
-        SizedBox(height: 9),
-        TextFormField(
-          style: TextStyle(fontSize: 14),
-          obscureText: true,
-          onSaved: (value) => userRegister.password = value!,
-          validator: (value) {
-            if (value == '') return 'wajib diisi';
-            // else if (value != userRegister.password) return 'password harus sama';
-            return null;
-          },
+        Stack(
+          children: [
+            TextFormField(
+              style: TextStyle(fontSize: 14),
+              obscureText: !_passwordVisible,
+              onSaved: (value) => userRegister.password = value!,
+              validator: (value) => value == '' ? 'wajib diisi' : null,
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 4, top: 4),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                  child: Icon(
+                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Theme.of(context).primaryColorDark,
+                    size: 18,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         SizedBox(height: 15),
       ],
@@ -140,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
           onSaved: (value) => userRegister.noHp = value!,
-          validator: (value) => value == '' ? 'Please enter username' : null,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
       ],
@@ -170,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(fontSize: 14),
           keyboardType: TextInputType.number,
           onSaved: (value) => userRegister.kodepos = value!,
-          validator: (value) => value == '' ? 'Please enter username' : null,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
       ],
@@ -183,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         TextFormField(
           style: TextStyle(fontSize: 14),
           onSaved: (value) => userRegister.kecamatan = value!,
-          validator: (value) => value == '' ? 'Please enter username' : null,
+          validator: (value) => value == '' ? 'wajib diisi' : null,
         ),
         SizedBox(height: 15),
       ],
@@ -191,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     final kotaField = Column(
       children: [
-        buildFormLabel(context, 'Kota'),
+        buildFormLabel(context, 'Kota / Kabupaten'),
         SizedBox(height: 9),
         TextFormField(
           style: TextStyle(fontSize: 14),
@@ -253,7 +259,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             emailField,
             usernameField,
             passwordField,
-            confirmPasswordField,
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [

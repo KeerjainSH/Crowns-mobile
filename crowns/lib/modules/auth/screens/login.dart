@@ -3,6 +3,7 @@ import 'package:crowns/modules/auth/providers/auth_provider.dart';
 import 'package:crowns/modules/auth/providers/user_provider.dart';
 import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crowns/constants/app_constants.dart';
@@ -15,8 +16,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = new GlobalKey<FormState>();
+  bool _passwordVisible = false;
 
   String _username = '', _password = '';
+
+  @override
+  void initState() {
+    _passwordVisible = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +36,32 @@ class _LoginScreenState extends State<LoginScreen> {
       validator: (value) => value == '' ? 'Please enter username' : null,
     );
 
-    final passwordField = TextFormField(
-      obscureText: true,
-      onSaved: (value) => _password = value!,
-      validator: (value) => value == '' ? 'Please enter password' : null,
+    final passwordField = Stack(
+      children: [
+        TextFormField(
+          obscureText: !_passwordVisible,
+          onSaved: (value) => _password = value!,
+          validator: (value) => value == '' ? 'Please enter password' : null,
+        ),
+        Container(
+          margin: EdgeInsets.only(right: 4, top: 4),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _passwordVisible = !_passwordVisible;
+                });
+              },
+              child: Icon(
+                _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                color: Theme.of(context).primaryColorDark,
+                size: 18,
+              ),
+            ),
+          ),
+        )
+      ],
     );
 
     final formInput = Container(

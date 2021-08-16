@@ -1,4 +1,5 @@
 import 'package:crowns/constants/metode_bayar.dart';
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -155,7 +156,6 @@ class _PembayaranPageState extends State<PembayaranPage> {
               width: double.infinity,
             ),
 
-            /// Detil Pembayaran Total
             SizedBox(height: 3),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,6 +166,39 @@ class _PembayaranPageState extends State<PembayaranPage> {
                 ),
                 Text(
                   'Rp ${widget.pesanan.biayaTotal}',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Biaya Aplikasi 10%',
+                  style: TextStyle(fontSize: 13),
+                ),
+                Text(
+                  'Rp ${(int.parse(widget.pesanan.biayaTotal) * 0.1).round().toString()}',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ],
+            ),
+            SizedBox(height: 6),
+            Container(
+              color: ColorConstants.grey,
+              height: 1,
+              width: double.infinity,
+            ),
+            SizedBox(height: 3),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Biaya yang harus dibayar',
+                  style: TextStyle(fontSize: 13),
+                ),
+                Text(
+                  'Rp ${(int.parse(widget.pesanan.biayaTotal) * 1.1).round().toString()}',
                   style: TextStyle(fontSize: 13),
                 ),
               ],
@@ -288,32 +321,34 @@ class _PembayaranPageState extends State<PembayaranPage> {
                 ),
                 SizedBox(height: 34),
                 _state == 'uploaded'
-                    ? CustomButton(
-                        text: 'kirim',
-                        callback: () {
-                          final Future<Map<String, dynamic>> successfulMessage =
-                              provider.uploadButki(
-                            widget.pesanan.id,
-                            metodeBayarList[widget.method].title,
-                            _image!,
-                          );
-
-                          successfulMessage.then((response) {
-                            if (response['status']) {
-                              Navigator.pushNamed(
-                                  context, RouteConstants.transisiPembayaran);
-                            } else {
-                              final snackBar = SnackBar(
-                                content: Text(
-                                    'Terjadi kesalahan saat mengupload bukti pembayaran'),
-                                backgroundColor: ColorConstants.black,
+                    ? provider.uploadBuktiStatus == RequestStatus.Fetching
+                        ? Center(child: CircularProgressIndicator())
+                        : CustomButton(
+                            text: 'kirim',
+                            callback: () {
+                              final Future<Map<String, dynamic>>
+                                  successfulMessage = provider.uploadButki(
+                                widget.pesanan.id,
+                                metodeBayarList[widget.method].title,
+                                _image!,
                               );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          });
-                        },
-                      )
+
+                              successfulMessage.then((response) {
+                                if (response['status']) {
+                                  Navigator.pushNamed(context,
+                                      RouteConstants.transisiPembayaran);
+                                } else {
+                                  final snackBar = SnackBar(
+                                    content: Text(
+                                        'Terjadi kesalahan saat mengupload bukti pembayaran'),
+                                    backgroundColor: ColorConstants.black,
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              });
+                            },
+                          )
                     : SizedBox.shrink(),
                 SizedBox(height: 50),
               ],

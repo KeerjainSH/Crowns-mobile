@@ -110,12 +110,10 @@ class _PesananScreenState extends State<PesananScreen> {
             ),
             margin: EdgeInsets.only(bottom: 10),
             width: MediaQuery.of(context).size.width * 0.9,
-            height: 120,
             child: Row(
               children: [
                 Container(
-                  // height: 200,
-                  width: 60,
+                  width: MediaQuery.of(context).size.width * 0.15,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
@@ -223,20 +221,20 @@ class _PesananScreenState extends State<PesananScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           pesanan.pembayaran.statusPembayaran > 1
-                              ? Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
+                              ? Expanded(
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
                                           'Total belanja',
                                           style: TextStyle(fontSize: 10),
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
                                           'Rp. ' + pesanan.biayaTotal,
                                           style: TextStyle(
                                             fontSize: 11,
@@ -244,9 +242,9 @@ class _PesananScreenState extends State<PesananScreen> {
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 )
                               : SizedBox.shrink(),
                           pesanan.statusPesanan == 3
@@ -457,8 +455,10 @@ class _PesananScreenState extends State<PesananScreen> {
                                     buildTileContent(snapshot.data[0]['data']));
                           else if (snapshot.hasError)
                             return Center(
-                                child: Text(
-                                    'Terjadi kesalahan saat mengambil data'));
+                              // child: Text(
+                              //     'Terjadi kesalahan saat mengambil data'),
+                              child: Text('Error: ${snapshot.error}'),
+                            );
 
                           return Center(
                             child: CircularProgressIndicator(),

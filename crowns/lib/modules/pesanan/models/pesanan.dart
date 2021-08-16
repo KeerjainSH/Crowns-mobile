@@ -41,7 +41,19 @@ class Pesanan {
   factory Pesanan.fromJson(Map<String, dynamic> responseData) {
     final bajuData = responseData['baju'];
 
-    Baju baju = Baju.fromJson(bajuData);
+    Baju baju;
+
+    if (bajuData != null)
+      baju = Baju.fromJson(bajuData);
+    else
+      baju = new Baju(
+        id: 0,
+        idKategori: 0,
+        nama: '',
+        jenisKelamin: '',
+        deskripsi: '',
+        foto: '',
+      );
 
     final detailPesananDataList = responseData['detail_pesanan'];
     List<DetailPesanan> detailPesananList = [];

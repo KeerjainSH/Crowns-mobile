@@ -1,6 +1,7 @@
 import 'package:crowns/modules/pesanan/models/detail_pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FormDetailPesanan extends StatefulWidget {
   final DetailPesanan detailPesanan;
@@ -91,6 +92,9 @@ Container buildUkuranBajuField(
               ),
             ),
             validator: (value) => value == '' ? 'harus diisi' : null,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             onSaved: (value) {
               if (text == 'Lengan')
                 detailPesanan.lengan = double.parse(value!);

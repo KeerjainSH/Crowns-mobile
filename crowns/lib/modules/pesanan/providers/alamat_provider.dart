@@ -18,13 +18,14 @@ class AlamatProvider extends ChangeNotifier {
     PesananBaru pesanan,
   ) async {
     _alamatStatus = RequestStatus.Fetching;
+    notifyListeners();
 
     List<Map<String, dynamic>> alamatDataList = [];
 
     for (final alamat in alamatList) {
       print('alamat tipe' + alamat.tipe.toString());
+
       final Map<String, dynamic> alamatData = {
-        'dijemput': 1,
         'alamat': alamat.alamat,
         'kecamatan': alamat.kecamatan,
         'kota': alamat.kota,
@@ -36,6 +37,8 @@ class AlamatProvider extends ChangeNotifier {
       };
       alamatDataList.add(alamatData);
     }
+
+    print(alamatDataList);
 
     String token = await UserPreferences().getToken();
 
@@ -59,7 +62,7 @@ class AlamatProvider extends ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       _alamatStatus = RequestStatus.Fetched;
-      // notifyListeners();
+      notifyListeners();
 
       result = {
         'status': true,
@@ -67,10 +70,9 @@ class AlamatProvider extends ChangeNotifier {
       };
     } else {
       _alamatStatus = RequestStatus.Failed;
+      notifyListeners();
 
       final Map<String, dynamic> responseData = json.decode(response.body);
-
-      notifyListeners();
       result = {
         'status': false,
         'message': responseData['message'],

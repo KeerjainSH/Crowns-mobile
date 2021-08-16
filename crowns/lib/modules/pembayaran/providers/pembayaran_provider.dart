@@ -11,7 +11,9 @@ import 'package:http/http.dart';
 class PembayaranProvider extends ChangeNotifier {
   RequestStatus _detailPembayaranStatus = RequestStatus.NotFetched;
   RequestStatus _tawarStatus = RequestStatus.NotFetched;
+  RequestStatus _uploadBuktiStatus = RequestStatus.NotFetched;
 
+  RequestStatus get uploadBuktiStatus => _uploadBuktiStatus;
   RequestStatus get detailPembayaranStatus => _detailPembayaranStatus;
   RequestStatus get tawarStatus => _tawarStatus;
 
@@ -77,7 +79,8 @@ class PembayaranProvider extends ChangeNotifier {
     String metode,
     File bukti,
   ) async {
-    _tawarStatus = RequestStatus.Fetching;
+    _uploadBuktiStatus = RequestStatus.Fetching;
+    notifyListeners();
 
     var result;
 
@@ -114,7 +117,7 @@ class PembayaranProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 
-      _tawarStatus = RequestStatus.Fetched;
+      _uploadBuktiStatus = RequestStatus.Fetched;
       notifyListeners();
 
       result = {
@@ -122,7 +125,7 @@ class PembayaranProvider extends ChangeNotifier {
         'message': responseData['message'],
       };
     } else {
-      _tawarStatus = RequestStatus.Failed;
+      _uploadBuktiStatus = RequestStatus.Failed;
 
       final Map<String, dynamic> responseData = json.decode(response.body);
 

@@ -108,22 +108,46 @@ class _UpdateDetailPesananPageState extends State<UpdateDetailPesananPage> {
           pesananProvider.pesananStatus == PesananStatus.DesainAdded
               ? Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    pesananProvider
-                        .desainCustomList[_highlightedImageIndex].deskipsi,
-                    style: TextStyle(
-                      color: ColorConstants.darkGrey,
-                      fontWeight: FontWeight.w400,
+                  child: Container(
+                    constraints: BoxConstraints(maxHeight: 60),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Text(
+                              pesananProvider
+                                  .desainCustomList[_highlightedImageIndex]
+                                  .deskipsi,
+                              style: TextStyle(
+                                color: ColorConstants.darkGrey,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 )
               : Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.catalog.deskripsi,
-                    style: TextStyle(
-                      color: ColorConstants.darkGrey,
-                      fontWeight: FontWeight.w400,
+                  child: Container(
+                    constraints: BoxConstraints(maxHeight: 60),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Text(
+                              widget.catalog.deskripsi,
+                              style: TextStyle(
+                                color: ColorConstants.darkGrey,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

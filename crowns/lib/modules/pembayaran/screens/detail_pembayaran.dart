@@ -25,9 +25,6 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
 
   @override
   Widget build(BuildContext context) {
-    // PembayaranProvider pembayaranProvider =
-    //     Provider.of<PembayaranProvider>(context, listen: false);
-
     final padding = MediaQuery.of(context).padding;
 
     final detilPembayaranInfo = Row(
@@ -114,11 +111,39 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Total Biaya',
+          'Biaya Total',
           style: TextStyle(fontSize: 13),
         ),
         Text(
           'Rp ${widget.pesanan.biayaTotal}',
+          style: TextStyle(fontSize: 13),
+        ),
+      ],
+    );
+
+    final detilPajak = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Biaya Aplikasi 10%',
+          style: TextStyle(fontSize: 13),
+        ),
+        Text(
+          'Rp ${(int.parse(widget.pesanan.biayaTotal) * 0.1).round().toString()}',
+          style: TextStyle(fontSize: 13),
+        ),
+      ],
+    );
+
+    final detilPembayaranTotalFix = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Biaya yang harus dibayar',
+          style: TextStyle(fontSize: 13),
+        ),
+        Text(
+          'Rp ${(int.parse(widget.pesanan.biayaTotal) * 1.1).round().toString()}',
           style: TextStyle(fontSize: 13),
         ),
       ],
@@ -147,10 +172,18 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
           height: 1,
           width: double.infinity,
         ),
-
-        /// Detil Pembayaran Total
         SizedBox(height: 3),
         detilPembayaranTotal,
+        SizedBox(height: 3),
+        detilPajak,
+        SizedBox(height: 6),
+        Container(
+          color: ColorConstants.grey,
+          height: 1,
+          width: double.infinity,
+        ),
+        SizedBox(height: 3),
+        detilPembayaranTotalFix,
         SizedBox(height: 3),
         detilHari,
       ],
@@ -280,7 +313,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: appPadding),
                           child: buildSubtitle(
-                              context, 'Estimasi harga yang harus dibayar'),
+                              context, 'Detail harga yang harus dibayar'),
                         ),
                         SizedBox(height: 20),
 

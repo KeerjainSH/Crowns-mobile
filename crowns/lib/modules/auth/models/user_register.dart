@@ -17,7 +17,7 @@ class UserRegister {
     this.email = '',
     this.password = '',
     this.nama = '',
-    this.jenisKelamin = '',
+    this.jenisKelamin = 'L',
     this.noHp = '',
     this.tanggalLahir = '',
     this.kodepos = '',

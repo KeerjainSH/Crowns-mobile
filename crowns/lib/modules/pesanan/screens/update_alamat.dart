@@ -1,3 +1,4 @@
+import 'package:crowns/constants/request_enums.dart';
 import 'package:crowns/modules/pesanan/models/alamat.dart';
 import 'package:crowns/modules/pesanan/models/penjahit.dart';
 import 'package:crowns/modules/pesanan/models/pesanan_baru.dart';
@@ -65,8 +66,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AlamatProvider alamatProvider =
-        Provider.of<AlamatProvider>(context, listen: false);
+    AlamatProvider alamatProvider = Provider.of<AlamatProvider>(context);
 
     final buttonChoiceSelesai = Center(
       child: Container(
@@ -422,7 +422,7 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
     );
 
     final submitButton = CustomButton(
-      text: 'berikutnya',
+      text: 'submit',
       callback: () {
         final FormState? formStateSelesai = formKeySelesai.currentState;
         final FormState? formStateKain = formKeyKain.currentState;
@@ -559,7 +559,9 @@ class _UpdateAlamatScreenState extends State<UpdateAlamatScreen> {
                       )
                     : SizedBox.shrink(),
                 SizedBox(height: 30),
-                submitButton,
+                alamatProvider.alamatStatus == RequestStatus.Fetching
+                    ? Center(child: CircularProgressIndicator())
+                    : submitButton,
                 SizedBox(height: 40),
               ],
             ),

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DetailPesananPage extends StatefulWidget {
   final Pesanan pesanan;
@@ -100,11 +99,22 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              widget.pesanan.baju.deskripsi,
-              style: TextStyle(
-                color: ColorConstants.darkGrey,
-                fontWeight: FontWeight.w400,
+            child: Container(
+              constraints: BoxConstraints(maxHeight: 60),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        widget.pesanan.baju.deskripsi,
+                        style: TextStyle(
+                          color: ColorConstants.darkGrey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -257,18 +267,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       ),
     );
 
-    openwhatsapp() async {
-      var whatsapp = "+919144040888";
-      var whatsappURI = "https://wa.me/$whatsapp";
-
-      if (await canLaunch(whatsappURI)) {
-        await launch(whatsappURI);
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
-      }
-    }
-
     Container buildDataPenjahit(AlamatPenjahit penjahit) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: appPadding),
@@ -293,29 +291,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             buildFormLabel(context, 'No Telepon'),
             // SizedBox(height: 5),
             buildBodyText3(context, penjahit.noHp),
-            SizedBox(height: 2),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tightFor(
-                  width: 80,
-                  height: 25,
-                ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: ColorConstants.greenWhatsapp,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  onPressed: openwhatsapp,
-                  child: Text(
-                    'Hubungi',
-                    style: TextStyle(fontSize: 10),
-                  ),
-                ),
-              ),
-            )
+            SizedBox(height: 4),
           ],
         ),
       );
@@ -440,12 +416,11 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                             ? uploadedImages
                             : SizedBox.shrink(),
                         SizedBox(height: 15),
+                        detailPesanan,
                         buildDataPenjahit(snapshot.data['data']),
                         SizedBox(height: 15),
-                        detailPesanan,
-                        SizedBox(height: 5),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32),
+                          padding: EdgeInsets.symmetric(horizontal: appPadding),
                           child: widget.pesanan.lokasiPenjemputan.length == 1
                               ? buildAlamat(widget.pesanan.lokasiPenjemputan[0])
                               : widget.pesanan.lokasiPenjemputan.length == 2
