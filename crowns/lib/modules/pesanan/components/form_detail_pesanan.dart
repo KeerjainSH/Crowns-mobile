@@ -23,7 +23,8 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
   final TextEditingController _pinggangController = TextEditingController();
   final TextEditingController _dadaController = TextEditingController();
   final TextEditingController _leherController = TextEditingController();
-  final TextEditingController _dummyController = TextEditingController();
+  final TextEditingController _tinggiController = TextEditingController();
+  final TextEditingController _beratController = TextEditingController();
 
   @override
   void dispose() {
@@ -31,7 +32,8 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
     _pinggangController.dispose();
     _dadaController.dispose();
     _leherController.dispose();
-    _dummyController.dispose();
+    _tinggiController.dispose();
+    _beratController.dispose();
     super.dispose();
   }
 
@@ -107,9 +109,9 @@ class _FormDetailPesananState extends State<FormDetailPesanan> {
                   buildUkuranBajuField(
                       context, widget.detailPesanan, 'Leher', _leherController),
                   buildUkuranBajuField(context, widget.detailPesanan,
-                      'Tinggi Tubuh', _dummyController),
+                      'Tinggi Tubuh', _tinggiController),
                   buildUkuranBajuField(context, widget.detailPesanan,
-                      'Berat Badan', _dummyController),
+                      'Berat Badan', _beratController),
                 ],
               ),
             ],

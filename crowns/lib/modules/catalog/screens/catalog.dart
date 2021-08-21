@@ -48,7 +48,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   },
                   child: Image.network(
                     catalog.foto,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                     errorBuilder: (context, exception, stackTrace) {
                       return Center(
                         child: Text(
