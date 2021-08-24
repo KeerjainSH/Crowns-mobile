@@ -1,5 +1,6 @@
 import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
+import 'package:crowns/modules/pembayaran/models/biaya.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
@@ -22,6 +23,19 @@ class DetailPembayaranPage extends StatefulWidget {
 
 class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   int _selected = -1;
+  Biaya? _biaya;
+
+  @override
+  void initState() {
+    _biaya = new Biaya(
+      biayaJahit:
+          (int.parse(widget.pesanan.pembayaran.biayaJahit) * 1.1).round(),
+      biayaJemput: int.parse(widget.pesanan.pembayaran.biayaJemput),
+      biayaKirim: int.parse(widget.pesanan.pembayaran.biayaKirim),
+      biayaMaterial: int.parse(widget.pesanan.pembayaran.biayaMaterial),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +87,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biayaJahit}',
+                  'Rp. ${_biaya!.biayaJahit}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -81,7 +95,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biayaMaterial}',
+                  'Rp. ${_biaya!.biayaMaterial}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -89,7 +103,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
+                  'Rp. ${_biaya!.biayaKirim}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -97,7 +111,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
+                  'Rp. ${_biaya!.biayaJemput}',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -107,47 +121,21 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
       ],
     );
 
-    final detilPembayaranTotal = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Biaya Total',
-          style: TextStyle(fontSize: 13),
-        ),
-        Text(
-          'Rp ${widget.pesanan.biayaTotal}',
-          style: TextStyle(fontSize: 13),
-        ),
-      ],
-    );
-
-    final detilPajak = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Biaya Aplikasi 10%',
-          style: TextStyle(fontSize: 13),
-        ),
-        Text(
-          'Rp ${(int.parse(widget.pesanan.biayaTotal) * 0.1).round().toString()}',
-          style: TextStyle(fontSize: 13),
-        ),
-      ],
-    );
-
-    final detilPembayaranTotalFix = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Biaya yang harus dibayar',
-          style: TextStyle(fontSize: 13),
-        ),
-        Text(
-          'Rp ${(int.parse(widget.pesanan.biayaTotal) * 1.1).round().toString()}',
-          style: TextStyle(fontSize: 13),
-        ),
-      ],
-    );
+    Row buildDetilPembayaranTotal(int biayaTotal) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Biaya Total',
+            style: TextStyle(fontSize: 13),
+          ),
+          Text(
+            'Rp $biayaTotal',
+            style: TextStyle(fontSize: 13),
+          ),
+        ],
+      );
+    }
 
     final detilHari = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,25 +153,23 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
 
     final detilPembayaran = Column(
       children: [
-        detilPembayaranInfo,
-        SizedBox(height: 6),
-        Container(
-          color: ColorConstants.grey,
-          height: 1,
-          width: double.infinity,
-        ),
-        SizedBox(height: 3),
-        detilPembayaranTotal,
-        SizedBox(height: 3),
-        detilPajak,
-        SizedBox(height: 6),
-        Container(
-          color: ColorConstants.grey,
-          height: 1,
-          width: double.infinity,
-        ),
-        SizedBox(height: 3),
-        detilPembayaranTotalFix,
+        widget.pesanan.tawaran.statusPenawaran != 3
+            ? Column(
+                children: [
+                  detilPembayaranInfo,
+                  SizedBox(height: 6),
+                  Container(
+                    color: ColorConstants.grey,
+                    height: 1,
+                    width: double.infinity,
+                  ),
+                  SizedBox(height: 3),
+                  buildDetilPembayaranTotal(_biaya!.getBiayaTotal()),
+                ],
+              )
+            : SizedBox.shrink(),
+        buildDetilPembayaranTotal(
+            (int.parse(widget.pesanan.biayaTotal) * 1.1).round()),
         SizedBox(height: 3),
         detilHari,
       ],
@@ -337,8 +323,9 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                                   },
                                 ).then((value) {
                                   setState(() {
-                                    widget.pesanan.tawaran.statusPenawaran =
-                                        value;
+                                    if (value != null)
+                                      widget.pesanan.tawaran.statusPenawaran =
+                                          value;
                                   });
                                 }),
                               )
@@ -388,6 +375,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                                   builder: (context) => PembayaranPage(
                                     pesanan: widget.pesanan,
                                     method: _selected,
+                                    biaya: _biaya!,
                                   ),
                                 ),
                               );

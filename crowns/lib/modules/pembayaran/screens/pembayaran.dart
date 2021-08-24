@@ -1,5 +1,6 @@
 import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/pembayaran/models/biaya.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
@@ -15,10 +16,12 @@ import 'package:provider/provider.dart';
 class PembayaranPage extends StatefulWidget {
   final Pesanan pesanan;
   final int method;
+  final Biaya biaya;
 
   PembayaranPage({
     required this.pesanan,
     required this.method,
+    required this.biaya,
   });
 
   @override
@@ -43,190 +46,6 @@ class _PembayaranPageState extends State<PembayaranPage> {
         print('No image selected.');
       }
     });
-  }
-
-  Padding buildInfoPembayaran() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 2,
-              color: ColorConstants.softGrey,
-              offset: Offset(0, 5),
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        padding: EdgeInsets.all(12),
-        child: Column(
-          children: [
-            buildHeadline(context, 'Pembayaran'),
-            SizedBox(height: 6),
-            buildSubtitle(context, 'Estimasi harga yang harus dibayar'),
-            SizedBox(height: 20),
-
-            // Detil Pembayaran Info
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Biaya Jahit',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Biaya Bahan dan Material',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Biaya Kirim',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Biaya Jemput',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biayaJahit}',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biayaMaterial}',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Rp. ${widget.pesanan.pembayaran.biayaKirim}',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 6),
-            Container(
-              color: ColorConstants.grey,
-              height: 1,
-              width: double.infinity,
-            ),
-
-            SizedBox(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total Biaya',
-                  style: TextStyle(fontSize: 13),
-                ),
-                Text(
-                  'Rp ${widget.pesanan.biayaTotal}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Biaya Aplikasi 10%',
-                  style: TextStyle(fontSize: 13),
-                ),
-                Text(
-                  'Rp ${(int.parse(widget.pesanan.biayaTotal) * 0.1).round().toString()}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ],
-            ),
-            SizedBox(height: 6),
-            Container(
-              color: ColorConstants.grey,
-              height: 1,
-              width: double.infinity,
-            ),
-            SizedBox(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Biaya yang harus dibayar',
-                  style: TextStyle(fontSize: 13),
-                ),
-                Text(
-                  'Rp ${(int.parse(widget.pesanan.biayaTotal) * 1.1).round().toString()}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ],
-            ),
-            SizedBox(height: 28),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Nomor Rekening ' + metodeBayarList[widget.method].title,
-                style: TextStyle(
-                  color: ColorConstants.darkGrey,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              metodeBayarList[widget.method].number,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: ColorConstants.primaryColor,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Container buildButtonUpload() {
@@ -259,6 +78,174 @@ class _PembayaranPageState extends State<PembayaranPage> {
 
   @override
   Widget build(BuildContext context) {
+    final detailPembayaranInfo = Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Biaya Jahit',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Biaya Bahan dan Material',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Biaya Kirim',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Biaya Jemput',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Rp. ${widget.biaya.biayaJahit}',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Rp. ${widget.biaya.biayaMaterial}',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Rp. ${widget.biaya.biayaKirim}',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Rp. ${widget.biaya.biayaKirim}',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6),
+        Container(
+          color: ColorConstants.grey,
+          height: 1,
+          width: double.infinity,
+        ),
+        SizedBox(height: 3),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Total Biaya',
+              style: TextStyle(fontSize: 13),
+            ),
+            Text(
+              'Rp ${widget.pesanan.biayaTotal}',
+              style: TextStyle(fontSize: 13),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    Padding buildInfoPembayaran() {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 2,
+                color: ColorConstants.softGrey,
+                offset: Offset(0, 5),
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          padding: EdgeInsets.all(12),
+          child: Column(
+            children: [
+              buildHeadline(context, 'Pembayaran'),
+              SizedBox(height: 6),
+              buildSubtitle(context, 'Estimasi harga yang harus dibayar'),
+              SizedBox(height: 20),
+              widget.pesanan.tawaran.statusPenawaran != 3
+                  ? detailPembayaranInfo
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total Biaya',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        Text(
+                          'Rp ${((int.parse(widget.pesanan.biayaTotal) * 1.1).round())}',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                      ],
+                    ),
+              SizedBox(height: 28),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Nomor Rekening ' + metodeBayarList[widget.method].title,
+                  style: TextStyle(
+                    color: ColorConstants.darkGrey,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                metodeBayarList[widget.method].number,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: ColorConstants.primaryColor,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
     return ChangeNotifierProvider<PembayaranProvider>(
       create: (context) => PembayaranProvider(),
       child: Consumer<PembayaranProvider>(

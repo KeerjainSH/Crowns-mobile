@@ -81,8 +81,8 @@ class _TawarDialogState extends State<TawarDialog> {
                               decoration: InputDecoration(
                                 isDense: true,
                               ),
-                              onSaved: (value) =>
-                                  tawaran.jumlahPenawaran = int.parse(value!),
+                              onSaved: (value) => tawaran.jumlahPenawaran =
+                                  (int.parse(value!) * (1 / 1.1)).round(),
                               validator: (value) =>
                                   value == '' ? 'Wajib diisi' : null,
                             ),
