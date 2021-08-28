@@ -1,16 +1,17 @@
+import 'dart:io';
+
+import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/constants/request_enums.dart';
+import 'package:crowns/modules/pembayaran/components/widgets.dart';
 import 'package:crowns/modules/pembayaran/models/biaya.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
+import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:crowns/widgets/app_widgets.dart';
-import 'package:crowns/constants/app_constants.dart';
-import 'package:crowns/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 class PembayaranPage extends StatefulWidget {
@@ -80,105 +81,15 @@ class _PembayaranPageState extends State<PembayaranPage> {
   Widget build(BuildContext context) {
     final detailPembayaranInfo = Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Biaya Jahit',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Biaya Bahan dan Material',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Biaya Kirim',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Biaya Jemput',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Rp. ${widget.biaya.biayaJahit}',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Rp. ${widget.biaya.biayaMaterial}',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Rp. ${widget.biaya.biayaKirim}',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Rp. ${widget.biaya.biayaKirim}',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 6),
-        Container(
-          color: ColorConstants.grey,
-          height: 1,
-          width: double.infinity,
-        ),
-        SizedBox(height: 3),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Total Biaya',
-              style: TextStyle(fontSize: 13),
-            ),
-            Text(
-              'Rp ${widget.pesanan.biayaTotal}',
-              style: TextStyle(fontSize: 13),
-            ),
-          ],
-        ),
+        buildDetail('Biaya jahit', 'Rp ' + widget.biaya.biayaJahit.toString()),
+        buildDetail(
+            'Biaya bahan', 'Rp ' + widget.biaya.biayaMaterial.toString()),
+        buildDetail('Biaya Kirim', 'Rp ' + widget.biaya.biayaKirim.toString()),
+        buildDetail(
+            'Biaya Jemput', 'Rp ' + widget.biaya.biayaJemput.toString()),
+        dividerLine,
+        buildDetail(
+            'Biaya total', 'Rp ' + widget.biaya.getBiayaTotal().toString()),
       ],
     );
 
@@ -207,24 +118,13 @@ class _PembayaranPageState extends State<PembayaranPage> {
               SizedBox(height: 20),
               widget.pesanan.tawaran.statusPenawaran != 3
                   ? detailPembayaranInfo
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Biaya',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          'Rp ${((int.parse(widget.pesanan.biayaTotal) * 1.1).round())}',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ],
-                    ),
+                  : buildDetail('Total biaya',
+                      'Rp ' + widget.pesanan.biayaTotal.toString()),
               SizedBox(height: 28),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Nomor Rekening ' + metodeBayarList[widget.method].title,
+                  metodeBayarList[widget.method].subtitle,
                   style: TextStyle(
                     color: ColorConstants.darkGrey,
                     fontWeight: FontWeight.w700,

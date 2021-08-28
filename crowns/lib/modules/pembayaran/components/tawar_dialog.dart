@@ -81,8 +81,8 @@ class _TawarDialogState extends State<TawarDialog> {
                               decoration: InputDecoration(
                                 isDense: true,
                               ),
-                              onSaved: (value) => tawaran.jumlahPenawaran =
-                                  (int.parse(value!) * (1 / 1.1)).round(),
+                              onSaved: (value) =>
+                                  tawaran.jumlahPenawaran = int.parse(value!),
                               validator: (value) =>
                                   value == '' ? 'Wajib diisi' : null,
                             ),
@@ -110,10 +110,7 @@ class _TawarDialogState extends State<TawarDialog> {
                         icon: Icon(Icons.event),
                         onSaved: (value) {
                           tawaran.hariTawar = DateTime.parse(value!);
-                          print(tawaran.hariTawar);
-                          // tawaran.hari_tawar = value!
                         },
-                        // onSaved: (value) => tawaran.hari_tawar = DateTime.now(),
                         validator: (value) =>
                             value == '' ? 'Wajib diisi' : null,
                       ),

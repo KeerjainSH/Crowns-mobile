@@ -1,15 +1,15 @@
+import 'package:crowns/constants/app_constants.dart';
 import 'package:crowns/constants/metode_bayar.dart';
 import 'package:crowns/modules/pembayaran/components/tawar_dialog.dart';
+import 'package:crowns/modules/pembayaran/components/widgets.dart';
 import 'package:crowns/modules/pembayaran/models/biaya.dart';
 import 'package:crowns/modules/pembayaran/providers/pembayaran_provider.dart';
 import 'package:crowns/modules/pembayaran/screens/pembayaran.dart';
 import 'package:crowns/modules/pesanan/models/pesanan.dart';
+import 'package:crowns/widgets/app_widgets.dart';
+import 'package:crowns/widgets/custom_button.dart';
 import 'package:crowns/widgets/texts_widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'package:crowns/widgets/custom_button.dart';
-import 'package:crowns/widgets/app_widgets.dart';
-import 'package:crowns/constants/app_constants.dart';
 import 'package:provider/provider.dart';
 
 class DetailPembayaranPage extends StatefulWidget {
@@ -41,144 +41,40 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).padding;
 
-    final detilPembayaranInfo = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Biaya Jahit',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Biaya Bahan dan Material',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Biaya Kirim',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 5),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Biaya Jemput',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Rp. ${_biaya!.biayaJahit}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Rp. ${_biaya!.biayaMaterial}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Rp. ${_biaya!.biayaKirim}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Rp. ${_biaya!.biayaJemput}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-
-    Row buildDetilPembayaranTotal(int biayaTotal) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Biaya Total',
-            style: TextStyle(fontSize: 13),
-          ),
-          Text(
-            'Rp $biayaTotal',
-            style: TextStyle(fontSize: 13),
-          ),
-        ],
-      );
-    }
-
-    final detilHari = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Estimasi Tanggal Selesai',
-          style: TextStyle(fontSize: 13),
-        ),
-        Text(
-          widget.pesanan.tawaran.hariTawar.toString().substring(0, 10),
-          style: TextStyle(fontSize: 13),
-        ),
-      ],
-    );
-
     final detilPembayaran = Column(
       children: [
         widget.pesanan.tawaran.statusPenawaran != 3
             ? Column(
                 children: [
-                  detilPembayaranInfo,
-                  SizedBox(height: 6),
-                  Container(
-                    color: ColorConstants.grey,
-                    height: 1,
-                    width: double.infinity,
-                  ),
-                  SizedBox(height: 3),
-                  buildDetilPembayaranTotal(_biaya!.getBiayaTotal()),
+                  buildDetail('Biaya jahit', 'Rp ' + this._biaya!.biayaJahit.toString()),
+                  buildDetail('Biaya bahan', 'Rp ' + this._biaya!.biayaMaterial.toString()),
+                  buildDetail('Biaya Kirim', 'Rp ' + this._biaya!.biayaKirim.toString()),
+                  buildDetail('Biaya Jemput', 'Rp ' + this._biaya!.biayaJemput.toString()),
+                  dividerLine,
+                  buildDetail('Biaya total', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
+                  dividerLine,
+                  buildDetail('Biaya yang harus dibayar', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
                 ],
               )
-            : SizedBox.shrink(),
-        buildDetilPembayaranTotal(
-            (int.parse(widget.pesanan.biayaTotal) * 1.1).round()),
-        SizedBox(height: 3),
-        detilHari,
+            : Column(
+                children: [
+                  buildDetail('Biaya awal', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
+                  SizedBox(height: 8),
+                  buildDetail('Biaya setelah ditawar', 'Rp ' + widget.pesanan.biayaTotal.toString()),
+                  dividerLine,
+                  buildDetail(
+                      'Biaya yang harus dibayar', 'Rp ' + widget.pesanan.biayaTotal.toString()),
+                ],
+              ),
+        buildDetail('Estimasi tanggal selesai',
+            widget.pesanan.tawaran.hariTawar.toString().substring(0, 10)),
       ],
     );
 
     Container _buildPanel() {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: appPadding),
-        height: 270,
+        height: 400,
         child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           key: Key(_selected.toString()),
@@ -308,7 +204,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                           child: detilPembayaran,
                         ),
 
-                        SizedBox(height: 47),
+                        SizedBox(height: 36),
                         widget.pesanan.tawaran.statusPenawaran == 1
                             ? CustomButton(
                                 text: 'tawar',
