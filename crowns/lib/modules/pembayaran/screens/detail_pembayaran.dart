@@ -28,8 +28,7 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
   @override
   void initState() {
     _biaya = new Biaya(
-      biayaJahit:
-          (int.parse(widget.pesanan.pembayaran.biayaJahit) * 1.1).round(),
+      biayaJahit: int.parse(widget.pesanan.pembayaran.biayaJahit),
       biayaJemput: int.parse(widget.pesanan.pembayaran.biayaJemput),
       biayaKirim: int.parse(widget.pesanan.pembayaran.biayaKirim),
       biayaMaterial: int.parse(widget.pesanan.pembayaran.biayaMaterial),
@@ -46,24 +45,32 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
         widget.pesanan.tawaran.statusPenawaran != 3
             ? Column(
                 children: [
-                  buildDetail('Biaya jahit', 'Rp ' + this._biaya!.biayaJahit.toString()),
-                  buildDetail('Biaya bahan', 'Rp ' + this._biaya!.biayaMaterial.toString()),
-                  buildDetail('Biaya Kirim', 'Rp ' + this._biaya!.biayaKirim.toString()),
-                  buildDetail('Biaya Jemput', 'Rp ' + this._biaya!.biayaJemput.toString()),
+                  buildDetail('Biaya jahit',
+                      'Rp ' + this._biaya!.biayaJahit.toString()),
+                  buildDetail('Biaya bahan',
+                      'Rp ' + this._biaya!.biayaMaterial.toString()),
+                  buildDetail('Biaya Kirim',
+                      'Rp ' + this._biaya!.biayaKirim.toString()),
+                  buildDetail('Biaya Jemput',
+                      'Rp ' + this._biaya!.biayaJemput.toString()),
                   dividerLine,
-                  buildDetail('Biaya total', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
+                  buildDetail('Biaya total',
+                      'Rp ' + this._biaya!.getBiayaTotal().toString()),
                   dividerLine,
-                  buildDetail('Biaya yang harus dibayar', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
+                  buildDetail('Biaya yang harus dibayar',
+                      'Rp ' + this._biaya!.getBiayaTotal().toString()),
                 ],
               )
             : Column(
                 children: [
-                  buildDetail('Biaya awal', 'Rp ' + this._biaya!.getBiayaTotal().toString()),
+                  buildDetail('Biaya awal',
+                      'Rp ' + this._biaya!.getBiayaTotal().toString()),
                   SizedBox(height: 8),
-                  buildDetail('Biaya setelah ditawar', 'Rp ' + widget.pesanan.biayaTotal.toString()),
+                  buildDetail('Biaya setelah ditawar',
+                      'Rp ' + widget.pesanan.biayaTotal.toString()),
                   dividerLine,
-                  buildDetail(
-                      'Biaya yang harus dibayar', 'Rp ' + widget.pesanan.biayaTotal.toString()),
+                  buildDetail('Biaya yang harus dibayar',
+                      'Rp ' + widget.pesanan.biayaTotal.toString()),
                 ],
               ),
         buildDetail('Estimasi tanggal selesai',
@@ -92,7 +99,6 @@ class _DetailPembayaranPageState extends State<DetailPembayaranPage> {
                   if (isExpanded)
                     setState(() {
                       _selected = i;
-                      print(i);
                     });
                   else
                     setState(() {
